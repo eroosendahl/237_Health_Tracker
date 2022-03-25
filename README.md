@@ -1,2 +1,2 @@
-# 237_Fitness_Tracker
+# 237_Health_Tracker
 237 group project
