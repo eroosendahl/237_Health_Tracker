@@ -33,11 +33,11 @@ public class NewEntryCommand extends AbstractCommand{
 		
 		//Ex of fileEntry: "03/10/2022 WALK(2) RUN(3) ATE(2200)"
 		
-		
+		// commandSections comes after 'newEntry'
 		String[] commandSections = executionMod.split(" ");
-		this.entryIdentifier = commandSections[1];
-		this.entryValue = commandSections[2];
-		this.entryDate = commandSections[3];
+		this.entryIdentifier = commandSections[0];
+		this.entryValue = commandSections[1];
+		this.entryDate = commandSections[2];
 		
 		
 		Scanner sc = new Scanner(new File(this.filePath));  
@@ -57,12 +57,23 @@ public class NewEntryCommand extends AbstractCommand{
 		String userRow = sc.next();
 		String[] userEntries = userRow.split(",");
 		
-		for(int i =0; i<userEntries.length; i++) {
+		boolean foundDate = false;
+		
+		for(int i =1; i<userEntries.length; i++) { // userEntries[0]: username
 			
 			String individualEntry = userEntries[i];
 			
 			String[] entrySections = individualEntry.split(" ");
+			String entrySectionDate = entrySections[0];
 			
+			if (this.entryDate == entrySections[0]) {
+				// append new activity on one specific date
+				
+			}
+		}
+		
+		if (!foundDate) {
+			// if date not found, append date and activity
 			
 		}
 		
