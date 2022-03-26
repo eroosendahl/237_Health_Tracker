@@ -2,40 +2,40 @@ package main;
 
 public class User{
 
-	private int userRow;
-	private int userColumn;
-	private String userName;
+	private int row;
+	private int currentColumn;
+	private String name;
 
 	public int getUserRow(){
 
-		return this.userRow;
+		return this.row;
 
 	}
 
 	public void setUserRow(int row){
 		
-		this.userRow = row;
+		this.row = row;
 
 	}
 
 	public int getUserColumn(){
 		
-		return this.userColumn;
+		return this.currentColumn;
 	}
 
 	public void setUserColumn(int column) {
 	
-		this.userColumn = column;
+		this.currentColumn = column;
 	}
 
 	public String getUserName(){
 
-		return this.userName;
+		return this.name;
 	}
 
 	public void setUserName(String name){
 
-		this.userName = name;
+		this.name = name;
 	}
 	
 }
