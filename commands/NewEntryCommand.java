@@ -73,6 +73,7 @@ public class NewEntryCommand extends AbstractCommand{
 	@Override
 	public int helpMessage() {
 		// TODO Auto-generated method stub
+		System.out.println("Format: ");
 		return 0;
 	}
 
