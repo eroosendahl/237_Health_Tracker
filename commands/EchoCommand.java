@@ -23,6 +23,7 @@ public class EchoCommand extends AbstractCommand {
 	@Override
 	public int helpMessage() {
 		// TODO Auto-generated method stub
+		System.out.println("Format: echo [execution-mode]");
 		return 0;
 	}
 
