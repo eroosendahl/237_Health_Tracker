@@ -6,34 +6,34 @@ public class User{
 	private int currentColumn;
 	private String name;
 
-	public int getUserRow(){
+	public int getRow(){
 
 		return this.row;
 
 	}
 
-	public void setUserRow(int row){
+	public void setRow(int row){
 		
 		this.row = row;
 
 	}
 
-	public int getUserColumn(){
+	public int getCurrentColumn(){
 		
 		return this.currentColumn;
 	}
 
-	public void setUserColumn(int column) {
+	public void setCurrentColumn(int column) {
 	
 		this.currentColumn = column;
 	}
 
-	public String getUserName(){
+	public String getName(){
 
 		return this.name;
 	}
 
-	public void setUserName(String name){
+	public void setName(String name){
 
 		this.name = name;
 	}
