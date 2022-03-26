@@ -1,7 +1,12 @@
 package commands;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class NewEntryCommand extends AbstractCommand{
 
@@ -69,11 +74,15 @@ public class NewEntryCommand extends AbstractCommand{
 			if (this.entryDate == entrySections[0]) {
 				// append new activity on one specific date
 				
+				
+				
 			}
 		}
 		
 		if (!foundDate) {
 			// if date not found, append date and activity
+			
+			
 			
 		}
 		
