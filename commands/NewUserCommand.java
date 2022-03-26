@@ -43,6 +43,7 @@ public class NewUserCommand extends AbstractCommand {
 	
 	@Override
 	public int helpMessage() {
+		System.out.println("Format: ");
 		return 0;
 	}
 }
