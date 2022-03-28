@@ -23,7 +23,6 @@ public class NewEntryCommand extends AbstractCommand{
 	
 	public NewEntryCommand(User user, String path) {
 		
-		
 		this.currentUser = user;
 		name = "newEntry";
 		this.filePath = path;
@@ -75,25 +74,29 @@ public class NewEntryCommand extends AbstractCommand{
 						String[] entrySections = individualEntry.split(" ");
 						String entrySectionDate = entrySections[0];
 						
-						if (entrySectionDate == this.entryDate) {
+						if (entrySectionDate.equals(this.entryDate)) {
 							foundDate = true;
 							boolean foundActivity = false;
 							
 							for (int j = 1; j < entrySections.length; ++i) {
-								String activityID = entrySections[i].substring(0, 3); // identifier
-								int activityAmount = Integer.parseInt(entrySections[i].substring(3));
+								//String activityID = entrySections[j].substring(0, 3); // identifier
+								//int activityAmount = Integer.parseInt(entrySections[j].substring(3));
 								
+								String[] activityParts = parseActivityEntry(entrySections[j]);
+								String activityID = activityParts[0];
+								int activityAmount = Integer.parseInt(activityParts[1]);
+										
 								// collect same event amount
-								if (activityID == this.entryIdentifier) {
-									int intEntryValue = Integer.parseInt(this.entryValue);
-									entrySections[j] = activityID + Integer.toString(activityAmount + intEntryValue);
+								if (activityID.equals(this.entryIdentifier)) {
+									int newEntryValue = Integer.parseInt(this.entryValue);
+									entrySections[j] = activityID + "(" + Integer.toString(activityAmount + newEntryValue) + ")";
 								}
 							}
 							
 							if (foundActivity) { // convert activity array (entrySection) to single string
 								userEntries[i] = String.join(" ", entrySections);
 							} else { // append a new activity
-								userEntries[i] = individualEntry + this.entryIdentifier + this.entryValue + " ";
+								userEntries[i] = individualEntry + this.entryIdentifier + "(" + this.entryValue + ")" + " ";
 							}
 						}
 					}
@@ -137,37 +140,22 @@ public class NewEntryCommand extends AbstractCommand{
 		}
 		
 		
-//		Scanner sc = new Scanner(new File(this.filePath));  
-//		sc.useDelimiter(",");
-//		
-//		int count =0;
-//		
-//		while(count< this.currentUser.getUserRow()) {	
-//			if(sc.hasNext()) sc.next();
-//			else System.out.println("Error finding User position");
-//			
-//			count++;
-//		}
-//		
-//		String userRow = sc.next();
-//		String[] userEntries = userRow.split(",");
-//		
-//		boolean foundDate = false;
-//		for(int i =1; i<userEntries.length; i++) { // userEntries[0]: username
-//			String individualEntry = userEntries[i];
-//			String[] entrySections = individualEntry.split(" ");
-//			String entrySectionDate = entrySections[0];
-//			if (this.entryDate == entrySections[0]) {
-//				// append new activity on one specific date
-//			}
-//		}
-//		if (!foundDate) {
-//			// if date not found, append date and activity
-//
-//		}
 	
-		
 		return 0;
+	}
+	
+	private String[] parseActivityEntry(String activityEntry) {
+		
+		//everything between () is the value, everything before ( is the ID.
+		int openParenIndex = activityEntry.indexOf("(");
+		int closeParenIndex = activityEntry.indexOf(")");
+		
+		String activityValue = activityEntry.substring(openParenIndex+1,closeParenIndex);
+		String activityId = activityEntry.substring(0,openParenIndex);
+		
+		String[] activityParts = new String[] {activityId,activityValue};
+		
+		return activityParts;
 	}
 
 	@Override
