@@ -68,55 +68,10 @@ public class NewEntryCommand extends AbstractCommand{
 					
 					boolean foundDate = false;
 					
-					// from fileEntries[1] onwards are data
-					for (int i = 1; i < userEntries.length; ++i) {
-						String individualEntry = userEntries[i];
-						String[] entrySections = individualEntry.split(" ");
-						String entrySectionDate = entrySections[0];
-						
-						if (entrySectionDate.equals(this.entryDate)) {
-							foundDate = true;
-							boolean foundActivity = false;
-							
-							for (int j = 1; j < entrySections.length; ++i) {
-								//String activityID = entrySections[j].substring(0, 3); // identifier
-								//int activityAmount = Integer.parseInt(entrySections[j].substring(3));
-								
-								String[] activityParts = parseActivityEntry(entrySections[j]);
-								String activityID = activityParts[0];
-								int activityAmount = Integer.parseInt(activityParts[1]);
-										
-								// collect same event amount
-								if (activityID.equals(this.entryIdentifier)) {
-									int newEntryValue = Integer.parseInt(this.entryValue);
-									entrySections[j] = activityID + "(" + Integer.toString(activityAmount + newEntryValue) + ")";
-								}
-							}
-							
-							if (foundActivity) { // convert activity array (entrySection) to single string
-								userEntries[i] = String.join(" ", entrySections);
-							} else { // append a new activity
-								userEntries[i] = individualEntry + this.entryIdentifier + "(" + this.entryValue + ")" + " ";
-							}
-						}
-					}
+					foundDate = editExistingDate(userEntries, foundDate);
 					
 					// https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
-					if (foundDate) {
-						line = String.join(",", userEntries);
-					} else {
-						String[] newUserEntries = new String[userEntries.length+1];
-						
-						for (int i = 0; i < userEntries.length; ++i) {
-							newUserEntries[i] = userEntries[i];
-						}
-						
-						// append new date & activity
-						newUserEntries[newUserEntries.length-1] = this.entryDate + " "
-						+ this.entryIdentifier + this.entryValue + " ";
-						
-						line = String.join(",", newUserEntries);
-					}
+					line = reassembleUserLine(userEntries, foundDate);
 				}
 				
 				lines.add(line);
@@ -142,6 +97,72 @@ public class NewEntryCommand extends AbstractCommand{
 		
 	
 		return 0;
+	}
+	
+	private boolean editExistingDate(String[] userEntries, boolean foundDate) {
+		for (int i = 1; i < userEntries.length; ++i) {
+			String individualEntry = userEntries[i];
+			String[] entrySections = individualEntry.split(" ");
+			String entrySectionDate = entrySections[0];
+			
+			if (entrySectionDate.equals(this.entryDate)) {
+				foundDate = true;
+				boolean foundActivity = false;
+				
+				foundActivity = checkForExistingActivity(entrySections);
+				
+				if (foundActivity) { // convert activity array (entrySection) to single string
+					userEntries[i] = String.join(" ", entrySections);
+				} else { // append a new activity
+					userEntries[i] = individualEntry + this.entryIdentifier + "(" + this.entryValue + ")" + " ";
+				}
+				
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean checkForExistingActivity(String[] entrySections) {
+		
+		for (int j = 1; j < entrySections.length; ++j) {
+			//String activityID = entrySections[j].substring(0, 3); // identifier
+			//int activityAmount = Integer.parseInt(entrySections[j].substring(3));
+			
+			String[] activityParts = parseActivityEntry(entrySections[j]);
+			String activityID = activityParts[0];
+			int activityAmount = Integer.parseInt(activityParts[1]);
+					
+			// collect same event amount
+			if (activityID.equals(this.entryIdentifier)) {
+				int newEntryValue = Integer.parseInt(this.entryValue);
+				entrySections[j] = activityID + "(" + Integer.toString(activityAmount + newEntryValue) + ")";
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	
+	private String reassembleUserLine(String[] userEntries, boolean foundDate) {
+		String line;
+		if (foundDate) {
+			line = String.join(",", userEntries);
+		} else {
+			String[] newUserEntries = new String[userEntries.length+1];
+			
+			for (int i = 0; i < userEntries.length; ++i) {
+				newUserEntries[i] = userEntries[i];
+			}
+			
+			// append new date & activity
+			newUserEntries[newUserEntries.length-1] = this.entryDate + " "
+			+ this.entryIdentifier +  "(" + this.entryValue + ")" + " ";
+			
+			line = String.join(",", newUserEntries);
+		}
+		return line;
 	}
 	
 	private String[] parseActivityEntry(String activityEntry) {
