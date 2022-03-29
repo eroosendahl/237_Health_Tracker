@@ -40,7 +40,8 @@ A User should be able to return a list of the inidicies of all its entries.
 A user should be able to return a list of the dates of all its entries.
 
 
-Does what we've implemented work? :
+Does what we've implemented work? 
+
 The CommandPrompt successfully passes input to commands and calls execute on that command.  
 We have yet to test full functionaliy of NewUser and NewEntry commands.
 
