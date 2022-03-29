@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import main.User;
+
 public class NewEntryCommand extends AbstractCommand{
 	String entryIdentifier;
 	String entryValue;
@@ -76,7 +78,7 @@ public class NewEntryCommand extends AbstractCommand{
 			String[] userEntries = line.split(",");
 			
 			// if user is found (User.getUserRow() returns even number for every user?)
-			if (userEntries[0] != "" && (count == this.currentUser.getUserRow())) {
+			if (userEntries[0] != "" && (count == this.currentUser.getRow())) {
 				found = true;
 				boolean foundDate = false;
 				foundDate = editExistingDate(userEntries, foundDate);
