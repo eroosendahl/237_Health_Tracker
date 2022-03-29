@@ -9,50 +9,71 @@ import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
 	private HashMap<String, AbstractCommand> commands;
+	private boolean userPrompted = false;
+	private Scanner scanner;
+	private String userInput;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
 	}
 	
 	public int run() {
-		String nothing = "";
-		String userInput = nothing;
-		Scanner scanner = new Scanner(System.in);
-		boolean userPrompted = false;
+		startUpMessage();
+		userInput = "";
+		scanner = new Scanner(System.in);
 
 		while (true) {
 
-			if (!userPrompted) {
-				System.out.println("Enter input.");
-				userPrompted = true;
-			}
+			promptUser();
 
-			if (scanner.hasNext()) {
-				userInput = scanner.nextLine();
-				userPrompted = false;
-				//System.out.println("\nYou said: " + userInput + "\n");
-				if (Objects.equals(userInput, "quit"))
-					break;
-			}
+			gatherUserInput();
+			
+			if (Objects.equals(userInput, "quit"))
+				break;
 
-			if (!Objects.equals(userInput, nothing)) {
-				if (!userInput.contains(" "))
-					commands.get(userInput).execute();
-				else {
-					String[] input_split = userInput.split(" ", 2);
-					commands.get(input_split[0]).execute(input_split[1]);
-				}
-				userInput = nothing;
-			}
+			attemptCommandExecution();
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
+	}
+
+	private void startUpMessage() {
+		System.out.println("CommandPrompt Running");
+		commandHelpList();
+	}
+
+	private void attemptCommandExecution() {
+		String nothing = "";
+		String space = " ";
+		if (!Objects.equals(userInput, nothing)) {
+			if (!userInput.contains(space))
+				commands.get(userInput).execute();
+			else {
+				String[] input_split = userInput.split(space, 2);
+				commands.get(input_split[0]).execute(input_split[1]);
+			}
+			userInput = nothing;
+		}
+	}
+
+	private void gatherUserInput() {
+		if (scanner.hasNext()) {
+			userInput = scanner.nextLine();
+			userPrompted = false;
+		}
+	}
+
+	private void promptUser() {
+		if (!userPrompted) {
+			System.out.println("Enter input.");
+			userPrompted = true;
+		}
 	}
 	
 	public void commandHelpList() {
 		System.out.println("Command List:");
 		commands.forEach((k,v) -> {
-			System.out.print("Command: " + k + "; ");
+			System.out.print("Command: " + k + " || ");
 			v.helpMessage();
 		});
 	}
