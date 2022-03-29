@@ -57,7 +57,7 @@ public class NewEntryCommand extends AbstractCommand{
 		// https://stackoverflow.com/questions/13741751/modify-the-content-of-a-file-using-java
 		List<String> lines = new ArrayList<String>();
 		
-		boolean found = readFromCSV(lines);
+		boolean found = readFromCSV(lines); // in Java, lists are passed by reference
 		if (!found) { System.out.println("Error finding User position"); }
 		else {
 			writeToCSV(lines);
