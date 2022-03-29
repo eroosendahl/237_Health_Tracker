@@ -1,16 +1,20 @@
 package main;
 
+import commands.AbstractCommand;
 import commands.EchoCommand;
 import commands.NewUserCommand;
 
 public class HealthTracker {
 	
 	public static void main(String args[]) {
-	
-		EchoCommand echoCommand = new EchoCommand();
-		NewUserCommand newUser = new NewUserCommand("Erik", "userinfo.csv");
-		echoCommand.execute("Hello World");
-		newUser.execute();
+
+	  CommandPrompt commandPrompt = new CommandPrompt();
+		AbstractCommand echoCommand = new EchoCommand();
+		
+		commandPrompt.addCommand(echoCommand);
+		
+		commandPrompt.run();
+
 	}
 
 }
