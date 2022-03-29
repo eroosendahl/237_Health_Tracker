@@ -89,13 +89,10 @@ public class NewEntryCommand extends AbstractCommand{
 				csvBufferedWriter.flush();
 				csvBufferedWriter.close();
 			}
-			
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		
-		
-	
+
 		return 0;
 	}
 	
@@ -185,5 +182,4 @@ public class NewEntryCommand extends AbstractCommand{
 		System.out.println("Format: ");
 		return 0;
 	}
-
 }
