@@ -11,16 +11,25 @@ import java.util.stream.Collectors;
 
 public class NewUserCommand extends AbstractCommand {
 	String csvFileName;
+	String userName;
 	
-	public NewUserCommand(String user, String csvFile) {
-		name = user;
+	public NewUserCommand(String csvFile) {
+		name = "newUser";
 		csvFileName = csvFile;
 	}
 	
 	@Override
 	public int execute() {
+		return 0;
+	}
+	
+	@Override
+	public int execute(String executionMod) {
+		
+		userName = executionMod;
+		
 		List<String> user = new LinkedList<String>();
-		user.add("\n" + name);
+		user.add("\n" + userName);
 		try {
 			File outputFile = new File(csvFileName);
 			FileWriter data = new FileWriter(outputFile, true);
@@ -31,13 +40,7 @@ public class NewUserCommand extends AbstractCommand {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(name);
-		return 0;
-	}
-	
-	@Override
-	public int execute(String executionMod) {
-		System.out.println(executionMod);
+		//System.out.println(name);
 		return 0;
 	}
 	
