@@ -12,9 +12,16 @@ public class CommandPrompt {
 	private boolean userPrompted = false;
 	private Scanner scanner;
 	private String userInput = "";
+	private User currentUser;
+	private String file;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
+	}
+	
+	public CommandPrompt(String fileName) {
+		commands = new HashMap<String, AbstractCommand>();
+		file = fileName;
 	}
 	
 	public int run() {
@@ -105,6 +112,22 @@ public class CommandPrompt {
 		else {
 			return endState.GENERAL_FAILURE.value();
 		}
+	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
 	}
 
 }
