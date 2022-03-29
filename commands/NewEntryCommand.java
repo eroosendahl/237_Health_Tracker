@@ -97,7 +97,7 @@ public class NewEntryCommand extends AbstractCommand{
 		FileWriter csvWriter = new FileWriter(this.filePath);
 		BufferedWriter csvBufferedWriter = new BufferedWriter(csvWriter);
 		
-		for (String csvLine : lines) { csvBufferedWriter.write(csvLine); }
+		for (String csvLine : lines) { csvBufferedWriter.write(csvLine + "\n"); }
 		csvBufferedWriter.flush();
 		csvBufferedWriter.close();
 	}
