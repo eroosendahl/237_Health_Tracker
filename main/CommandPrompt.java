@@ -45,8 +45,16 @@ public class CommandPrompt {
 				userInput = nothing;
 			}
 		}
-
+		scanner.close();
 		return endState.SUCCESS.value();
+	}
+	
+	public void commandHelpList() {
+		System.out.println("Command List:");
+		commands.forEach((k,v) -> {
+			System.out.print("Command: " + k + "; ");
+			v.helpMessage();
+		});
 	}
 	
 	public int addCommand(AbstractCommand command) {
