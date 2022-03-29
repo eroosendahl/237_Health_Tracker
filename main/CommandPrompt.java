@@ -28,13 +28,20 @@ public class CommandPrompt {
 
 			gatherUserInput();
 			
-			if (Objects.equals(userInput, "quit"))
+			if (Objects.equals(userInput, "quit")) {
+				quit();
 				break;
+			}
 
 			attemptCommandExecution();
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
+	}
+
+	private void quit() {
+		System.out.println("Shutting down...");
+		
 	}
 
 	private void startUpMessage() {
