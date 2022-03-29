@@ -11,7 +11,7 @@ public class CommandPrompt {
 	private HashMap<String, AbstractCommand> commands;
 	private boolean userPrompted = false;
 	private Scanner scanner;
-	private String userInput;
+	private String userInput = "";
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
@@ -19,7 +19,7 @@ public class CommandPrompt {
 	
 	public int run() {
 		startUpMessage();
-		userInput = "";
+		
 		scanner = new Scanner(System.in);
 
 		while (true) {
@@ -53,11 +53,22 @@ public class CommandPrompt {
 		String nothing = "";
 		String space = " ";
 		if (!Objects.equals(userInput, nothing)) {
-			if (!userInput.contains(space))
-				commands.get(userInput).execute();
+			if (!userInput.contains(space)) {
+				if (commands.containsKey(userInput)) {
+					commands.get(userInput).execute();
+				}
+				else {
+					System.out.println("Command not found.");
+				}
+			}
 			else {
-				String[] input_split = userInput.split(space, 2);
-				commands.get(input_split[0]).execute(input_split[1]);
+				String[] command_exeMod_split = userInput.split(space, 2);
+				if (commands.containsKey(command_exeMod_split[0])) {
+					commands.get(command_exeMod_split[0]).execute(command_exeMod_split[1]);
+				}
+				else {
+					System.out.println("Command not found.");
+				}
 			}
 			userInput = nothing;
 		}
