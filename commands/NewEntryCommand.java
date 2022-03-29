@@ -17,10 +17,10 @@ public class NewEntryCommand extends AbstractCommand{
 	String entryIdentifier;
 	String entryValue;
 	String entryDate;
-	User currentUser;
+	main.User currentUser;
 	String filePath;
 	
-	public NewEntryCommand(User user, String path) {
+	public NewEntryCommand(main.User user, String path) {
 		this.currentUser = user;
 		name = "newEntry";
 		this.filePath = path;
@@ -76,7 +76,7 @@ public class NewEntryCommand extends AbstractCommand{
 			String[] userEntries = line.split(",");
 			
 			// if user is found (User.getUserRow() returns even number for every user?)
-			if (userEntries[0] != "" && (count == this.currentUser.getUserRow())) {
+			if (userEntries[0] != "" && (count == this.currentUser.getRow())) {
 				found = true;
 				boolean foundDate = false;
 				foundDate = editExistingDate(userEntries, foundDate);
@@ -97,7 +97,7 @@ public class NewEntryCommand extends AbstractCommand{
 		FileWriter csvWriter = new FileWriter(this.filePath);
 		BufferedWriter csvBufferedWriter = new BufferedWriter(csvWriter);
 		
-		for (String csvLine : lines) { csvBufferedWriter.write(csvLine); }
+		for (String csvLine : lines) { csvBufferedWriter.write(csvLine + "\n"); }
 		csvBufferedWriter.flush();
 		csvBufferedWriter.close();
 	}
