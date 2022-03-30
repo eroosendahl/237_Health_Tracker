@@ -101,6 +101,7 @@ public class CommandPrompt {
 			System.out.print("Command: " + k + " || ");
 			v.helpMessage();
 		});
+		System.out.println("Type 'quit' to quit.\n");
 	}
 	
 	public int addCommand(AbstractCommand command) {
