@@ -63,6 +63,7 @@ public class CommandPrompt {
 			while (line != null) {
 				String[] entries = line.split(",");
 				if (entries[0] != "") { usernameList.add("\n" + entries[0]); }
+				line = csvBufferedReader.readLine();
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
