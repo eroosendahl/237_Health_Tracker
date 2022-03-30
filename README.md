@@ -40,10 +40,10 @@ A User should be able to return a list of the inidicies of all its entries.
 A user should be able to return a list of the dates of all its entries.
 
 
-Does what we've implemented work? 
+What that we've implemented doesn't work yet?
 
-The CommandPrompt successfully passes input to commands and calls execute on that command.  
-We have yet to test full functionaliy of NewUser and NewEntry commands.
+Both NewEntry and NewUser commands will crash on execution, NewEntry from an ArrayIndexOutOfBounds Exception and NewUser from a NullPointerException.  
+Both of these are likely the result of not correctly providing file and User access from the CommandPrompt, which hasn't been implemented yet.
 
 
 
