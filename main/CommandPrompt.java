@@ -1,6 +1,8 @@
 package main;
 
+import java.io.BufferedReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -15,6 +17,7 @@ public class CommandPrompt {
 	private User currentUser;
 	private String file;
 	private int numUsers = 0;
+	private List<String> usernameList;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
@@ -32,6 +35,17 @@ public class CommandPrompt {
 		scanner = new Scanner(System.in);
 
 		while (true) {
+			// https://www.journaldev.com/709/java-read-file-line-by-line
+			try {
+				BufferedReader csvBufferedReader;
+				String line = csvBufferedReader.readLine();
+				
+				while (line != null) {
+					
+				}
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 
 			promptUser();
 
@@ -141,4 +155,7 @@ public class CommandPrompt {
 		this.numUsers = numUsers;
 	}
 
+	public boolean isUniqueUsername(String username) {
+		
+	}
 }
