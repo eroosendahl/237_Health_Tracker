@@ -2,6 +2,7 @@ package main;
 
 import commands.AbstractCommand;
 import commands.EchoCommand;
+import commands.NewEntryCommand;
 import commands.NewUserCommand;
 
 public class HealthTracker {
@@ -10,13 +11,12 @@ public class HealthTracker {
 
 		CommandPrompt commandPrompt = new CommandPrompt();
 		AbstractCommand echoCommand = new EchoCommand();
-//		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
-//		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
+		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
+		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
 
 		commandPrompt.addCommand(echoCommand);
-//		commandPrompt.addCommand(newEntryCommand);
-//		commandPrompt.addCommand(newUserCommand);
-		
+		commandPrompt.addCommand(newEntryCommand);
+		commandPrompt.addCommand(newUserCommand);
 		
 		commandPrompt.run();
 
