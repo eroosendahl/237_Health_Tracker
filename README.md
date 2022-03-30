@@ -54,3 +54,8 @@ Execute the following commands:
 javac main/HealthTracker.java
 java main.HealthTracker
 
+
+
+* Note to clear up any confusion that we had unknowingly left our project set to "private" during class on our peer review date, which is likely the reason for any reviews indicating there was no project associated with this repo.  It was set to "public" during class, so any reviews after that should likely include it, and hopefully the dates on issues, branches, and merges will verify this.
+
+
