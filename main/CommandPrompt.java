@@ -20,6 +20,7 @@ public class CommandPrompt {
 	}
 	
 	public CommandPrompt(String fileName) {
+		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
 	}
@@ -90,7 +91,7 @@ public class CommandPrompt {
 
 	private void promptUser() {
 		if (!userPrompted) {
-			System.out.println("Enter input.");
+			System.out.println(currentUser.getName() +  " enter command.");
 			userPrompted = true;
 		}
 	}
@@ -100,7 +101,7 @@ public class CommandPrompt {
 		commands.forEach((k,v) -> {
 			System.out.print("Command: " + k + " || ");
 			v.helpMessage();
-		});
+		});	
 		System.out.println("Type 'quit' to quit.\n");
 	}
 	

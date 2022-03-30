@@ -5,6 +5,11 @@ public class User{
 	private int row;
 	private int currentColumn;
 	private String name;
+	
+	public User(String n, int r) {
+		name = n;
+		row = r;
+	}
 
 	public int getRow(){
 

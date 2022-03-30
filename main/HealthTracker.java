@@ -9,7 +9,7 @@ public class HealthTracker {
 
 	public static void main(String args[]) {
 
-		CommandPrompt commandPrompt = new CommandPrompt();
+		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv");
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
