@@ -36,7 +36,6 @@ public class CommandPrompt {
 		scanner = new Scanner(System.in);
 
 		while (true) {
-			loadExistantUsers();
 
 			promptUser();
 
