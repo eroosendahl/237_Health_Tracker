@@ -1,6 +1,7 @@
 package main;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -13,6 +14,7 @@ public class CommandPrompt {
 	private Scanner scanner;
 	private String userInput = "";
 	private User currentUser;
+	private List<User> users;
 	private String file;
 	
 	public CommandPrompt() {
@@ -129,6 +131,14 @@ public class CommandPrompt {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }
