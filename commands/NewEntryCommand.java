@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import main.CommandPrompt;
 import main.User;
 
 public class NewEntryCommand extends AbstractCommand{
@@ -21,12 +22,18 @@ public class NewEntryCommand extends AbstractCommand{
 	String entryDate;
 	User currentUser;
 	String filePath;
+	CommandPrompt commandPrompt;
 	
-	public NewEntryCommand(User user, String path) {
-		this.currentUser = user;
-		name = "newEntry";
-		this.filePath = path;
+	public NewEntryCommand(CommandPrompt cp) {
+		name = "NewEntry";
+		commandPrompt = cp;
 	}
+	
+//	public NewEntryCommand(User user, String path) {
+//		this.currentUser = user;
+//		name = "newEntry";
+//		this.filePath = path;
+//	}
 	
 	@Override
 	public int execute() {
@@ -39,6 +46,10 @@ public class NewEntryCommand extends AbstractCommand{
 	public int execute(String executionMod) {
 		//Ex of command: "newEntry run 500 09/20/2020"
 		//Ex of fileEntry: "03/10/2022 WALK(2) RUN(3) ATE(2200)"
+		System.out.println("Executing NewEntryCommand");
+		
+		currentUser = commandPrompt.getCurrentUser();
+		filePath = commandPrompt.getFile();
 		
 		// commandSections comes after 'newEntry'
 		String[] commandSections = executionMod.split(" ");
