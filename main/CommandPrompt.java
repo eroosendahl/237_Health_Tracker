@@ -14,6 +14,7 @@ public class CommandPrompt {
 	private String userInput = "";
 	private User currentUser;
 	private String file;
+	private int numUsers = 0;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
@@ -130,6 +131,14 @@ public class CommandPrompt {
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+
+	public int getNumUsers() {
+		return numUsers;
+	}
+
+	public void setNumUsers(int numUsers) {
+		this.numUsers = numUsers;
 	}
 
 }

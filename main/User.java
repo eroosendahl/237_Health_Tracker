@@ -3,7 +3,7 @@ package main;
 public class User{
 
 	private int row;
-	private int currentColumn;
+	private int index;
 	private String name;
 	
 	public User(String n, int r) {
@@ -25,12 +25,12 @@ public class User{
 
 	public int getCurrentColumn(){
 		
-		return this.currentColumn;
+		return this.index;
 	}
 
 	public void setCurrentColumn(int column) {
 	
-		this.currentColumn = column;
+		this.index = column;
 	}
 
 	public String getName(){
