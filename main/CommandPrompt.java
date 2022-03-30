@@ -11,15 +11,24 @@ public class CommandPrompt {
 	private HashMap<String, AbstractCommand> commands;
 	private boolean userPrompted = false;
 	private Scanner scanner;
-	private String userInput;
+	private String userInput = "";
+	private User currentUser;
+	private String file;
+	private int numUsers = 0;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
 	}
 	
+	public CommandPrompt(String fileName) {
+		currentUser = new User("fakeUser", 0);
+		commands = new HashMap<String, AbstractCommand>();
+		file = fileName;
+	}
+	
 	public int run() {
 		startUpMessage();
-		userInput = "";
+		
 		scanner = new Scanner(System.in);
 
 		while (true) {
@@ -53,11 +62,22 @@ public class CommandPrompt {
 		String nothing = "";
 		String space = " ";
 		if (!Objects.equals(userInput, nothing)) {
-			if (!userInput.contains(space))
-				commands.get(userInput).execute();
+			if (!userInput.contains(space)) {
+				if (commands.containsKey(userInput)) {
+					commands.get(userInput).execute();
+				}
+				else {
+					System.out.println("Command not found.");
+				}
+			}
 			else {
-				String[] input_split = userInput.split(space, 2);
-				commands.get(input_split[0]).execute(input_split[1]);
+				String[] command_exeMod_split = userInput.split(space, 2);
+				if (commands.containsKey(command_exeMod_split[0])) {
+					commands.get(command_exeMod_split[0]).execute(command_exeMod_split[1]);
+				}
+				else {
+					System.out.println("Command not found.");
+				}
 			}
 			userInput = nothing;
 		}
@@ -72,7 +92,7 @@ public class CommandPrompt {
 
 	private void promptUser() {
 		if (!userPrompted) {
-			System.out.println("Enter input.");
+			System.out.println(currentUser.getName() +  " enter command.");
 			userPrompted = true;
 		}
 	}
@@ -82,7 +102,8 @@ public class CommandPrompt {
 		commands.forEach((k,v) -> {
 			System.out.print("Command: " + k + " || ");
 			v.helpMessage();
-		});
+		});	
+		System.out.println("Type 'quit' to quit.\n");
 	}
 	
 	public int addCommand(AbstractCommand command) {
@@ -94,6 +115,30 @@ public class CommandPrompt {
 		else {
 			return endState.GENERAL_FAILURE.value();
 		}
+	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public int getNumUsers() {
+		return numUsers;
+	}
+
+	public void setNumUsers(int numUsers) {
+		this.numUsers = numUsers;
 	}
 
 }

@@ -2,6 +2,9 @@ package commands;
 
 
 import commands.AbstractCommand;
+import main.CommandPrompt;
+import main.User;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,12 +14,19 @@ import java.util.stream.Collectors;
 
 public class NewUserCommand extends AbstractCommand {
 	String csvFileName;
+	User user;
 	String userName;
+	CommandPrompt commandPrompt;
 	
-	public NewUserCommand(String csvFile) {
-		name = "newUser";
-		csvFileName = csvFile;
+	public NewUserCommand(CommandPrompt cp) {
+		name = "NewUser";
+		commandPrompt = cp;
 	}
+	
+//	public NewUserCommand(String csvFile) {
+//		name = "newUser";
+//		csvFileName = csvFile;
+//	}
 	
 	@Override
 	public int execute() {
@@ -25,6 +35,12 @@ public class NewUserCommand extends AbstractCommand {
 	
 	@Override
 	public int execute(String executionMod) {
+		
+		System.out.println("Executing NewUserCommand");
+		
+		csvFileName = commandPrompt.getFile();
+		user = commandPrompt.getCurrentUser();
+		userName = user.getName();
 		
 		userName = executionMod;
 		
