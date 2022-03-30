@@ -50,7 +50,7 @@ public class NewUserCommand extends AbstractCommand {
 			File outputFile = new File(csvFileName);
 			FileWriter data = new FileWriter(outputFile, true);
 			String collect = user.stream().collect(Collectors.joining());
-			data.append(collect);
+			if (commandPrompt.isUniqueUsername(collect)) { data.append(collect); }
 			data.flush();
 			data.close();
 		} catch (IOException e) {

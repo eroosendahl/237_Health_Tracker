@@ -1,8 +1,9 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -17,7 +18,7 @@ public class CommandPrompt {
 	private User currentUser;
 	private String file;
 	private int numUsers = 0;
-	private List<String> usernameList;
+	private ArrayList<String> usernameList;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
@@ -35,17 +36,7 @@ public class CommandPrompt {
 		scanner = new Scanner(System.in);
 
 		while (true) {
-			// https://www.journaldev.com/709/java-read-file-line-by-line
-			try {
-				BufferedReader csvBufferedReader;
-				String line = csvBufferedReader.readLine();
-				
-				while (line != null) {
-					
-				}
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
+			loadExistantUsers();
 
 			promptUser();
 
@@ -60,6 +51,22 @@ public class CommandPrompt {
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
+	}
+
+	private void loadExistantUsers() {
+		// https://www.journaldev.com/709/java-read-file-line-by-line
+		try {
+			usernameList = new ArrayList<String>();
+			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
+			String line = csvBufferedReader.readLine();
+			
+			while (line != null) {
+				String[] entries = line.split(",");
+				if (entries[0] != "") { usernameList.add("\n" + entries[0]); }
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private void quit() {
@@ -156,6 +163,6 @@ public class CommandPrompt {
 	}
 
 	public boolean isUniqueUsername(String username) {
-		
+		return !(this.usernameList.contains(username));
 	}
 }
