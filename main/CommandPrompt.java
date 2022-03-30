@@ -1,7 +1,9 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -14,30 +16,32 @@ public class CommandPrompt {
 	private Scanner scanner;
 	private String userInput = "";
 	private User currentUser;
-	private List<User> users;
 	private String file;
-
+	private int numUsers = 0;
+	private ArrayList<String> usernameList;
+	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
 	}
-
+	
 	public CommandPrompt(String fileName) {
 		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
 	}
-
+	
 	public int run() {
 		startUpMessage();
-
+		
 		scanner = new Scanner(System.in);
 
 		while (true) {
+			loadExistantUsers();
 
 			promptUser();
 
 			gatherUserInput();
-
+			
 			if (Objects.equals(userInput, "quit")) {
 				quit();
 				break;
@@ -49,9 +53,25 @@ public class CommandPrompt {
 		return endState.SUCCESS.value();
 	}
 
+	private void loadExistantUsers() {
+		// https://www.journaldev.com/709/java-read-file-line-by-line
+		try {
+			usernameList = new ArrayList<String>();
+			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
+			String line = csvBufferedReader.readLine();
+			
+			while (line != null) {
+				String[] entries = line.split(",");
+				if (entries[0] != "") { usernameList.add("\n" + entries[0]); }
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	private void quit() {
 		System.out.println("Shutting down...");
-
+		
 	}
 
 	private void startUpMessage() {
@@ -97,7 +117,7 @@ public class CommandPrompt {
 			userPrompted = true;
 		}
 	}
-
+	
 	public void commandHelpList() {
 		System.out.println("Command List:");
 		commands.forEach((k,v) -> {
@@ -106,7 +126,7 @@ public class CommandPrompt {
 		});	
 		System.out.println("Type 'quit' to quit.\n");
 	}
-
+	
 	public int addCommand(AbstractCommand command) {
 		AbstractCommand returned_command = commands.put(command.getName(), command);
 
@@ -134,14 +154,15 @@ public class CommandPrompt {
 		this.file = file;
 	}
 
-
-	public List<User> getUsers() {
-		return users;
+	public int getNumUsers() {
+		return numUsers;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setNumUsers(int numUsers) {
+		this.numUsers = numUsers;
 	}
 
-
+	public boolean isUniqueUsername(String username) {
+		return !(this.usernameList.contains(username));
+	}
 }
