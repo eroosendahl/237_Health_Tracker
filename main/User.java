@@ -10,12 +10,6 @@ public class User{
 		name = n;
 		row = r;
 	}
-	
-	public boolean compareName(String otherUsername) {
-		if (name.equals(otherUsername))
-			return true;
-		return false;
-	}
 
 	public int getRow(){
 
