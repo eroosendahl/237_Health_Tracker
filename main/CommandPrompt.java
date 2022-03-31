@@ -154,6 +154,10 @@ public class CommandPrompt {
 		this.file = file;
 	}
 
+	public ArrayList<String> getUsers() {
+		return this.usernameList;
+	}
+	
 	public int getNumUsers() {
 		return numUsers;
 	}
