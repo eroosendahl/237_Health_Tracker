@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import commands.AbstractCommand;
 import main.HealthTrackerGeneralVariables.endState;
@@ -69,6 +70,11 @@ public class CommandPrompt {
 		}
 	}
 
+	public boolean isAlphaNumericUsername(String username) {
+		Pattern alphaNumeric = Pattern.compile("^[a-zA-Z0-9]+$");
+		return alphaNumeric.matcher(username).find();
+	}
+	
 	private void quit() {
 		System.out.println("Shutting down...");
 		
