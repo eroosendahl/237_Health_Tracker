@@ -29,7 +29,6 @@ public class CommandPrompt {
 		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
-		loadExistantUsers();
 	}
 	
 	public int run() {

@@ -18,6 +18,7 @@ public class SwitchUserCommand extends AbstractCommand {
 
 	@Override
 	public int execute(String executionMod) {
+		commandPrompt.loadExistantUsers();
 		if (commandPrompt.containsUser(executionMod)) {
 			commandPrompt.setCurrentUser(commandPrompt.getUser(executionMod));
 		} else { System.out.println("Sorry, user '" + executionMod + "' doesn't exist."); }
