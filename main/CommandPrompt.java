@@ -52,7 +52,7 @@ public class CommandPrompt {
 	
 	public int switchActiveUser(String destinationUsername) {
 		for (User user: userList) {
-			if (user.compareName(destinationUsername)) {
+			if (user.getName().equals(destinationUsername)) {
 				currentUser = user;
 				return endState.SUCCESS.value();
 			}
