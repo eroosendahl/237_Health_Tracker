@@ -28,6 +28,7 @@ public class CommandPrompt {
 	public CommandPrompt(String fileName) {
 		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
+		userList = new ArrayList<User>();
 		file = fileName;
 	}
 	
@@ -48,6 +49,16 @@ public class CommandPrompt {
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
+	}
+	
+	public int switchActiveUser(String destinationUsername) {
+		for (User user: userList) {
+			if (user.compareName(destinationUsername)) {
+				currentUser = user;
+				return endState.SUCCESS.value();
+			}
+		}
+		return endState.GENERAL_FAILURE.value();
 	}
 
 	public void loadExistantUsers() {

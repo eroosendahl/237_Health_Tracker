@@ -3,6 +3,7 @@ package main;
 public class HealthTrackerGeneralVariables {
 	
 	public enum endState {
+		UNIMPLEMENTED(-2),
 		GENERAL_FAILURE(-1),
 		SUCCESS(0),
 		;
