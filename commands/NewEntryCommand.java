@@ -195,7 +195,7 @@ public class NewEntryCommand extends AbstractCommand{
 	@Override
 	public int helpMessage() {
 		// TODO Auto-generated method stub
-		System.out.println("Format: ");
+		System.out.println("Format: newEntry [activity-name] [amount] [date-mm/dd/yyyy]");
 		return 0;
 	}
 }
