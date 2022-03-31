@@ -92,8 +92,7 @@ public class NewEntryCommand extends AbstractCommand{
 		while ((line = csvBufferedReader.readLine()) != null) {
 			String[] userEntries = line.split(",");
 			
-			// if user is found (User.getUserRow() returns even number for every user?)
-			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) {
+			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) { // if user is found
 				found = true;
 				boolean foundDate = false;
 				foundDate = editExistingDate(userEntries, foundDate);
@@ -198,7 +197,6 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int helpMessage() {
-		// TODO Auto-generated method stub
 		System.out.println("Format: NewEntry [activity-name] [amount] [date-mm/dd/yyyy]");
 		return 0;
 	}
