@@ -69,7 +69,8 @@ public class CommandPrompt {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	// https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
 	public boolean isAlphaNumericUsername(String username) {
 		Pattern alphaNumeric = Pattern.compile("^[a-zA-Z0-9]+$");
 		return alphaNumeric.matcher(username).find();
