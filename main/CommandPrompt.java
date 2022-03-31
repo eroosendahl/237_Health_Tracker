@@ -126,7 +126,7 @@ public class CommandPrompt {
 	}
 	
 	public void commandHelpList() {
-		System.out.println("Command List:");
+		System.out.println("\nCommand List:");
 		commands.forEach((k,v) -> {
 			System.out.print("Command: " + k + " || ");
 			v.helpMessage();
