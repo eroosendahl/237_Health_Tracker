@@ -30,7 +30,7 @@ public class SwitchUserCommand extends AbstractCommand {
 	public int execute(String executionMod) {
 		System.out.println("Executing SwitchUserCommand");
 		if(commandPrompt.switchActiveUser(executionMod) != endState.SUCCESS.value()) {
-			System.out.println("Failed to switch user");
+			System.out.println("Sorry, user '" + executionMod + "' doesn't exist.");
 			return endState.GENERAL_FAILURE.value();
 		}
 		return endState.SUCCESS.value();
@@ -41,5 +41,4 @@ public class SwitchUserCommand extends AbstractCommand {
 		System.out.println("switchUser [username]");
 		return 0;
 	}
-
 }

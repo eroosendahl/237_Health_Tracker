@@ -43,8 +43,8 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int execute(String executionMod) {
-		//Ex of command: "NewEntry run 500 09/20/2020"
-		//Ex of fileEntry: "03/10/2022 WALK(2) RUN(3) ATE(2200)"
+		//Ex of command: "newEntry run 500 20/09/2020"
+		//Ex of fileEntry: "10/03/2022 WALK(2) RUN(3) ATE(2200)"
 		System.out.println("Executing NewEntryCommand");
 		
 		currentUser = commandPrompt.getCurrentUser();
@@ -60,11 +60,14 @@ public class NewEntryCommand extends AbstractCommand{
 			this.entryValue = commandSections[1];
 			this.entryDate = commandSections[2];
 			
-			try {
-				readAndWriteCSV();
-			} catch(Exception ex) {
-				ex.printStackTrace();
-			}
+			if (commandPrompt.isAlphaNumeric(entryIdentifier) && commandPrompt.isNumeric(entryValue)
+					&& commandPrompt.isValidDate(entryDate)) {
+				try {
+					readAndWriteCSV();
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			} else { System.out.println("Error: at least one argument is invalid."); }
 		}
 
 		return 0;
@@ -197,7 +200,7 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int helpMessage() {
-		System.out.println("newEntry [activity-name] [amount] [date-mm/dd/yyyy]");
+		System.out.println("newEntry [activity-name] [amount] [date-dd/mm/yyyy]");
 		return 0;
 	}
 }

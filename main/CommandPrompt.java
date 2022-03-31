@@ -85,10 +85,37 @@ public class CommandPrompt {
 		}
 	}
 	
+	public boolean isNumeric(String myString) {
+		Pattern alphaNumeric = Pattern.compile("^[0-9]+$");
+		return alphaNumeric.matcher(myString).find();
+	}
+	
 	// https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
-	public boolean isAlphaNumericUsername(String username) {
+	public boolean isAlphaNumeric(String myString) {
 		Pattern alphaNumeric = Pattern.compile("^[a-zA-Z0-9]+$");
-		return alphaNumeric.matcher(username).find();
+		return alphaNumeric.matcher(myString).find();
+	}
+	
+	public boolean isValidDate(String myString) {
+		int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+		Pattern datePattern = Pattern.compile("^[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}$");
+		if (datePattern.matcher(myString).find()) {
+			String[] myDate = myString.split("\\/");
+			int day = Integer.parseInt(myDate[0]);
+			int month = Integer.parseInt(myDate[1]);
+			int yyyy = Integer.parseInt(myDate[2]);
+			
+			if ((yyyy > 1900) && (yyyy < 2100) && (month >= 1) && (month <= 12) && (day >= 1)) {
+				if ((month == 2) && (yyyy % 4 == 0)) {
+					if (day <= 29) { return true; }
+				} else {
+					if (day <= days[month]) { return true; }
+				}
+			}
+		}
+
+		return false;
 	}
 	
 	private void quit() {
@@ -199,16 +226,20 @@ public class CommandPrompt {
 	 * This is poorly named - it's actually going through the list and returning false if there is a user in the list with the matching name.
 	 * Should be alreadyContainsUsername(String username) or something.
 	 */
-	public boolean isUniqueUser(String username) {
-		for (User user : this.userList) {
-			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
-			if (username.equals(user.getName())) { return false; }
-		}
-		return true;
-	}
+//	public boolean isUniqueUser(String username) {
+//		for (User user : this.userList) {
+//			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
+//			if (username.equals(user.getName())) { return false; }
+//		}
+//		return true;
+//	}
 	
 	public boolean containsUser(String username) {
-		return !(this.isUniqueUser(username));
+		for (User user : this.userList) {
+			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
+			if (username.equals(user.getName())) { return true; }
+		}
+		return false;
 	}
 	
 	public boolean deleteUser(String username) {

@@ -26,7 +26,7 @@ public class DeleteUserCommand extends AbstractCommand {
 		return 0;
 	}
 
-	private void filterUsername(ArrayList<String> lines, String username) throws IOException {
+	private void filterUsername(String username) throws IOException {
 		BufferedReader csvBufferedReader = new BufferedReader(new FileReader(commandPrompt.getFile()));
 		String line = csvBufferedReader.readLine();
 		
@@ -37,11 +37,11 @@ public class DeleteUserCommand extends AbstractCommand {
 		}
 	}
 	
-	private void writeToCSV(ArrayList<String> lines) throws IOException {
+	private void writeToCSV() throws IOException {
 		FileWriter csvWriter = new FileWriter(commandPrompt.getFile());
 		BufferedWriter csvBufferedWriter = new BufferedWriter(csvWriter);
 		
-		for (String csvLine : lines) { csvBufferedWriter.write(csvLine + "\n"); }
+		for (String csvLine : remainingLines) { csvBufferedWriter.write(csvLine + "\n"); }
 		csvBufferedWriter.flush();
 		csvBufferedWriter.close();
 	}
@@ -53,10 +53,10 @@ public class DeleteUserCommand extends AbstractCommand {
 		commandPrompt.loadExistantUsers();
 
 		if (commandPrompt.containsUser(executionMod) && !commandPrompt.getCurrentUser().getName().equals(executionMod)) {
-			try { filterUsername(remainingLines, executionMod); }
+			try { filterUsername(executionMod); }
 			catch (IOException e) { e.printStackTrace(); }
 			
-			try { writeToCSV(remainingLines); }
+			try { writeToCSV(); }
 			catch (IOException e1) { e1.printStackTrace(); }
 			
 			commandPrompt.deleteUser(executionMod);
@@ -74,5 +74,4 @@ public class DeleteUserCommand extends AbstractCommand {
 		System.out.println("DeleteUser [username]");
 		return 0;
 	}
-
 }

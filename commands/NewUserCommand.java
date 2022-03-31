@@ -52,11 +52,11 @@ public class NewUserCommand extends AbstractCommand {
 			FileWriter data = new FileWriter(outputFile, true);
 			String collect = user.stream().collect(Collectors.joining());
 			
-			if (commandPrompt.isUniqueUser(collect.trim()) && commandPrompt.isAlphaNumericUsername(collect.trim())) {
+			if (!commandPrompt.containsUser(collect.trim()) && commandPrompt.isAlphaNumeric(collect.trim())) {
 				data.append(collect);
-			} else if (!commandPrompt.isAlphaNumericUsername(collect.trim())) {
+			} else if (!commandPrompt.isAlphaNumeric(collect.trim())) {
 				System.out.println("Invalid username: only pure alphanumeric usernames are accepted.");
-			} else if (!commandPrompt.isUniqueUser(collect.trim())) {
+			} else if (commandPrompt.containsUser(collect.trim())) {
 				System.out.println("Can't add user: duplicate username.");
 			}
 
