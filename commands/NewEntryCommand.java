@@ -37,7 +37,6 @@ public class NewEntryCommand extends AbstractCommand{
 	
 	@Override
 	public int execute() {
-		
 		System.out.println("Value required for insertion.");
 		return 0;
 	}
