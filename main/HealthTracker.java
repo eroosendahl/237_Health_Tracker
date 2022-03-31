@@ -4,6 +4,7 @@ import commands.AbstractCommand;
 
 import commands.DeleteUserCommand;
 import commands.EchoCommand;
+import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
 import commands.SwitchUserCommand;
@@ -16,12 +17,14 @@ public class HealthTracker {
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
 		AbstractCommand switchUserCommand = new SwitchUserCommand(commandPrompt);
 		AbstractCommand deleteUserCommand = new DeleteUserCommand(commandPrompt);
+		AbstractCommand listUsersCommand = new ListUsersCommand(commandPrompt);
 
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
 		commandPrompt.addCommand(newUserCommand);
 		commandPrompt.addCommand(switchUserCommand);
 		commandPrompt.addCommand(deleteUserCommand);
+		commandPrompt.addCommand(listUsersCommand);
 		
 		commandPrompt.run();
 	}
