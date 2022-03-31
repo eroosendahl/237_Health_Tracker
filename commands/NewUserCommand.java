@@ -18,7 +18,7 @@ public class NewUserCommand extends AbstractCommand {
 	CommandPrompt commandPrompt;
 	
 	public NewUserCommand(CommandPrompt cp) {
-		name = "NewUser";
+		name = "newUser";
 		commandPrompt = cp;
 	}
 	
@@ -71,7 +71,7 @@ public class NewUserCommand extends AbstractCommand {
 	
 	@Override
 	public int helpMessage() {
-		System.out.println("Format: NewUser [new-username]");
+		System.out.println("newUser [new-username]");
 		return 0;
 	}
 }
