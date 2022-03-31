@@ -52,14 +52,19 @@ public class NewEntryCommand extends AbstractCommand{
 		
 		// commandSections comes after 'newEntry'
 		String[] commandSections = executionMod.split(" ");
-		this.entryIdentifier = commandSections[0];
-		this.entryValue = commandSections[1];
-		this.entryDate = commandSections[2];
 		
-		try {
-			readAndWriteCSV();
-		} catch(Exception ex) {
-			ex.printStackTrace();
+		if (commandSections.length != 3) {
+			System.out.println("There should be exactly 3 arguments.");
+		} else {
+			this.entryIdentifier = commandSections[0];
+			this.entryValue = commandSections[1];
+			this.entryDate = commandSections[2];
+			
+			try {
+				readAndWriteCSV();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 
 		return 0;
@@ -82,13 +87,13 @@ public class NewEntryCommand extends AbstractCommand{
 		BufferedReader csvBufferedReader = new BufferedReader(csvReader);
 		String line = null;
 		boolean found = false;
-		int count = 0;
+//		int count = 0;
 		
 		while ((line = csvBufferedReader.readLine()) != null) {
 			String[] userEntries = line.split(",");
 			
 			// if user is found (User.getUserRow() returns even number for every user?)
-			if (userEntries[0] != "" && (count == this.currentUser.getRow())) {
+			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) {
 				found = true;
 				boolean foundDate = false;
 				foundDate = editExistingDate(userEntries, foundDate);
@@ -98,7 +103,7 @@ public class NewEntryCommand extends AbstractCommand{
 			}
 			
 			lines.add(line);
-			++count;
+//			++count;
 		}
 		csvReader.close();
 		csvBufferedReader.close();
