@@ -16,7 +16,7 @@ public class DeleteUserCommand extends AbstractCommand {
 	private ArrayList<String> remainingLines;
 	
 	public DeleteUserCommand(CommandPrompt cp) {
-		this.name = "DeleteUser";
+		this.name = "deleteUser";
 		this.commandPrompt = cp;
 	}
 	
@@ -71,7 +71,7 @@ public class DeleteUserCommand extends AbstractCommand {
 
 	@Override
 	public int helpMessage() {
-		System.out.println("Format: DeleteUser [username]");
+		System.out.println("DeleteUser [username]");
 		return 0;
 	}
 

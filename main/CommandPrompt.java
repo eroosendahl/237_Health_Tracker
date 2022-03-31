@@ -26,9 +26,10 @@ public class CommandPrompt {
 	}
 	
 	public CommandPrompt(String fileName) {
-		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
+		loadExistantUsers();
+		currentUser = userList.get(0);
 	}
 	
 	public int run() {
@@ -36,6 +37,7 @@ public class CommandPrompt {
 		scanner = new Scanner(System.in);
 
 		while (true) {
+			loadExistantUsers();
 			promptUser();
 			gatherUserInput();
 			
@@ -43,30 +45,43 @@ public class CommandPrompt {
 				quit();
 				break;
 			}
-
 			attemptCommandExecution();
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
 	}
+	
+	public int switchActiveUser(String destinationUsername) {
+		for (User user: userList) {
+			if (user.getName().equals(destinationUsername)) {
+				currentUser = user;
+				return endState.SUCCESS.value();
+			}
+		}
+		return endState.GENERAL_FAILURE.value();
+	}
 
-	public void loadExistantUsers() {
+	public int loadExistantUsers() {
 		// https://www.journaldev.com/709/java-read-file-line-by-line
 		try {
 			userList = new ArrayList<User>();
 			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
+			int row = 0;
 			String line = csvBufferedReader.readLine();
 			
 			while (line != null) {
 				String[] entries = line.split(",");
 
 				// user indices temporarily set to 0
-				if (entries[0] != "") { userList.add(new User(entries[0], 0)); }
+				if (entries[0] != "") { userList.add(new User(entries[0], row)); }
 				
+				row++;
 				line = csvBufferedReader.readLine();
 			}
+			return endState.SUCCESS.value();
 		} catch(Exception ex) {
 			ex.printStackTrace();
+			return endState.GENERAL_FAILURE.value();
 		}
 	}
 	
@@ -128,7 +143,7 @@ public class CommandPrompt {
 	public void commandHelpList() {
 		System.out.println("\nCommand List:");
 		commands.forEach((k,v) -> {
-			System.out.print("Command: " + k + " || ");
+			System.out.print("Command: " + k + " || Format: ");
 			v.helpMessage();
 		});	
 		System.out.println("Type 'quit' to quit.\n");
@@ -180,6 +195,10 @@ public class CommandPrompt {
 		this.numUsers = numUsers;
 	}
 
+	/*
+	 * This is poorly named - it's actually going through the list and returning false if there is a user in the list with the matching name.
+	 * Should be alreadyContainsUsername(String username) or something.
+	 */
 	public boolean isUniqueUser(String username) {
 		for (User user : this.userList) {
 			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
