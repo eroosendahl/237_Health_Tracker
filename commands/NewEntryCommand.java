@@ -25,7 +25,7 @@ public class NewEntryCommand extends AbstractCommand{
 	CommandPrompt commandPrompt;
 	
 	public NewEntryCommand(CommandPrompt cp) {
-		name = "NewEntry";
+		name = "newEntry";
 		commandPrompt = cp;
 	}
 	
@@ -197,7 +197,7 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int helpMessage() {
-		System.out.println("Format: NewEntry [activity-name] [amount] [date-mm/dd/yyyy]");
+		System.out.println("newEntry [activity-name] [amount] [date-mm/dd/yyyy]");
 		return 0;
 	}
 }

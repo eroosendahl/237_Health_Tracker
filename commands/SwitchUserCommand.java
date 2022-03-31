@@ -7,7 +7,7 @@ public class SwitchUserCommand extends AbstractCommand {
 	CommandPrompt commandPrompt;
 	
 	public SwitchUserCommand(CommandPrompt cp) {
-		this.name = "SwitchUser";
+		this.name = "switchUser";
 		this.commandPrompt = cp;
 	}
 	
@@ -38,7 +38,7 @@ public class SwitchUserCommand extends AbstractCommand {
 
 	@Override
 	public int helpMessage() {
-		System.out.println("Format: SwitchUser [username]");
+		System.out.println("switchUser [username]");
 		return 0;
 	}
 

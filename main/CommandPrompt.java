@@ -142,7 +142,7 @@ public class CommandPrompt {
 	public void commandHelpList() {
 		System.out.println("Command List:");
 		commands.forEach((k,v) -> {
-			System.out.print("Command: " + k + " || ");
+			System.out.print("Command: " + k + " || Format: ");
 			v.helpMessage();
 		});	
 		System.out.println("Type 'quit' to quit.\n");
