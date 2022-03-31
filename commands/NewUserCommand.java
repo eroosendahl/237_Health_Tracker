@@ -29,6 +29,7 @@ public class NewUserCommand extends AbstractCommand {
 	
 	@Override
 	public int execute() {
+		System.out.println("Value required for creating a new user.");
 		return 0;
 	}
 	
@@ -45,17 +46,17 @@ public class NewUserCommand extends AbstractCommand {
 		commandPrompt.loadExistantUsers();
 		
 		List<String> user = new LinkedList<String>();
-		user.add(userName + "\n"); // \n first or second?
+		user.add(userName + "\n");
 		try {
 			File outputFile = new File(csvFileName);
 			FileWriter data = new FileWriter(outputFile, true);
 			String collect = user.stream().collect(Collectors.joining());
 			
-			if (commandPrompt.isUniqueUsername(collect.trim()) && commandPrompt.isAlphaNumericUsername(collect.trim())) {
+			if (commandPrompt.isUniqueUser(collect.trim()) && commandPrompt.isAlphaNumericUsername(collect.trim())) {
 				data.append(collect);
 			} else if (!commandPrompt.isAlphaNumericUsername(collect.trim())) {
 				System.out.println("Invalid username: only pure alphanumeric usernames are accepted.");
-			} else if (!commandPrompt.isUniqueUsername(collect.trim())) {
+			} else if (!commandPrompt.isUniqueUser(collect.trim())) {
 				System.out.println("Can't add user: duplicate username.");
 			}
 

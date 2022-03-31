@@ -19,7 +19,7 @@ public class CommandPrompt {
 	private User currentUser;
 	private String file;
 	private int numUsers = 0;
-	private ArrayList<String> usernameList;
+	private ArrayList<User> userList;
 	
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
@@ -29,6 +29,7 @@ public class CommandPrompt {
 		currentUser = new User("fakeUser", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
+		loadExistantUsers();
 	}
 	
 	public int run() {
@@ -56,13 +57,16 @@ public class CommandPrompt {
 	public void loadExistantUsers() {
 		// https://www.journaldev.com/709/java-read-file-line-by-line
 		try {
-			usernameList = new ArrayList<String>();
+			userList = new ArrayList<User>();
 			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
 			String line = csvBufferedReader.readLine();
 			
 			while (line != null) {
 				String[] entries = line.split(",");
-				if (entries[0] != "") { usernameList.add(entries[0]); }
+
+				// user indices temporarily set to 0
+				if (entries[0] != "") { userList.add(new User(entries[0], 0)); }
+				
 				line = csvBufferedReader.readLine();
 			}
 		} catch(Exception ex) {
@@ -148,6 +152,13 @@ public class CommandPrompt {
 	public User getCurrentUser() {
 		return currentUser;
 	}
+	
+	public User getUser(String username) {
+		for (User user : this.userList) {
+			if (user.getName().equals(username)) { return user; }
+		}
+		return null;
+	}
 
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
@@ -161,8 +172,8 @@ public class CommandPrompt {
 		this.file = file;
 	}
 
-	public ArrayList<String> getUsers() {
-		return this.usernameList;
+	public ArrayList<User> getUsers() {
+		return this.userList;
 	}
 	
 	public int getNumUsers() {
@@ -173,7 +184,15 @@ public class CommandPrompt {
 		this.numUsers = numUsers;
 	}
 
-	public boolean isUniqueUsername(String username) {
-		return !(this.usernameList.contains(username));
+	public boolean isUniqueUser(String username) {
+		for (User user : this.userList) {
+			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
+			if (username.equals(user.getName())) { return false; }
+		}
+		return true;
+	}
+	
+	public boolean containsUser(String username) {
+		return !(this.isUniqueUser(username));
 	}
 }

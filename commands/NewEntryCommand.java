@@ -43,7 +43,7 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int execute(String executionMod) {
-		//Ex of command: "newEntry run 500 09/20/2020"
+		//Ex of command: "NewEntry run 500 09/20/2020"
 		//Ex of fileEntry: "03/10/2022 WALK(2) RUN(3) ATE(2200)"
 		System.out.println("Executing NewEntryCommand");
 		
@@ -194,7 +194,7 @@ public class NewEntryCommand extends AbstractCommand{
 	@Override
 	public int helpMessage() {
 		// TODO Auto-generated method stub
-		System.out.println("Format: newEntry [activity-name] [amount] [date-mm/dd/yyyy]");
+		System.out.println("Format: NewEntry [activity-name] [amount] [date-mm/dd/yyyy]");
 		return 0;
 	}
 }
