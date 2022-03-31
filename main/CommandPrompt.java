@@ -33,13 +33,10 @@ public class CommandPrompt {
 	
 	public int run() {
 		startUpMessage();
-		
 		scanner = new Scanner(System.in);
 
 		while (true) {
-
 			promptUser();
-
 			gatherUserInput();
 			
 			if (Objects.equals(userInput, "quit")) {
@@ -193,5 +190,16 @@ public class CommandPrompt {
 	
 	public boolean containsUser(String username) {
 		return !(this.isUniqueUser(username));
+	}
+	
+	public boolean deleteUser(String username) {
+		for (int i = 0; i < this.userList.size(); ++i) {
+			if (userList.get(i).getName().equals(username)) {
+				userList.remove(i);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
