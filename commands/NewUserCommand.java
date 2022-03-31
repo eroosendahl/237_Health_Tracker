@@ -41,11 +41,12 @@ public class NewUserCommand extends AbstractCommand {
 		csvFileName = commandPrompt.getFile();
 		user = commandPrompt.getCurrentUser();
 		userName = user.getName();
-		
 		userName = executionMod;
 		
+		commandPrompt.loadExistantUsers();
+		
 		List<String> user = new LinkedList<String>();
-		user.add("\n" + userName);
+		user.add(userName + "\n"); // \n first or second?
 		try {
 			File outputFile = new File(csvFileName);
 			FileWriter data = new FileWriter(outputFile, true);

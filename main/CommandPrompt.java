@@ -52,7 +52,7 @@ public class CommandPrompt {
 		return endState.SUCCESS.value();
 	}
 
-	private void loadExistantUsers() {
+	public void loadExistantUsers() {
 		// https://www.journaldev.com/709/java-read-file-line-by-line
 		try {
 			usernameList = new ArrayList<String>();
@@ -61,7 +61,7 @@ public class CommandPrompt {
 			
 			while (line != null) {
 				String[] entries = line.split(",");
-				if (entries[0] != "") { usernameList.add("\n" + entries[0]); }
+				if (entries[0] != "") { usernameList.add(entries[0]); }
 				line = csvBufferedReader.readLine();
 			}
 		} catch(Exception ex) {
