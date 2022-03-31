@@ -52,7 +52,7 @@ public class NewUserCommand extends AbstractCommand {
 			FileWriter data = new FileWriter(outputFile, true);
 			String collect = user.stream().collect(Collectors.joining());
 			
-			if (commandPrompt.isUniqueUsername(collect)) { data.append(collect); }
+			if (commandPrompt.isUniqueUsername(collect.trim())) { data.append(collect); }
 			else { System.out.println("Duplicate username."); }
 
 			data.flush();
