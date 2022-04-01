@@ -84,11 +84,11 @@ public class DisplayEntryCommand extends AbstractCommand {
 		}
 	}
 
-	private void writeData(List<String> commandSeparatedData) {
+	private void writeData(List<String> commaSeparatedData) {
 		try {
 			BufferedWriter csvWriter = new BufferedWriter(new FileWriter(filename));
 			
-			for (String userData: commandSeparatedData) {
+			for (String userData: commaSeparatedData) {
 				csvWriter.write(userData + "\n");
 			}
 			csvWriter.flush();
