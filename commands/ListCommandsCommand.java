@@ -16,7 +16,7 @@ public class ListCommandsCommand extends AbstractCommand {
 
 	@Override
 	public int execute() {
-		commandPrompt.commandHelpList();
+		commandPrompt.listCommands();
 		return endState.SUCCESS.value();
 	}
 
