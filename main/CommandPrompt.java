@@ -125,7 +125,7 @@ public class CommandPrompt {
 
 	private void startUpMessage() {
 		System.out.println("CommandPrompt Running");
-		commandHelpList();
+		listCommands();
 	}
 
 	private void attemptCommandExecution() {
@@ -167,7 +167,7 @@ public class CommandPrompt {
 		}
 	}
 	
-	public void commandHelpList() {
+	public void listCommands() {
 		System.out.println("\nCommand List:");
 		commands.forEach((k,v) -> {
 			System.out.print("Command: " + k + " || Format: ");
