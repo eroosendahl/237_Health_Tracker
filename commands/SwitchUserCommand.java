@@ -41,4 +41,10 @@ public class SwitchUserCommand extends AbstractCommand {
 		System.out.println("switchUser [username]");
 		return 0;
 	}
+
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Switch current user to the input username.");
+		return 0;
+	}
 }

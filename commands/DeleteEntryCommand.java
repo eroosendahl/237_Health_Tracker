@@ -145,4 +145,10 @@ public class DeleteEntryCommand extends AbstractCommand {
 		return 0;
 	}
 
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Delete the entry at the given date.");
+		return 0;
+	}
+
 }

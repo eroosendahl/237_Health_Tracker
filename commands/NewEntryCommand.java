@@ -56,9 +56,11 @@ public class NewEntryCommand extends AbstractCommand{
 		if (commandSections.length != 3) {
 			System.out.println("There should be exactly 3 arguments.");
 		} else {
-			this.entryIdentifier = commandSections[0];
-			this.entryValue = commandSections[1];
-			this.entryDate = commandSections[2];
+
+			this.entryDate = commandSections[0];
+			this.entryIdentifier = commandSections[1];
+			this.entryValue = commandSections[2];
+			
 			
 			if (commandPrompt.isAlphaNumeric(entryIdentifier) && commandPrompt.isNumeric(entryValue)
 					&& commandPrompt.isValidDate(entryDate)) {
@@ -200,7 +202,13 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int formatMessage() {
-		System.out.println("newEntry [activity-name] [amount] [date-dd/mm/yyyy]");
+		System.out.println("newEntry [date-dd/mm/yyyy] [activity-name] [amount]");
+		return 0;
+	}
+
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Create a new entry on the given date with the given activity and amount.");
 		return 0;
 	}
 

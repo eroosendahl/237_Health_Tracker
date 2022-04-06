@@ -8,5 +8,6 @@ public abstract class AbstractCommand {
 	public abstract int execute();
 	public abstract int execute(String executionMod);
 	public abstract int formatMessage();
-
+	public abstract int desciptionMessage();
+	
 }
