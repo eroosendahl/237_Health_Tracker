@@ -27,7 +27,7 @@ public class ListCommandsCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("listCommands");
 		return 0;
 	}

@@ -33,7 +33,7 @@ public class ListUsersCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("listUsers");
 		return 0;
 	}

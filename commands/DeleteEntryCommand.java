@@ -140,7 +140,7 @@ public class DeleteEntryCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("deleteEntry [date-dd/mm/yyyy] <optional-activity-name>");
 		return 0;
 	}

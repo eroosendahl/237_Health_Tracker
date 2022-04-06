@@ -70,7 +70,7 @@ public class NewUserCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("newUser [new-username]");
 		return 0;
 	}

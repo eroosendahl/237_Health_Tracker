@@ -112,7 +112,7 @@ public class DisplayEntryCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("displayEntry <dd/mm/yyyy>");
 		return 0;
 	}
