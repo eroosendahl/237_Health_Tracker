@@ -38,4 +38,10 @@ public class ListUsersCommand extends AbstractCommand {
 		return 0;
 	}
 
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Lists all currently active users.");
+		return 0;
+	}
+
 }

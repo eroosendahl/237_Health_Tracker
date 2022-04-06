@@ -23,7 +23,13 @@ public class EchoCommand extends AbstractCommand {
 	@Override
 	public int formatMessage() {
 		// TODO Auto-generated method stub
-		System.out.println("echo [execution-mode]");
+		System.out.println("echo [message to repeat]");
+		return 0;
+	}
+
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Repeats user input.");
 		return 0;
 	}
 

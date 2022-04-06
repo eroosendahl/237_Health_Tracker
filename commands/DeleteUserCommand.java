@@ -74,4 +74,10 @@ public class DeleteUserCommand extends AbstractCommand {
 		System.out.println("DeleteUser [username]");
 		return 0;
 	}
+
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Delete the given user.");
+		return 0;
+	}
 }

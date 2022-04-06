@@ -32,4 +32,10 @@ public class ListCommandsCommand extends AbstractCommand {
 		return 0;
 	}
 
+	@Override
+	public int desciptionMessage() {
+		System.out.println("Lists available commands.");
+		return 0;
+	}
+
 }
