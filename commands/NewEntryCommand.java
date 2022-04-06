@@ -203,4 +203,10 @@ public class NewEntryCommand extends AbstractCommand{
 		System.out.println("newEntry [activity-name] [amount] [date-dd/mm/yyyy]");
 		return 0;
 	}
+
+	@Override
+	public int descriptionMessage() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
