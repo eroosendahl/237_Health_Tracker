@@ -28,7 +28,7 @@ public class EchoCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int desciptionMessage() {
+	public int descriptionMessage() {
 		System.out.println("Repeats user input.");
 		return 0;
 	}

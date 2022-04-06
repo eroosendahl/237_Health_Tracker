@@ -118,7 +118,7 @@ public class DisplayEntryCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int desciptionMessage() {
+	public int descriptionMessage() {
 		System.out.println("Display the entry at the given date for the current user.");
 		return 0;
 	}
