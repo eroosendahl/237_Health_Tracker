@@ -20,18 +20,18 @@ public class CommandPrompt {
 	private String file;
 	private int numUsers = 0;
 	private ArrayList<User> userList;
-	
+
 	public CommandPrompt() {
 		commands = new HashMap<String, AbstractCommand>();
 	}
-	
+
 	public CommandPrompt(String fileName) {
 		commands = new HashMap<String, AbstractCommand>();
 		file = fileName;
 		loadExistantUsers();
 		currentUser = userList.get(0);
 	}
-	
+
 	public int run() {
 		startUpMessage();
 		scanner = new Scanner(System.in);
@@ -40,17 +40,23 @@ public class CommandPrompt {
 			loadExistantUsers();
 			promptUser();
 			gatherUserInput();
-			
+
 			if (Objects.equals(userInput, "quit")) {
 				quit();
 				break;
 			}
+
+			if (userInput.equals("help")) {
+				listCommands(true);
+				userInput = "";
+			}
+
 			attemptCommandExecution();
 		}
 		scanner.close();
 		return endState.SUCCESS.value();
 	}
-	
+
 	public int switchActiveUser(String destinationUsername) {
 		for (User user: userList) {
 			if (user.getName().equals(destinationUsername)) {
@@ -68,13 +74,13 @@ public class CommandPrompt {
 			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
 			int row = 0;
 			String line = csvBufferedReader.readLine();
-			
+
 			while (line != null) {
 				String[] entries = line.split(",");
 
 				// user indices temporarily set to 0
 				if (entries[0] != "") { userList.add(new User(entries[0], row)); }
-				
+
 				row++;
 				line = csvBufferedReader.readLine();
 			}
@@ -84,18 +90,18 @@ public class CommandPrompt {
 			return endState.GENERAL_FAILURE.value();
 		}
 	}
-	
+
 	public boolean isNumeric(String myString) {
 		Pattern alphaNumeric = Pattern.compile("^[0-9]+$");
 		return alphaNumeric.matcher(myString).find();
 	}
-	
+
 	// https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
 	public boolean isAlphaNumeric(String myString) {
 		Pattern alphaNumeric = Pattern.compile("^[a-zA-Z0-9]+$");
 		return alphaNumeric.matcher(myString).find();
 	}
-	
+
 	public boolean isValidDate(String myString) {
 		int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -105,7 +111,7 @@ public class CommandPrompt {
 			int day = Integer.parseInt(myDate[0]);
 			int month = Integer.parseInt(myDate[1]);
 			int yyyy = Integer.parseInt(myDate[2]);
-			
+
 			if ((yyyy > 1900) && (yyyy < 2100) && (month >= 1) && (month <= 12) && (day >= 1)) {
 				if ((month == 2) && (yyyy % 4 == 0)) {
 					if (day <= 29) { return true; }
@@ -117,15 +123,15 @@ public class CommandPrompt {
 
 		return false;
 	}
-	
+
 	private void quit() {
 		System.out.println("Shutting down...");
-		
+
 	}
 
 	private void startUpMessage() {
 		System.out.println("CommandPrompt Running");
-		listCommands();
+		listCommands(true);
 	}
 
 	private void attemptCommandExecution() {
@@ -166,16 +172,29 @@ public class CommandPrompt {
 			userPrompted = true;
 		}
 	}
-	
-	public void listCommands() {
-		System.out.println("\nCommand List:");
-		commands.forEach((k,v) -> {
-			System.out.print("Command: " + k + " || Format: ");
-			v.formatMessage();
-		});	
-		System.out.println("Type 'quit' to quit.\n");
+
+	public void listCommands(boolean helpInfo) {
+		if (helpInfo == false) {
+			System.out.println("\nCommand List:\n");
+			commands.forEach((k,v) -> {
+				System.out.println(k);
+			});	
+			System.out.println();
+		}
+		else {
+			System.out.println("\nCommand Help List:");
+			commands.forEach((k,v) -> {
+				System.out.print("\n" + k + ": ");
+				v.descriptionMessage();
+				System.out.print("Input format: ");
+				v.formatMessage();
+			});	
+			System.out.println("\nType 'quit' to quit.");
+			System.out.println("Type 'help' for help.\n");
+		}
+
 	}
-	
+
 	public int addCommand(AbstractCommand command) {
 		AbstractCommand returned_command = commands.put(command.getName(), command);
 
@@ -190,7 +209,7 @@ public class CommandPrompt {
 	public User getCurrentUser() {
 		return currentUser;
 	}
-	
+
 	public User getUser(String username) {
 		for (User user : this.userList) {
 			if (user.getName().equals(username)) { return user; }
@@ -213,7 +232,7 @@ public class CommandPrompt {
 	public ArrayList<User> getUsers() {
 		return this.userList;
 	}
-	
+
 	public int getNumUsers() {
 		return numUsers;
 	}
@@ -226,14 +245,14 @@ public class CommandPrompt {
 	 * This is poorly named - it's actually going through the list and returning false if there is a user in the list with the matching name.
 	 * Should be alreadyContainsUsername(String username) or something.
 	 */
-//	public boolean isUniqueUser(String username) {
-//		for (User user : this.userList) {
-//			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
-//			if (username.equals(user.getName())) { return false; }
-//		}
-//		return true;
-//	}
-	
+	//	public boolean isUniqueUser(String username) {
+	//		for (User user : this.userList) {
+	//			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
+	//			if (username.equals(user.getName())) { return false; }
+	//		}
+	//		return true;
+	//	}
+
 	public boolean containsUser(String username) {
 		for (User user : this.userList) {
 			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
@@ -241,7 +260,7 @@ public class CommandPrompt {
 		}
 		return false;
 	}
-	
+
 	public boolean deleteUser(String username) {
 		for (int i = 0; i < this.userList.size(); ++i) {
 			if (userList.get(i).getName().equals(username)) {
@@ -249,7 +268,7 @@ public class CommandPrompt {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }
