@@ -16,25 +16,33 @@ public class ListCommandsCommand extends AbstractCommand {
 
 	@Override
 	public int execute() {
-		commandPrompt.listCommands();
+		System.out.println("Listing commands without help info:");
+		commandPrompt.listCommands(false);
 		return endState.SUCCESS.value();
 	}
 
 	@Override
 	public int execute(String executionMod) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (executionMod.equals("-help")) {
+			System.out.println("Listing commands WITH help info");
+			commandPrompt.listCommands(true);
+			return endState.SUCCESS.value();
+		}
+		else {
+			System.out.println("Incorrect command arg");
+			return endState.GENERAL_FAILURE.value();
+		}
 	}
 
 	@Override
 	public int formatMessage() {
-		System.out.println("listCommands");
+		System.out.println("listCommands <-h>");
 		return 0;
 	}
 
 	@Override
 	public int descriptionMessage() {
-		System.out.println("Lists available commands.");
+		System.out.println("Lists available commands.  Include -h for more info on commands.");
 		return 0;
 	}
 
