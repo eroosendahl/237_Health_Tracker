@@ -70,7 +70,7 @@ public class DeleteUserCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("DeleteUser [username]");
 		return 0;
 	}

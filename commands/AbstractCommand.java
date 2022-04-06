@@ -7,6 +7,6 @@ public abstract class AbstractCommand {
 	public String getName() { return name; }
 	public abstract int execute();
 	public abstract int execute(String executionMod);
-	public abstract int helpMessage();
+	public abstract int formatMessage();
 
 }

@@ -171,7 +171,7 @@ public class CommandPrompt {
 		System.out.println("\nCommand List:");
 		commands.forEach((k,v) -> {
 			System.out.print("Command: " + k + " || Format: ");
-			v.helpMessage();
+			v.formatMessage();
 		});	
 		System.out.println("Type 'quit' to quit.\n");
 	}

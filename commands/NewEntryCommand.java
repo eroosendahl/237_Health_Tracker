@@ -199,7 +199,7 @@ public class NewEntryCommand extends AbstractCommand{
 	}
 
 	@Override
-	public int helpMessage() {
+	public int formatMessage() {
 		System.out.println("newEntry [activity-name] [amount] [date-dd/mm/yyyy]");
 		return 0;
 	}
