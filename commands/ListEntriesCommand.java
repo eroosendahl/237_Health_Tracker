@@ -61,13 +61,13 @@ public class ListEntriesCommand extends AbstractCommand {
 
 	@Override
 	public int formatMessage() {
-		// TODO Auto-generated method stub
+		System.out.println("listEntries");
 		return 0;
 	}
 
 	@Override
 	public int descriptionMessage() {
-		// TODO Auto-generated method stub
+		System.out.println("Lists all current (dated) entries for the currentUser.");
 		return 0;
 	}
 
