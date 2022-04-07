@@ -44,19 +44,22 @@ public class CommandPromptTests {
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(newOut));
 		
-		expectedOutput = 
-				"Found already existing file.\r\n"
-				+ "CommandPrompt Running\r\n"
-				+ "Type 'quit' to quit or 'help' for help.\n\r\n"
-				+ "Erik enter command.\r\n"
-				+ expression + "\r\n"
-				+ "Erik enter command.\r\n"
-				+ "Shutting down...\r\n";
+		expectedOutput = expectedOutputFromEcho(expression);
 		commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("echo "+ expression + "\nquit"));
 		EchoCommand echo = new EchoCommand();
 		commandPrompt.addCommand(echo);
 		commandPrompt.run();
 		receivedOutput = newOut.toString();
+	}
+	
+	String expectedOutputFromEcho(String expressionToEcho) {
+		return "Found already existing file.\r\n"
+				+ "CommandPrompt Running\r\n"
+				+ "Type 'quit' to quit or 'help' for help.\n\r\n"
+				+ "Erik enter command.\r\n"
+				+ expressionToEcho + "\r\n"
+				+ "Erik enter command.\r\n"
+				+ "Shutting down...\r\n";
 	}
 
 	@After
