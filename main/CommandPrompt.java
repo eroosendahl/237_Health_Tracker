@@ -1,7 +1,12 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -9,6 +14,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import commands.AbstractCommand;
+import commands.NewUserCommand;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
@@ -17,7 +23,7 @@ public class CommandPrompt {
 	private Scanner scanner;
 	private String userInput = "";
 	private User currentUser;
-	private String file;
+	private String filename;
 	private int numUsers = 0;
 	private ArrayList<User> userList;
 
@@ -27,14 +33,18 @@ public class CommandPrompt {
 
 	public CommandPrompt(String fileName) {
 		commands = new HashMap<String, AbstractCommand>();
-		file = fileName;
+		filename = fileName;
+		scanner = new Scanner(System.in);
+		findFile();
 		loadExistantUsers();
+		while (userList.isEmpty()) {
+			gatherInitialUser();
+		}
 		currentUser = userList.get(0);
 	}
 
 	public int run() {
 		startUpMessage();
-		scanner = new Scanner(System.in);
 
 		while (true) {
 			loadExistantUsers();
@@ -53,8 +63,65 @@ public class CommandPrompt {
 
 			attemptCommandExecution();
 		}
-		scanner.close();
 		return endState.SUCCESS.value();
+	}
+
+	public int findFile() {
+		File file = new File(filename);
+
+		try {
+			boolean createdNewFile = file.createNewFile();
+			if (createdNewFile) {
+				System.out.println("Created new file.");
+			}
+			else {
+				System.out.println("Found already existing file.");
+			}
+
+			if (!file.exists()) {
+				System.out.println("File still doesn't exist!");
+				return endState.GENERAL_FAILURE.value();
+			}
+
+			return endState.SUCCESS.value();
+		} catch (IOException e) {
+			System.out.println("createNewFile() failed");
+			e.printStackTrace();
+			return endState.GENERAL_FAILURE.value();
+		}
+	}
+
+	public int gatherInitialUser() {
+		scanner = new Scanner(System.in);
+		String newUsername = null;
+
+		System.out.println("Please input a username:");
+
+		if (scanner.hasNext()) {
+			newUsername = scanner.nextLine();
+		}
+		
+		if (newUsername.length() > 0 && isAlphaNumeric(newUsername)) {
+			System.out.println("Successfully created initial user.");
+			User newUser = new User(newUsername, 0);
+			userList.add(newUser);
+			currentUser = newUser;
+			
+			try {
+				BufferedWriter csvWriter = new BufferedWriter(new FileWriter(filename));
+				csvWriter.write(newUsername);
+				csvWriter.close();
+			} catch (IOException e) {
+				System.out.println("Failed to write initial user to empty file.");
+				e.printStackTrace();
+			}
+			
+			
+			return endState.SUCCESS.value();
+		}
+		
+		System.out.println("Failed to create initial user from user input.");
+		return endState.GENERAL_FAILURE.value();
 	}
 
 	public int switchActiveUser(String destinationUsername) {
@@ -71,7 +138,7 @@ public class CommandPrompt {
 		// https://www.journaldev.com/709/java-read-file-line-by-line
 		try {
 			userList = new ArrayList<User>();
-			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.file));
+			BufferedReader csvBufferedReader = new BufferedReader(new FileReader(this.filename));
 			int row = 0;
 			String line = csvBufferedReader.readLine();
 
@@ -222,11 +289,11 @@ public class CommandPrompt {
 	}
 
 	public String getFile() {
-		return file;
+		return filename;
 	}
 
 	public void setFile(String file) {
-		this.file = file;
+		this.filename = file;
 	}
 
 	public ArrayList<User> getUsers() {
