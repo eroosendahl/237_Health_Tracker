@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -26,15 +27,14 @@ public class CommandPrompt {
 	private String filename;
 	private int numUsers = 0;
 	private ArrayList<User> userList;
+	private final BufferedReader inputReader;
 
-	public CommandPrompt() {
-		commands = new HashMap<String, AbstractCommand>();
-	}
-
-	public CommandPrompt(String fileName) {
+	public CommandPrompt(String fileName, Reader inputSource) {
+		inputReader = new BufferedReader(inputSource);
+		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
 		filename = fileName;
-		scanner = new Scanner(System.in);
+		
 		findFile();
 		loadExistantUsers();
 		while (userList.isEmpty()) {
@@ -42,6 +42,8 @@ public class CommandPrompt {
 		}
 		currentUser = userList.get(0);
 	}
+	
+	
 
 	public int run() {
 		startUpMessage();
@@ -198,7 +200,8 @@ public class CommandPrompt {
 
 	private void startUpMessage() {
 		System.out.println("CommandPrompt Running");
-		listCommands(true);
+		System.out.println("Type 'quit' to quit or 'help' for help.\n");
+		//listCommands(true);
 	}
 
 	private void attemptCommandExecution() {

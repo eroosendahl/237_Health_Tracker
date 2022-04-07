@@ -1,5 +1,7 @@
 package main;
 
+import java.io.InputStreamReader;
+
 import commands.AbstractCommand;
 import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
@@ -15,7 +17,7 @@ import commands.SwitchUserCommand;
 
 public class HealthTracker {
 	public static void main(String args[]) {
-		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv");
+		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv", new InputStreamReader(System.in));
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
