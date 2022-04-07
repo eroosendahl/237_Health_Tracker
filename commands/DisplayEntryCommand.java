@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class DisplayEntryCommand extends AbstractCommand {
@@ -32,7 +33,7 @@ public class DisplayEntryCommand extends AbstractCommand {
 		filename = commandPrompt.getFile();
 		String entryDate = executionMod;
 
-		if (!verifyInput(entryDate)) {
+		if (!HealthTrackerGeneralVariables.isDateFormat(entryDate)) {
 			System.out.println("Bad date format.");
 			return endState.GENERAL_FAILURE.value();
 		}
