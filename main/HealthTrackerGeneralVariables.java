@@ -17,5 +17,11 @@ public class HealthTrackerGeneralVariables {
 		// easily confusable with default "enum.values()"
 		public int value() { return value; }
 	}
+	
+	public static boolean isDateFormat(String date) {
+		if (date.length() != 10 || date.indexOf("/") != 2 || date.lastIndexOf("/") != 5)
+			return false;
+		return true;
+	}
 
 }
