@@ -38,7 +38,6 @@ class NewUserTest {
 		File actualCSV = new File("test.csv");
 		assertTrue(actualCSV.equals(expectedCSV));
 		actualCSV = expectedCSV;
-		
 	
 	}
 	
