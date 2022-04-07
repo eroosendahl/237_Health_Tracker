@@ -338,4 +338,18 @@ public class CommandPrompt {
 
 		return false;
 	}
+	
+	public void printSupportedHealthStats() {
+		HashMap<String, String> supportedStats = new HashMap<String, String>();
+		supportedStats.put("run", "running");
+		supportedStats.put("med", "meditation");
+		supportedStats.put("run", "running");
+		supportedStats.put("stdy", "studying");
+		supportedStats.put("cal", "calories consumed");
+		supportedStats.put("water", "water drank");
+		supportedStats.forEach((key, value) -> {
+			System.out.println(key+ " : " + value);
+		});
+		
+	}
 }

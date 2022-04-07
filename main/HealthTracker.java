@@ -7,6 +7,7 @@ import commands.DisplayEntryCommand;
 import commands.EchoCommand;
 import commands.ListCommandsCommand;
 import commands.ListEntriesCommand;
+import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
@@ -25,6 +26,7 @@ public class HealthTracker {
 		AbstractCommand deleteEntryCommand = new DeleteEntryCommand(commandPrompt);
 		AbstractCommand displayEntryCommand = new DisplayEntryCommand(commandPrompt);
 		AbstractCommand listEntriesCommand = new ListEntriesCommand(commandPrompt);
+		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
 
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
@@ -36,6 +38,7 @@ public class HealthTracker {
 		commandPrompt.addCommand(deleteEntryCommand);
 		commandPrompt.addCommand(displayEntryCommand);
 		commandPrompt.addCommand(listEntriesCommand);
+		commandPrompt.addCommand(listStatsCommand);
 		
 		commandPrompt.run();
 	}
