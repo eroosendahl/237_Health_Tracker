@@ -30,11 +30,6 @@ public class CommandPromptTests {
 	}
 
 	@Test
-	void fakeTest() {
-		assertTrue(true);
-	}
-
-	@Test
 	void testCommandExecution() throws UnsupportedEncodingException {
 		String expectedOutput = 
 				"Found already existing file.\r\n"
