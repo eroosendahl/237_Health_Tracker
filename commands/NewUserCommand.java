@@ -40,6 +40,8 @@ public class NewUserCommand extends AbstractCommand {
 		
 		csvFileName = commandPrompt.getFile();
 		user = commandPrompt.getCurrentUser();
+		user.setRow(commandPrompt.getNumUsers());
+		user.setCurrentColumn(0);
 		userName = user.getName();
 		userName = executionMod;
 		

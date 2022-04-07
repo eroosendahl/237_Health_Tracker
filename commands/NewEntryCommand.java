@@ -119,6 +119,8 @@ public class NewEntryCommand extends AbstractCommand{
 		BufferedWriter csvBufferedWriter = new BufferedWriter(csvWriter);
 
 		for (String csvLine : lines) { csvBufferedWriter.write(csvLine + "\n"); }
+		int prevColumn = commandPrompt.getCurrentUser().getCurrentColumn();
+		commandPrompt.getCurrentUser().setCurrentColumn(prevColumn+1);
 		csvBufferedWriter.flush();
 		csvBufferedWriter.close();
 	}

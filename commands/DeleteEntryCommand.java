@@ -135,6 +135,8 @@ public class DeleteEntryCommand extends AbstractCommand {
 		BufferedWriter csvBufferedWriter = new BufferedWriter(csvWriter);
 		
 		for (String csvLine : modifiedLines) { csvBufferedWriter.write(csvLine + "\n"); }
+		int prevColumn = commandPrompt.getCurrentUser().getCurrentColumn();
+		commandPrompt.getCurrentUser().setCurrentColumn(prevColumn-1);
 		csvBufferedWriter.flush();
 		csvBufferedWriter.close();
 	}

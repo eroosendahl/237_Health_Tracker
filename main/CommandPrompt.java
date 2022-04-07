@@ -329,13 +329,17 @@ public class CommandPrompt {
 	}
 
 	public boolean deleteUser(String username) {
+		boolean found = false;
 		for (int i = 0; i < this.userList.size(); ++i) {
 			if (userList.get(i).getName().equals(username)) {
 				userList.remove(i);
-				return true;
+				found=true;
+			}
+			if(found) {
+				int prevRow = userList.get(i).getRow();
+				userList.get(i).setRow(prevRow - 1);
 			}
 		}
-
-		return false;
+		return found;
 	}
 }
