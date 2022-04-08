@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import commands.AbstractCommand;
 import commands.DeleteUserCommand;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -132,6 +134,19 @@ public class CommandPromptTests {
 				});
 			}
 		};
+	}
+	
+	@Test
+	void testQuit() {
+		String expectedQuitMessage = "Shutting down...";
+		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(newOut));
+		
+		commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("quit"));
+		commandPrompt.run();
+		
+		receivedOutput = newOut.toString();
+		assertTrue(receivedOutput.contains(expectedQuitMessage));
 	}
 
 	@After
