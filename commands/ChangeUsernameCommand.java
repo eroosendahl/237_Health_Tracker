@@ -108,15 +108,13 @@ public class ChangeUsernameCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public int formatMessage() {
-		System.out.println("changeUsername [new-username]");
-		return 0;
+	public String formatMessage() {
+		return "changeUsername [new-username]";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Updates current user to the given username.");
-		return 0;
+	public String descriptionMessage() {
+		return "Updates current user to the given username.";
 	}
 	
 }

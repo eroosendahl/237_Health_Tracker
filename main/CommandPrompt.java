@@ -28,16 +28,20 @@ public class CommandPrompt {
 	private int numUsers = 0;
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
-	
+	HashMap<String, String> supportedStats;
+
 	public CommandPrompt(User primaryUser) {
 		inputReader = null;
 		userList = new ArrayList<User>();
 		userList.add(primaryUser);
 		currentUser = userList.get(0);
 		commands = new HashMap<String, AbstractCommand>();
+		initializeHealthStats();
 	}
 
 	public CommandPrompt(String fileName, Reader inputSource) {
+
+		initializeHealthStats();
 		inputReader = new BufferedReader(inputSource);
 		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
@@ -52,6 +56,7 @@ public class CommandPrompt {
 	}
 
 	public CommandPrompt(String fileName, Reader inputSource, List<AbstractCommand> commandsList) {
+		initializeHealthStats();
 		inputReader = new BufferedReader(inputSource);
 		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
@@ -62,7 +67,7 @@ public class CommandPrompt {
 			gatherInitialUser();
 		}
 		currentUser = userList.get(0);
-		
+
 		for (AbstractCommand command : commandsList) {
 			commands.put(command.getName(), command);
 		}
@@ -263,7 +268,7 @@ public class CommandPrompt {
 			return endState.GENERAL_FAILURE.value();
 		}
 	}
-	
+
 	public int addUser(User newUser) {
 		if (isUniqueUser(newUser.getName())) {
 			userList.add(newUser);
@@ -335,17 +340,19 @@ public class CommandPrompt {
 		return false;
 	}
 
-	public void printSupportedHealthStats() {
-		HashMap<String, String> supportedStats = new HashMap<String, String>();
+	public void initializeHealthStats() {
+		supportedStats = new HashMap<String, String>();
 		supportedStats.put("run", "running");
 		supportedStats.put("med", "meditation");
 		supportedStats.put("run", "running");
 		supportedStats.put("stdy", "studying");
 		supportedStats.put("cal", "calories consumed");
 		supportedStats.put("water", "water drank");
+	}
+
+	public void printSupportedHealthStats() {
 		supportedStats.forEach((key, value) -> {
 			System.out.println(key+ " : " + value);
 		});
-
 	}
 }
