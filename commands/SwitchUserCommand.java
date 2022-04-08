@@ -37,14 +37,12 @@ public class SwitchUserCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("switchUser [username]");
-		return 0;
+	public String formatMessage() {
+		return "switchUser [username]";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Switch current user to the input username.");
-		return 0;
+	public String descriptionMessage() {
+		return "Switch current user to the input username.";
 	}
 }

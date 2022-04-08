@@ -235,10 +235,9 @@ public class CommandPrompt {
 		else {
 			System.out.println("\nCommand Help List:");
 			commands.forEach((k,v) -> {
-				System.out.print("\n" + k + ": ");
-				v.descriptionMessage();
-				System.out.print("Input format: ");
-				v.formatMessage();
+				System.out.println("\n" + k);
+				System.out.println(v.descriptionMessage());
+				System.out.println("Input format: " + v.formatMessage());
 			});	
 			System.out.println("\nType 'quit' to quit.");
 			System.out.println("Type 'help' for help.\n");

@@ -70,14 +70,12 @@ public class DeleteUserCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("DeleteUser [username]");
-		return 0;
+	public String formatMessage() {
+		return "DeleteUser [username]";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Delete the given user.");
-		return 0;
+	public String descriptionMessage() {
+		return "Delete the given user.";
 	}
 }

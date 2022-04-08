@@ -60,15 +60,13 @@ public class ListEntriesCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("listEntries");
-		return 0;
+	public String formatMessage() {
+		return "listEntries";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Lists all current (dated) entries for the currentUser.");
-		return 0;
+	public String descriptionMessage() {
+		return "Lists all current (dated) entries for the currentUser.";
 	}
 
 }

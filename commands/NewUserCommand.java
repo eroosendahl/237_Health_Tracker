@@ -71,14 +71,12 @@ public class NewUserCommand extends AbstractCommand {
 	}
 	
 	@Override
-	public int formatMessage() {
-		System.out.println("newUser [new-username]");
-		return 0;
+	public String formatMessage() {
+		return "newUser [new-username]";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Creates a user with the given username.");
-		return 0;
+	public String descriptionMessage() {
+		return "Creates a user with the given username.";
 	}
 }

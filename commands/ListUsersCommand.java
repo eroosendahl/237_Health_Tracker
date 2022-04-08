@@ -33,15 +33,13 @@ public class ListUsersCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("listUsers");
-		return 0;
+	public String formatMessage() {
+		return "listUsers";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Lists all currently active users.");
-		return 0;
+	public String descriptionMessage() {
+		return "Lists all currently active users.";
 	}
 
 }

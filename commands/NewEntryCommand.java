@@ -202,16 +202,14 @@ public class NewEntryCommand extends AbstractCommand{
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("newEntry [date-dd/mm/yyyy] [activity-name] [amount]");
-		return 0;
+	public String formatMessage() {
+		return "newEntry [date-dd/mm/yyyy] [activity-name] [amount]";
 	}
 
 
 	@Override
-	public int descriptionMessage() {
+	public String descriptionMessage() {
 
-		System.out.println("Create a new entry on the given date with the given activity and amount.");
-		return 0;
+		return "Create a new entry on the given date with the given activity and amount.";
 	}
 }

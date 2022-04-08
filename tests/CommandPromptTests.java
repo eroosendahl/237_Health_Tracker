@@ -7,6 +7,8 @@ import commands.DeleteUserCommand;
 import commands.DisplayEntryCommand;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -77,7 +79,7 @@ public class CommandPromptTests {
 	@Test
 	void testListCommands() {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
-		int linesInOneCommandHelpMessage = 3;
+		int linesInOneCommandHelpMessage = 4;
 		int linesPrintedWithZeroCommands = 13;
 		
 		for (List<AbstractCommand> commandList : variedCommandLists) {
@@ -93,9 +95,15 @@ public class CommandPromptTests {
 			int expectedNumLinesPrinted = linesInOneCommandHelpMessage * numCommands;
 			
 			assertEquals(numLinesPrinted, expectedNumLinesPrinted);
+			
+			for (AbstractCommand command : commandList) {
+				assertTrue(receivedOutput.contains(command.descriptionMessage()));
+				assertTrue(receivedOutput.contains(command.formatMessage()));
+			}
 		}
 	}
 
+	@SuppressWarnings("serial")
 	private List<List<AbstractCommand>> getVariedCommandLists() {
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
