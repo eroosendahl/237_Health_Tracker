@@ -28,6 +28,11 @@ public class CommandPrompt {
 	private int numUsers = 0;
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
+	
+	public CommandPrompt(User primaryUser) {
+		inputReader = null;
+		currentUser = primaryUser;
+	}
 
 	public CommandPrompt(String fileName, Reader inputSource) {
 		inputReader = new BufferedReader(inputSource);
