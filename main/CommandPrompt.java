@@ -34,6 +34,7 @@ public class CommandPrompt {
 		userList = new ArrayList<User>();
 		userList.add(primaryUser);
 		currentUser = userList.get(0);
+		commands = new HashMap<String, AbstractCommand>();
 	}
 
 	public CommandPrompt(String fileName, Reader inputSource) {
