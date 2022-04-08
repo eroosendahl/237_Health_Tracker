@@ -31,7 +31,9 @@ public class CommandPrompt {
 	
 	public CommandPrompt(User primaryUser) {
 		inputReader = null;
-		currentUser = primaryUser;
+		userList = new ArrayList<User>();
+		userList.add(primaryUser);
+		currentUser = userList.get(0);
 	}
 
 	public CommandPrompt(String fileName, Reader inputSource) {
@@ -260,6 +262,14 @@ public class CommandPrompt {
 		else {
 			return endState.GENERAL_FAILURE.value();
 		}
+	}
+	
+	public int addUser(User newUser) {
+		if (isUniqueUser(newUser.getName())) {
+			userList.add(newUser);
+			return endState.SUCCESS.value();
+		}
+		return endState.GENERAL_FAILURE.value();
 	}
 
 	public User getCurrentUser() {

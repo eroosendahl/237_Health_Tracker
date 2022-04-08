@@ -78,19 +78,19 @@ public class CommandPromptTests {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
 		int linesInOneCommandHelpMessage = 3;
 		int linesPrintedWithZeroCommands = 13;
-		
+
 		for (List<AbstractCommand> commandList : variedCommandLists) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 			System.setOut(new PrintStream(newOut));
 			commandPrompt = new CommandPrompt(testFileName, new StringReader("help\nquit"), commandList);
 			commandPrompt.run();
 			receivedOutput = newOut.toString();
-			
+
 			String[] lines = receivedOutput.split("\r\n|\r|\n");
 			int numLinesPrinted = lines.length - linesPrintedWithZeroCommands;
 			int numCommands = commandList.size();
 			int expectedNumLinesPrinted = linesInOneCommandHelpMessage * numCommands;
-			
+
 			assertEquals(numLinesPrinted, expectedNumLinesPrinted);
 		}
 	}
@@ -138,35 +138,51 @@ public class CommandPromptTests {
 			}
 		};
 	}
-	
+
 	@Test
 	void testQuit() {
 		String expectedQuitMessage = "Shutting down...";
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(newOut));
-		
+
 		commandPrompt = new CommandPrompt(testFileName, new StringReader("quit"));
 		commandPrompt.run();
-		
+
 		receivedOutput = newOut.toString();
 		assertTrue(receivedOutput.contains(expectedQuitMessage));
 	}
-	
+
 	@Test
 	void testGetUser() {
 		User originalUser = new User("originalUser", 0);
 		commandPrompt = new CommandPrompt(originalUser);
 		User receivedUser = commandPrompt.getCurrentUser();
-		
+
 		assertNotNull(receivedUser);
 		assertEquals(originalUser, receivedUser);
 	}
-	
+
 	@Test
 	void testGetFile() {
 		String receivedFileName = commandPrompt.getFile();
 		assertNotNull(receivedFileName);
 		assertEquals(receivedFileName, testFileName);
+	}
+
+	@Test
+	void testSwitchUser() {
+		User originalUser = new User("originalUser", 0);
+		commandPrompt = new CommandPrompt(originalUser);
+
+		User secondUser = new User("secondUser", 1);
+		commandPrompt.addUser(secondUser);
+
+		commandPrompt.switchActiveUser(secondUser.getName());
+
+		User receivedUser = commandPrompt.getCurrentUser();
+
+		assertNotNull(receivedUser);
+		assertEquals(secondUser, receivedUser);
 	}
 
 	@After

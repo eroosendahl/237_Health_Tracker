@@ -27,6 +27,7 @@ public class SwitchUserCommand extends AbstractCommand {
 //		return 0;
 //	}  
 	
+	@Override
 	public int execute(String executionMod) {
 		System.out.println("Executing SwitchUserCommand");
 		if(commandPrompt.switchActiveUser(executionMod) != endState.SUCCESS.value()) {
