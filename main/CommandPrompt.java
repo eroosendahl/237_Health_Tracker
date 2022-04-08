@@ -10,9 +10,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import commands.AbstractCommand;
 import commands.NewUserCommand;
@@ -34,7 +34,7 @@ public class CommandPrompt {
 		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
 		filename = fileName;
-		
+
 		findFile();
 		loadExistantUsers();
 		while (userList.isEmpty()) {
@@ -42,8 +42,25 @@ public class CommandPrompt {
 		}
 		currentUser = userList.get(0);
 	}
-	
-	
+
+	public CommandPrompt(String fileName, Reader inputSource, List<AbstractCommand> commandsList) {
+		inputReader = new BufferedReader(inputSource);
+		scanner = new Scanner(inputReader);
+		commands = new HashMap<String, AbstractCommand>();
+		filename = fileName;
+		findFile();
+		loadExistantUsers();
+		while (userList.isEmpty()) {
+			gatherInitialUser();
+		}
+		currentUser = userList.get(0);
+		
+		for (AbstractCommand command : commandsList) {
+			commands.put(command.getName(), command);
+		}
+	}
+
+
 
 	public int run() {
 		startUpMessage();
@@ -96,19 +113,18 @@ public class CommandPrompt {
 	public int gatherInitialUser() {
 		scanner = new Scanner(System.in);
 		String newUsername = null;
-
 		System.out.println("Please input a username:");
 
 		if (scanner.hasNext()) {
 			newUsername = scanner.nextLine();
 		}
-		
-		if (newUsername.length() > 0 && isAlphaNumeric(newUsername)) {
+
+		if (newUsername.length() > 0 && HealthTrackerGeneralVariables.isAlphaNumeric(newUsername)) {
 			System.out.println("Successfully created initial user.");
 			User newUser = new User(newUsername, 0);
 			userList.add(newUser);
 			currentUser = newUser;
-			
+
 			try {
 				BufferedWriter csvWriter = new BufferedWriter(new FileWriter(filename));
 				csvWriter.write(newUsername);
@@ -117,11 +133,9 @@ public class CommandPrompt {
 				System.out.println("Failed to write initial user to empty file.");
 				e.printStackTrace();
 			}
-			
-			
 			return endState.SUCCESS.value();
 		}
-		
+
 		System.out.println("Failed to create initial user from user input.");
 		return endState.GENERAL_FAILURE.value();
 	}
@@ -158,39 +172,6 @@ public class CommandPrompt {
 			ex.printStackTrace();
 			return endState.GENERAL_FAILURE.value();
 		}
-	}
-
-	public boolean isNumeric(String myString) {
-		Pattern alphaNumeric = Pattern.compile("^[0-9]+$");
-		return alphaNumeric.matcher(myString).find();
-	}
-
-	// https://www.techiedelight.com/check-string-contains-alphanumeric-characters-java/
-	public boolean isAlphaNumeric(String myString) {
-		Pattern alphaNumeric = Pattern.compile("^[a-zA-Z0-9]+$");
-		return alphaNumeric.matcher(myString).find();
-	}
-
-	public boolean isValidDate(String myString) {
-		int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-		Pattern datePattern = Pattern.compile("^[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}$");
-		if (datePattern.matcher(myString).find()) {
-			String[] myDate = myString.split("\\/");
-			int day = Integer.parseInt(myDate[0]);
-			int month = Integer.parseInt(myDate[1]);
-			int yyyy = Integer.parseInt(myDate[2]);
-
-			if ((yyyy > 1900) && (yyyy < 2100) && (month >= 1) && (month <= 12) && (day >= 1)) {
-				if ((month == 2) && (yyyy % 4 == 0)) {
-					if (day <= 29) { return true; }
-				} else {
-					if (day <= days[month]) { return true; }
-				}
-			}
-		}
-
-		return false;
 	}
 
 	private void quit() {
@@ -311,17 +292,14 @@ public class CommandPrompt {
 		this.numUsers = numUsers;
 	}
 
-	/*
-	 * This is poorly named - it's actually going through the list and returning false if there is a user in the list with the matching name.
-	 * Should be alreadyContainsUsername(String username) or something.
-	 */
-	//	public boolean isUniqueUser(String username) {
-	//		for (User user : this.userList) {
-	//			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
-	//			if (username.equals(user.getName())) { return false; }
-	//		}
-	//		return true;
-	//	}
+
+	public boolean isUniqueUser(String username) {
+		for (User user : this.userList) {
+			// https://stackoverflow.com/questions/513832/how-do-i-compare-strings-in-java
+			if (username.equals(user.getName())) { return false; }
+		}
+		return true;
+	}
 
 	public boolean containsUser(String username) {
 		for (User user : this.userList) {
@@ -341,7 +319,7 @@ public class CommandPrompt {
 
 		return false;
 	}
-	
+
 	public void printSupportedHealthStats() {
 		HashMap<String, String> supportedStats = new HashMap<String, String>();
 		supportedStats.put("run", "running");
@@ -353,6 +331,6 @@ public class CommandPrompt {
 		supportedStats.forEach((key, value) -> {
 			System.out.println(key+ " : " + value);
 		});
-		
+
 	}
 }
