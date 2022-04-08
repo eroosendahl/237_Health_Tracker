@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class NewEntryCommand extends AbstractCommand{
@@ -62,8 +63,8 @@ public class NewEntryCommand extends AbstractCommand{
 			this.entryValue = commandSections[2];
 
 
-			if (commandPrompt.isAlphaNumeric(entryIdentifier) && commandPrompt.isNumeric(entryValue)
-					&& commandPrompt.isValidDate(entryDate)) {
+			if (HealthTrackerGeneralVariables.isAlphaNumeric(entryIdentifier) && HealthTrackerGeneralVariables.isNumeric(entryValue)
+					&& HealthTrackerGeneralVariables.isValidDate(entryDate)) {
 				try {
 					readAndWriteCSV();
 				} catch(Exception ex) {
