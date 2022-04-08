@@ -27,15 +27,13 @@ package commands;
 		}
 
 		@Override
-		public int formatMessage() {
-			System.out.println("listStats");
-			return 0;
+		public String formatMessage() {
+			return "listStats";
 		}
 
 		@Override
-		public int descriptionMessage() {
-			System.out.println("Lists available stats.");
-			return 0;
+		public String descriptionMessage() {
+			return "Lists available stats.";
 		}
 
 	}

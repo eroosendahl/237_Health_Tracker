@@ -43,7 +43,6 @@ public class DisplayEntryCommand extends AbstractCommand {
 		try {
 			System.out.println(retreiveEntryFromDate(entryDate, previousData));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -73,12 +72,10 @@ public class DisplayEntryCommand extends AbstractCommand {
 			return "failed";
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("File failed to open.");
 			return "file not found";
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed to readLine()");
 			return "ioexception";
@@ -96,11 +93,9 @@ public class DisplayEntryCommand extends AbstractCommand {
 			csvWriter.close();
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed opening file for writing.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Failed opening file for writing.");
 		}
@@ -113,15 +108,13 @@ public class DisplayEntryCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("displayEntry <dd/mm/yyyy>");
-		return 0;
+	public String formatMessage() {
+		return "displayEntry <dd/mm/yyyy>";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Display the entry at the given date for the current user.");
-		return 0;
+	public String descriptionMessage() {
+		return "Display the entry at the given date for the current user.";
 	}
 
 

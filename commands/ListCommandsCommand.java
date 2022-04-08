@@ -35,15 +35,13 @@ public class ListCommandsCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int formatMessage() {
-		System.out.println("listCommands <-h>");
-		return 0;
+	public String formatMessage() {
+		return "listCommands <-h>";
 	}
 
 	@Override
-	public int descriptionMessage() {
-		System.out.println("Lists available commands.  Include -h for more info on commands.");
-		return 0;
+	public String descriptionMessage() {
+		return "Lists available commands.  Include -h for more info on commands.";
 	}
 
 }
