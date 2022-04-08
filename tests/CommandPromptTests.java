@@ -2,10 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import commands.AbstractCommand;
-import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
-import commands.DisplayEntryCommand;
-
 import static org.junit.Assert.assertNotEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,9 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import commands.EchoCommand;
-import commands.ListCommandsCommand;
-import commands.ListEntriesCommand;
-import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
