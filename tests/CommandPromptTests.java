@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import commands.AbstractCommand;
 import commands.DeleteUserCommand;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -25,17 +26,19 @@ import commands.NewUserCommand;
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
 import main.HealthTracker;
+import main.User;
 
 public class CommandPromptTests {
 	private CommandPrompt commandPrompt;
 	private final PrintStream oldOut = System.out;
+	String testFileName = "testUserInfo.csv";
 	String expectedOutput = "";
 	String receivedOutput = "";
 
 
 	@BeforeEach
 	void setup() {
-		commandPrompt = HealthTracker.createFullyFunctioningCommandPrompt("testUserInfo.csv", new InputStreamReader(System.in));
+		commandPrompt = HealthTracker.createFullyFunctioningCommandPrompt(testFileName, new InputStreamReader(System.in));
 	}
 
 	@Test
@@ -53,7 +56,7 @@ public class CommandPromptTests {
 		System.setOut(new PrintStream(newOut));
 
 		expectedOutput = expectedOutputFromEcho(expression);
-		commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("echo "+ expression + "\nquit"));
+		commandPrompt = new CommandPrompt(testFileName, new StringReader("echo "+ expression + "\nquit"));
 		EchoCommand echo = new EchoCommand();
 		commandPrompt.addCommand(echo);
 		commandPrompt.run();
@@ -79,7 +82,7 @@ public class CommandPromptTests {
 		for (List<AbstractCommand> commandList : variedCommandLists) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 			System.setOut(new PrintStream(newOut));
-			commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("help\nquit"), commandList);
+			commandPrompt = new CommandPrompt(testFileName, new StringReader("help\nquit"), commandList);
 			commandPrompt.run();
 			receivedOutput = newOut.toString();
 			
@@ -142,11 +145,28 @@ public class CommandPromptTests {
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(newOut));
 		
-		commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("quit"));
+		commandPrompt = new CommandPrompt(testFileName, new StringReader("quit"));
 		commandPrompt.run();
 		
 		receivedOutput = newOut.toString();
 		assertTrue(receivedOutput.contains(expectedQuitMessage));
+	}
+	
+	@Test
+	void testGetUser() {
+		User originalUser = new User("originalUser", 0);
+		commandPrompt = new CommandPrompt(originalUser);
+		User receivedUser = commandPrompt.getCurrentUser();
+		
+		assertNotNull(receivedUser);
+		assertEquals(originalUser, receivedUser);
+	}
+	
+	@Test
+	void testGetFile() {
+		String receivedFileName = commandPrompt.getFile();
+		assertNotNull(receivedFileName);
+		assertEquals(receivedFileName, testFileName);
 	}
 
 	@After
