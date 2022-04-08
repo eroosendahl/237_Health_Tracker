@@ -28,6 +28,14 @@ public class CommandPrompt {
 	private int numUsers = 0;
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
+	
+	public CommandPrompt(User primaryUser) {
+		inputReader = null;
+		userList = new ArrayList<User>();
+		userList.add(primaryUser);
+		currentUser = userList.get(0);
+		commands = new HashMap<String, AbstractCommand>();
+	}
 
 	public CommandPrompt(String fileName, Reader inputSource) {
 		inputReader = new BufferedReader(inputSource);
@@ -254,6 +262,14 @@ public class CommandPrompt {
 		else {
 			return endState.GENERAL_FAILURE.value();
 		}
+	}
+	
+	public int addUser(User newUser) {
+		if (isUniqueUser(newUser.getName())) {
+			userList.add(newUser);
+			return endState.SUCCESS.value();
+		}
+		return endState.GENERAL_FAILURE.value();
 	}
 
 	public User getCurrentUser() {

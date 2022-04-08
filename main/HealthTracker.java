@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import commands.AbstractCommand;
+import commands.ChangeUsernameCommand;
 import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
 import commands.DisplayEntryCommand;
@@ -30,7 +31,8 @@ public class HealthTracker {
 		AbstractCommand displayEntryCommand = new DisplayEntryCommand(commandPrompt);
 		AbstractCommand listEntriesCommand = new ListEntriesCommand(commandPrompt);
 		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
-
+		AbstractCommand changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
+		
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
 		commandPrompt.addCommand(newUserCommand);
@@ -42,6 +44,7 @@ public class HealthTracker {
 		commandPrompt.addCommand(displayEntryCommand);
 		commandPrompt.addCommand(listEntriesCommand);
 		commandPrompt.addCommand(listStatsCommand);
+		commandPrompt.addCommand(changeUsernameCommand);
 		
 		commandPrompt.run();
 	}
@@ -59,6 +62,7 @@ public class HealthTracker {
 		AbstractCommand displayEntryCommand = new DisplayEntryCommand(commandPrompt);
 		AbstractCommand listEntriesCommand = new ListEntriesCommand(commandPrompt);
 		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
+		AbstractCommand changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
 
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
@@ -71,6 +75,8 @@ public class HealthTracker {
 		commandPrompt.addCommand(displayEntryCommand);
 		commandPrompt.addCommand(listEntriesCommand);
 		commandPrompt.addCommand(listStatsCommand);
+		commandPrompt.addCommand(changeUsernameCommand);
+
 		
 		return commandPrompt;
 	}

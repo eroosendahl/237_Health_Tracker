@@ -2,11 +2,9 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 import commands.AbstractCommand;
-import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
-import commands.DisplayEntryCommand;
-
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -22,26 +20,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import commands.EchoCommand;
-import commands.ListCommandsCommand;
-import commands.ListEntriesCommand;
-import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
 import main.HealthTracker;
+import main.User;
 
 public class CommandPromptTests {
 	private CommandPrompt commandPrompt;
 	private final PrintStream oldOut = System.out;
+	String testFileName = "testUserInfo.csv";
 	String expectedOutput = "";
 	String receivedOutput = "";
 
 
 	@BeforeEach
 	void setup() {
-		commandPrompt = HealthTracker.createFullyFunctioningCommandPrompt("testUserInfo.csv", new InputStreamReader(System.in));
+		commandPrompt = HealthTracker.createFullyFunctioningCommandPrompt(testFileName, new InputStreamReader(System.in));
 	}
 
 	@Test
@@ -59,7 +56,7 @@ public class CommandPromptTests {
 		System.setOut(new PrintStream(newOut));
 
 		expectedOutput = expectedOutputFromEcho(expression);
-		commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("echo "+ expression + "\nquit"));
+		commandPrompt = new CommandPrompt(testFileName, new StringReader("echo "+ expression + "\nquit"));
 		EchoCommand echo = new EchoCommand();
 		commandPrompt.addCommand(echo);
 		commandPrompt.run();
@@ -81,19 +78,19 @@ public class CommandPromptTests {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
 		int linesInOneCommandHelpMessage = 4;
 		int linesPrintedWithZeroCommands = 13;
-		
+
 		for (List<AbstractCommand> commandList : variedCommandLists) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 			System.setOut(new PrintStream(newOut));
-			commandPrompt = new CommandPrompt("testUserInfo.csv", new StringReader("help\nquit"), commandList);
+			commandPrompt = new CommandPrompt(testFileName, new StringReader("help\nquit"), commandList);
 			commandPrompt.run();
 			receivedOutput = newOut.toString();
-			
+
 			String[] lines = receivedOutput.split("\r\n|\r|\n");
 			int numLinesPrinted = lines.length - linesPrintedWithZeroCommands;
 			int numCommands = commandList.size();
 			int expectedNumLinesPrinted = linesInOneCommandHelpMessage * numCommands;
-			
+
 			assertEquals(numLinesPrinted, expectedNumLinesPrinted);
 			
 			for (AbstractCommand command : commandList) {
@@ -146,6 +143,52 @@ public class CommandPromptTests {
 				});
 			}
 		};
+	}
+
+	@Test
+	void testQuit() {
+		String expectedQuitMessage = "Shutting down...";
+		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(newOut));
+
+		commandPrompt = new CommandPrompt(testFileName, new StringReader("quit"));
+		commandPrompt.run();
+
+		receivedOutput = newOut.toString();
+		assertTrue(receivedOutput.contains(expectedQuitMessage));
+	}
+
+	@Test
+	void testGetUser() {
+		User originalUser = new User("originalUser", 0);
+		commandPrompt = new CommandPrompt(originalUser);
+		User receivedUser = commandPrompt.getCurrentUser();
+
+		assertNotNull(receivedUser);
+		assertEquals(originalUser, receivedUser);
+	}
+
+	@Test
+	void testGetFile() {
+		String receivedFileName = commandPrompt.getFile();
+		assertNotNull(receivedFileName);
+		assertEquals(receivedFileName, testFileName);
+	}
+
+	@Test
+	void testSwitchUser() {
+		User originalUser = new User("originalUser", 0);
+		commandPrompt = new CommandPrompt(originalUser);
+
+		User secondUser = new User("secondUser", 1);
+		commandPrompt.addUser(secondUser);
+
+		commandPrompt.switchActiveUser(secondUser.getName());
+
+		User receivedUser = commandPrompt.getCurrentUser();
+
+		assertNotNull(receivedUser);
+		assertEquals(secondUser, receivedUser);
 	}
 
 	@After
