@@ -2,6 +2,7 @@ package main;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 
 import commands.AbstractCommand;
 import commands.ChangeUsernameCommand;
@@ -79,6 +80,26 @@ public class HealthTracker {
 
 		
 		return commandPrompt;
+	}
+	
+	@SuppressWarnings("serial")
+	public static ArrayList<AbstractCommand> getCurrentCommands(CommandPrompt cp) {
+		return new ArrayList<AbstractCommand>() {
+			{
+				add(new EchoCommand());
+				add(new NewEntryCommand(cp));
+				add(new SwitchUserCommand(cp));
+				add(new DeleteUserCommand(cp));
+				add(new ListUsersCommand(cp));
+				add(new ListCommandsCommand(cp));
+				add(new DeleteEntryCommand(cp));
+				add(new DisplayEntryCommand(cp));
+				add(new ListEntriesCommand(cp));
+				add(new ListStatsCommand(cp));
+				add(new ChangeUsernameCommand(cp));
+				
+			}
+		};
 	}
 	
 }
