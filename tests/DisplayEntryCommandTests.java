@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.junit.After;
@@ -25,23 +24,21 @@ public class DisplayEntryCommandTests {
 	PrintStream oldOut = System.out;
 	private String testDate = "01/01/2000";
 	
+	@SuppressWarnings("unused")
 	@Test
 	void testDisplayEntryCommand() throws IOException {
-		
-		
 		File testFile = new File("testUserInfo.csv");
 		boolean createdNewFile = testFile.createNewFile();
-		
 		CommandPrompt cp = new CommandPrompt();
 		List<AbstractCommand> testCommands = getTestCommands(cp);
 		cp = new CommandPrompt(testFile, testCommands);
+		
 		for (AbstractCommand command : cp.getCommands().values()) {
 			command.setCommandPrompt(cp);
 		}
 		
 		setupTestUsers(cp);
 		setupTestFileEntries(cp);
-		
 		
 		for (User user : cp.getUsers()) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
@@ -60,6 +57,7 @@ public class DisplayEntryCommandTests {
 	}
 	
 	
+	@SuppressWarnings("serial")
 	private List<AbstractCommand> getTestCommands(CommandPrompt cp) {
 		return new ArrayList<AbstractCommand>() {
 			{
@@ -73,19 +71,11 @@ public class DisplayEntryCommandTests {
 
 
 	private void setupTestFileEntries(CommandPrompt cp) {
-		//HashMap<User, List<String>> testUsersAndEntries = getTestUsersAndEntries();
-		
 		for (User user : cp.getUsers()) {
 			cp.switchActiveUser(user.getName());
 			cp.getCommands().get("newEntry").execute(testDate + " " + user.getName() + " 5");
 		}
-		
 	}
-	
-//	private HashMap<User, List<String>> getTestUsersAndEntries() {
-//		HashMap<User, List<String>> usersAndEntries = new HashMap<User, List<String>>();
-//		
-//	}
 	
 	private void setupTestUsers(CommandPrompt cp) {
 		for (User user :new ArrayList<User>() {
