@@ -14,7 +14,6 @@ import main.HealthTrackerGeneralVariables;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class DisplayEntryCommand extends AbstractCommand {
-	private CommandPrompt commandPrompt;
 	private String filename;
 
 	public DisplayEntryCommand(CommandPrompt cp) {

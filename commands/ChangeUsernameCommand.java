@@ -22,7 +22,6 @@ public class ChangeUsernameCommand extends AbstractCommand {
 	User user;
 	String userName;
 	String newName;
-	CommandPrompt commandPrompt;
 	
 	public ChangeUsernameCommand(CommandPrompt cp) {
 		name = "changeUsername";

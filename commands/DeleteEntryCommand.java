@@ -15,7 +15,6 @@ import java.util.List;
 import main.CommandPrompt;
 
 public class DeleteEntryCommand extends AbstractCommand {
-	CommandPrompt commandPrompt;
 	private ArrayList<String> modifiedLines;
 	
 	public DeleteEntryCommand(CommandPrompt cp) {
