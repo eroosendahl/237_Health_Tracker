@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import commands.AbstractCommand;
-import commands.NewUserCommand;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
