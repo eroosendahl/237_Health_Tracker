@@ -44,6 +44,7 @@ public class ListUsersCommandTests {
 		}
 	}
 	
+	@SuppressWarnings("serial")
 	public List<CommandPrompt> getPrompts() {
 		return new ArrayList<CommandPrompt>() {
 			{

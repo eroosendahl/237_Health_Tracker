@@ -6,25 +6,18 @@ import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.jupiter.api.Test;
 
 import commands.AbstractCommand;
-import commands.ChangeUsernameCommand;
 import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
-import commands.DisplayEntryCommand;
 import commands.EchoCommand;
 import commands.ListCommandsCommand;
-import commands.ListEntriesCommand;
-import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
-import main.User;
 
 public class ListCommandsCommandTests {
 	PrintStream oldOut = System.out;
@@ -57,6 +50,7 @@ public class ListCommandsCommandTests {
 	
 	public ArrayList<CommandPrompt> getPrompts() {
 		
+		@SuppressWarnings("serial")
 		ArrayList<CommandPrompt> prompts = new ArrayList<CommandPrompt>() {
 			{
 				add(new CommandPrompt("listCommands"));
