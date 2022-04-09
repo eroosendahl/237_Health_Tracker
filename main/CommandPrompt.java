@@ -27,6 +27,17 @@ public class CommandPrompt {
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
 	HashMap<String, String> supportedStats;
+	
+	public CommandPrompt() {
+		inputReader = null;	
+	}
+	
+	public CommandPrompt(ArrayList<User> initialUsers, String contrivedUserInput) {
+		userInput = contrivedUserInput;
+		this.inputReader = null;
+		userList = initialUsers;
+		commands = new HashMap<String, AbstractCommand>();
+	}
 
 	public CommandPrompt(User primaryUser) {
 		inputReader = null;
@@ -196,7 +207,7 @@ public class CommandPrompt {
 		//listCommands(true);
 	}
 
-	private void attemptCommandExecution() {
+	public void attemptCommandExecution() {
 		String nothing = "";
 		String space = " ";
 		if (!Objects.equals(userInput, nothing)) {
