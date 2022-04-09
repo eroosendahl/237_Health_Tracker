@@ -27,8 +27,6 @@ public class ListUsersCommandTests {
 		
 		List<CommandPrompt> commandPrompts = getPrompts();
 		
-		List<Integer> lengths = new ArrayList<Integer>();
-		
 		for (CommandPrompt cp: commandPrompts) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 			System.setOut(new PrintStream(newOut));
@@ -38,14 +36,12 @@ public class ListUsersCommandTests {
 			cp.attemptCommandExecution();
 			String output = newOut.toString();
 			int outputLength = output.length();
-			lengths.add(outputLength);
 			int expectedOutputLength = outputLengthWithoutUsers + outputLengthAddedPerUser*users.size();
 			assertEquals(expectedOutputLength, outputLength);
 			for (User user : users) {
 				assertTrue(output.contains(user.getName()));
 			}
 		}
-		System.out.println();
 	}
 	
 	public List<CommandPrompt> getPrompts() {

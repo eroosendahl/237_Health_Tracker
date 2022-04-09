@@ -30,11 +30,20 @@ public class CommandPrompt {
 	
 	public CommandPrompt() {
 		inputReader = null;	
+		currentUser = new User("0", 0);
+		commands = new HashMap<String, AbstractCommand>();
+	}
+	
+	public CommandPrompt(String contrivedUserInput) {
+		inputReader = null;
+		currentUser = new User("0", 0);
+		userInput = contrivedUserInput;
+		commands = new HashMap<String, AbstractCommand>();
 	}
 	
 	public CommandPrompt(ArrayList<User> initialUsers, String contrivedUserInput) {
 		userInput = contrivedUserInput;
-		this.inputReader = null;
+		inputReader = null;
 		userList = initialUsers;
 		commands = new HashMap<String, AbstractCommand>();
 	}
@@ -277,6 +286,20 @@ public class CommandPrompt {
 			return endState.GENERAL_FAILURE.value();
 		}
 	}
+	
+	public void addCommands(List<AbstractCommand> commands) {
+		for (AbstractCommand command : commands) {
+			int returned = addCommand(command);
+			if (returned != endState.SUCCESS.value()) {
+				System.out.println("failed to add command");
+			}
+		}
+	}
+	
+	public void refreshCommands(List<AbstractCommand> inputCommands) {
+		commands = new HashMap<String, AbstractCommand>();
+		addCommands(inputCommands);
+	}
 
 	public int addUser(User newUser) {
 		if (isUniqueUser(newUser.getName())) {
@@ -300,6 +323,10 @@ public class CommandPrompt {
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
+	
+	public void setUserInput(String intendedUserInput) {
+		userInput = intendedUserInput;
+	}
 
 	public String getFile() {
 		return filename;
@@ -319,6 +346,10 @@ public class CommandPrompt {
 
 	public void setNumUsers(int numUsers) {
 		this.numUsers = numUsers;
+	}
+	
+	public HashMap<String, AbstractCommand> getCommands() {
+		return commands;
 	}
 
 
