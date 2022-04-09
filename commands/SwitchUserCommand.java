@@ -4,7 +4,6 @@ import main.CommandPrompt;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class SwitchUserCommand extends AbstractCommand {
-	CommandPrompt commandPrompt;
 	
 	public SwitchUserCommand(CommandPrompt cp) {
 		this.name = "switchUser";

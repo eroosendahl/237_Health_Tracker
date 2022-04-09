@@ -11,6 +11,11 @@ public class User{
 		row = r;
 	}
 
+	public User(String inputName) {
+		name = inputName;
+		row = 0;
+	}
+
 	public int getRow(){
 
 		return this.row;
