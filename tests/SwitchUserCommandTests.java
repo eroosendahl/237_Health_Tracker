@@ -1,8 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
@@ -11,7 +10,7 @@ import main.User;
 public class SwitchUserCommandTests {
 	
 	@Test
-	void testSwitchUserCommand() {
+	public void testSwitchUserCommand() {
 		User originalUser = new User("originalUser", 0);
 		CommandPrompt commandPrompt = new CommandPrompt(originalUser);
 		

@@ -10,41 +10,41 @@ import main.User;
 class UserTest {
 	User user;
 	@BeforeEach
-	void setup() {
+	public void setup() {
 		user = new User("user",1);
 	}
 	@Test
-	void getUserRow() {
+	public void getUserRow() {
 		int actualRow = user.getRow();
 		assertEquals(1, actualRow);
 	}
 	
 	@Test
-	void setUserRow() {
+	public void setUserRow() {
 		user.setRow(4);
 		assertEquals(4, user.getRow());
 	}
 	
 	@Test
-	void getUserColumn() {
+	public void getUserColumn() {
 		int actualColumn = user.getCurrentColumn();
 		assertEquals(0, actualColumn);
 	}
 	
 	@Test
-	void setUserColumn() {
+	public void setUserColumn() {
 		user.setCurrentColumn(6);
 		assertEquals(6, user.getCurrentColumn());
 	}
 	
 	@Test
-	void getUserName() {
+	public void getUserName() {
 		String actualName = user.getName();
 		assertEquals("user", actualName);
 	}
 	
 	@Test
-	void setUserName() {
+	public void setUserName() {
 		user.setName("newName");
 		assertEquals("newName", user.getName());
 	}
