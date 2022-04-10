@@ -14,6 +14,8 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import commands.AbstractCommand;
+import commands.NewUserCommand;
+import commands.SwitchUserCommand;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
@@ -32,6 +34,15 @@ public class CommandPrompt {
 		inputReader = null;	
 		currentUser = new User("0", 0);
 		commands = new HashMap<String, AbstractCommand>();
+		userList = new ArrayList<User>();
+	}
+	
+	public CommandPrompt(File inputFile, List<AbstractCommand> inputCommands) {
+		filename = inputFile.getName();
+		inputReader = null;
+		loadExistantUsers();
+		addCommands(inputCommands);
+		findFile();
 	}
 	
 	public CommandPrompt(String contrivedUserInput) {
@@ -67,6 +78,10 @@ public class CommandPrompt {
 
 		findFile();
 		loadExistantUsers();
+		loadInitialUser();
+	}
+
+	private void loadInitialUser() {
 		while (userList.isEmpty()) {
 			gatherInitialUser();
 		}
@@ -81,10 +96,7 @@ public class CommandPrompt {
 		filename = fileName;
 		findFile();
 		loadExistantUsers();
-		while (userList.isEmpty()) {
-			gatherInitialUser();
-		}
-		currentUser = userList.get(0);
+		loadInitialUser();
 
 		for (AbstractCommand command : commandsList) {
 			commands.put(command.getName(), command);
@@ -198,6 +210,8 @@ public class CommandPrompt {
 				row++;
 				line = csvBufferedReader.readLine();
 			}
+			
+			csvBufferedReader.close();
 			return endState.SUCCESS.value();
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -287,8 +301,11 @@ public class CommandPrompt {
 		}
 	}
 	
-	public void addCommands(List<AbstractCommand> commands) {
-		for (AbstractCommand command : commands) {
+	public void addCommands(List<AbstractCommand> inputCommands) {
+		if (Objects.equals(commands, null)) {
+			commands = new HashMap<String, AbstractCommand>();
+		}
+		for (AbstractCommand command : inputCommands) {
 			int returned = addCommand(command);
 			if (returned != endState.SUCCESS.value()) {
 				System.out.println("failed to add command");
@@ -306,6 +323,28 @@ public class CommandPrompt {
 			userList.add(newUser);
 			return endState.SUCCESS.value();
 		}
+		return endState.GENERAL_FAILURE.value();
+	}
+	
+	public int addUsers(List<User> newUsers) {
+		if (!commands.containsKey("newUser")) {
+			addCommand(new NewUserCommand(this));
+		}
+		// assumes User list matches users in the file (other code is responsible for that)
+		int startingRow = this.userList.size();
+		
+		for (User user: newUsers) {
+			user.setRow(startingRow);
+			int addedNewUser = addUser(user);
+			if (addedNewUser == endState.SUCCESS.value()) {
+				commands.get("newUser").execute(user.getName());
+				++startingRow;
+			}
+			else {
+				System.out.println("Failed to add user.");
+			}
+		}
+		
 		return endState.GENERAL_FAILURE.value();
 	}
 

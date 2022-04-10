@@ -23,7 +23,6 @@ public class NewEntryCommand extends AbstractCommand{
 	String entryDate;
 	User currentUser;
 	String filePath;
-	CommandPrompt commandPrompt;
 
 	public NewEntryCommand(CommandPrompt cp) {
 		name = "newEntry";
@@ -42,6 +41,7 @@ public class NewEntryCommand extends AbstractCommand{
 		return 0;
 	}
 
+	// can add values but not subtract them
 	@Override
 	public int execute(String executionMod) {
 		//Ex of command: "newEntry run 500 20/09/2020"

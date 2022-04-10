@@ -16,7 +16,6 @@ public class NewUserCommand extends AbstractCommand {
 	String csvFileName;
 	User user;
 	String userName;
-	CommandPrompt commandPrompt;
 	
 	public NewUserCommand(CommandPrompt cp) {
 		name = "newUser";
@@ -41,10 +40,7 @@ public class NewUserCommand extends AbstractCommand {
 		
 		csvFileName = commandPrompt.getFile();
 		user = commandPrompt.getCurrentUser();
-		userName = user.getName();
 		userName = executionMod;
-		
-		commandPrompt.loadExistantUsers();
 		
 		List<String> user = new LinkedList<String>();
 		user.add(userName + "\n");

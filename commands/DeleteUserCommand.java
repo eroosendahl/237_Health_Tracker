@@ -12,7 +12,6 @@ import main.CommandPrompt;
 import main.User;
 
 public class DeleteUserCommand extends AbstractCommand {
-	CommandPrompt commandPrompt;
 	private ArrayList<String> remainingLines;
 	
 	public DeleteUserCommand(CommandPrompt cp) {

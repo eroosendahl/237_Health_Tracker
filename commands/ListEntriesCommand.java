@@ -10,7 +10,6 @@ import main.CommandPrompt;
 import main.HealthTrackerGeneralVariables;
 
 public class ListEntriesCommand extends AbstractCommand {
-	CommandPrompt commandPrompt;
 	
 	public ListEntriesCommand(CommandPrompt cp) {
 		name = "listEntries";

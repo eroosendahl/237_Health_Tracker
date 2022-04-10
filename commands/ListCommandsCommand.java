@@ -7,7 +7,6 @@ import main.User;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class ListCommandsCommand extends AbstractCommand {
-	CommandPrompt commandPrompt;
 	
 	public ListCommandsCommand(CommandPrompt cp) {
 		commandPrompt = cp;
