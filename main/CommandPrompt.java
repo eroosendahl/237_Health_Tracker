@@ -210,6 +210,8 @@ public class CommandPrompt {
 				row++;
 				line = csvBufferedReader.readLine();
 			}
+			
+			csvBufferedReader.close();
 			return endState.SUCCESS.value();
 		} catch(Exception ex) {
 			ex.printStackTrace();
