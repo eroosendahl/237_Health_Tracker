@@ -1,13 +1,14 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import org.junit.After;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import commands.AbstractCommand;
 import commands.DeleteEntryCommand;
@@ -23,7 +24,7 @@ public class ListCommandsCommandTests {
 	PrintStream oldOut = System.out;
 	
 	@Test
-	void testListCommandsCommand() {
+	public void testListCommandsCommand() {
 		int outputLinesWithMinimumCommands = 4;
 		int outputLinesForSingleCommand = 1;
 		
@@ -104,7 +105,7 @@ public class ListCommandsCommandTests {
 	}
 	
 	@After
-	void cleanUp() {
+	public void cleanUp() {
 		System.setOut(oldOut);
 	}
 

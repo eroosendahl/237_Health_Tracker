@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import commands.ListUsersCommand;
 import main.CommandPrompt;
@@ -21,7 +22,7 @@ public class ListUsersCommandTests {
 	
 	
 	@Test
-	void testListUsers() {
+	public void testListUsers() {
 		int outputLengthWithoutUsers = 21;
 		int outputLengthAddedPerUser = 3;
 		
@@ -83,7 +84,7 @@ public class ListUsersCommandTests {
 	}
 	
 	@After
-	void cleanUp() {
+	public void cleanUp() {
 		System.setOut(oldOut);
 	}
 

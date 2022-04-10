@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
+
 import commands.AbstractCommand;
 import commands.DeleteUserCommand;
 import static org.junit.Assert.assertNotEquals;
@@ -17,8 +18,7 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import commands.EchoCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
@@ -37,12 +37,12 @@ public class CommandPromptTests {
 
 
 	@BeforeEach
-	void setup() {
+	public void setup() {
 		commandPrompt = HealthTracker.createFullyFunctioningCommandPrompt(testFileName, new InputStreamReader(System.in));
 	}
 
 	@Test
-	void testCommandExecution() throws IOException {
+	public void testCommandExecution() throws IOException {
 		executeEcho("test");
 		assertEquals(expectedOutput, receivedOutput);
 		executeEcho("another test");
@@ -51,7 +51,7 @@ public class CommandPromptTests {
 		assertNotEquals(expectedOutput, receivedOutput);
 	}
 
-	void executeEcho(String expression) throws IOException {
+	public void executeEcho(String expression) throws IOException {
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(newOut));
 
@@ -63,7 +63,7 @@ public class CommandPromptTests {
 		receivedOutput = newOut.toString();
 	}
 
-	String expectedOutputFromEcho(String expressionToEcho) {
+	private String expectedOutputFromEcho(String expressionToEcho) {
 		return "Found already existing file.\r\n"
 				+ "CommandPrompt Running\r\n"
 				+ "Type 'quit' to quit or 'help' for help.\n\r\n"
@@ -74,7 +74,7 @@ public class CommandPromptTests {
 	}
 
 	@Test
-	void testListCommands() {
+	public void testListCommands() {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
 		int linesInOneCommandHelpMessage = 4;
 		int linesPrintedWithZeroCommands = 13;
@@ -146,7 +146,7 @@ public class CommandPromptTests {
 	}
 
 	@Test
-	void testQuit() {
+	public void testQuit() {
 		String expectedQuitMessage = "Shutting down...";
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(newOut));
@@ -159,7 +159,7 @@ public class CommandPromptTests {
 	}
 
 	@Test
-	void testGetUser() {
+	public void testGetUser() {
 		User originalUser = new User("originalUser", 0);
 		commandPrompt = new CommandPrompt(originalUser);
 		User receivedUser = commandPrompt.getCurrentUser();
@@ -169,14 +169,14 @@ public class CommandPromptTests {
 	}
 
 	@Test
-	void testGetFile() {
+	public void testGetFile() {
 		String receivedFileName = commandPrompt.getFile();
 		assertNotNull(receivedFileName);
 		assertEquals(receivedFileName, testFileName);
 	}
 
 	@Test
-	void testSwitchUser() {
+	public void testSwitchUser() {
 		User originalUser = new User("originalUser", 0);
 		commandPrompt = new CommandPrompt(originalUser);
 
@@ -192,7 +192,7 @@ public class CommandPromptTests {
 	}
 
 	@After
-	void cleanUp() {
+	public void cleanUp() {
 		System.setOut(oldOut);
 	}
 
