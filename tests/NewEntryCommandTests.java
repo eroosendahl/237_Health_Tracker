@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,28 @@ import commands.ChangeUsernameCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
 import main.CommandPrompt;
+import main.HealthTracker;
 import main.User;
 
 public class NewEntryCommandTests {
 	
+	CommandPrompt commandPrompt;
+	NewEntryCommand newEntry;
+	NewUserCommand newUser;
+	String testFile = "testFile";
+	
+	@BeforeEach
+	void setup() throws IOException {
+		
+		commandPrompt = new CommandPrompt();
+		createTestFile(testFile);
+		commandPrompt.setFile(testFile);
+		newEntry = new NewEntryCommand(commandPrompt);
+		commandPrompt.addCommand(newEntry);
+		newUser = new NewUserCommand(commandPrompt);
+		commandPrompt.addCommand(newUser);
+		
+	}
 	
 	@Test
 	void testNewEntryInitial() throws IOException {
@@ -27,25 +46,8 @@ public class NewEntryCommandTests {
 		
 		String exampleEntry = "09/01/2001 run 500";
 		
-		String testFile = "testFile";
-		
-		createTestFile(testFile);
-		
-		CommandPrompt commandPrompt = new CommandPrompt();
-		commandPrompt.setFile(testFile);
-		
-		NewEntryCommand newEntry = new NewEntryCommand(commandPrompt);
-		commandPrompt.addCommand(newEntry);
-		
-		
-		
-		NewUserCommand newUser = new NewUserCommand(commandPrompt);
-		commandPrompt.addCommand(newUser);
-		
 		newUser.execute(exampleUserName);
 		commandPrompt.setCurrentUser(originalUser);
-		
-		//System.out.println(new File(testFile).delete());
 		
 		newEntry.execute(exampleEntry);
 		
@@ -54,7 +56,7 @@ public class NewEntryCommandTests {
 		
 		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
 		
-		System.out.println((deleteTestFile(testFile)));
+		deleteTestFile(testFile);
 		
 		assertEquals(true,found);
 	}
@@ -67,19 +69,6 @@ public class NewEntryCommandTests {
 		
 		String exampleEntry = "09/01/2001 run 500";
 		
-		String testFile = "testFile";
-		
-		createTestFile(testFile);
-		
-		CommandPrompt commandPrompt = new CommandPrompt();
-		commandPrompt.setFile(testFile);
-		
-		NewEntryCommand newEntry = new NewEntryCommand(commandPrompt);
-		commandPrompt.addCommand(newEntry);
-		
-		NewUserCommand newUser = new NewUserCommand(commandPrompt);
-		commandPrompt.addCommand(newUser);
-		
 		newUser.execute(exampleUserName);
 		commandPrompt.setCurrentUser(originalUser);
 		
@@ -91,14 +80,64 @@ public class NewEntryCommandTests {
 		
 		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
 		
+		deleteTestFile(testFile);
+		assertEquals(true,found);
+		
+	}
+	
+	@Test
+	void testNewEntrySameDateDifferentActivity() throws IOException {
+		
+		String exampleUserName = "testUser";
+		User originalUser = new User(exampleUserName, 0);
+		
+		String exampleEntry = "09/01/2001 run 500";
+		String exampleEntrySecond = "09/01/2001 eat 500";
 		
 		
+		newUser.execute(exampleUserName);
+		commandPrompt.setCurrentUser(originalUser);
+		
+		newEntry.execute(exampleEntry);
+		newEntry.execute(exampleEntrySecond);
+		
+		String expectedEntry = "09/01/2001 run(500) eat(500)";
+		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
 		
 		deleteTestFile(testFile);
 		
 		assertEquals(true,found);
-		
 	}
+	
+	
+	
+	@Test
+	void testNewEntryMiddleUser() throws IOException {
+		
+		String exampleUserName = "testUser";
+		User originalUser = new User(exampleUserName, 0);
+		
+		String exampleUserNameSecond = "testUser2";
+		User originalUserSecond = new User(exampleUserNameSecond, 1);
+		
+		String exampleUserNameThird = "testUser3";
+		User originalUserThird = new User(exampleUserNameThird, 2);
+		
+		String exampleEntry = "09/01/2001 run 500";
+		
+		newUser.execute(exampleUserName);
+		newUser.execute(exampleUserNameSecond);
+		newUser.execute(exampleUserNameThird);
+		commandPrompt.setCurrentUser(originalUserSecond);
+		
+		newEntry.execute(exampleEntry);
+		String expectedEntry = "09/01/2001 run(500)";
+		boolean found = searchForEntry(testFile,originalUserSecond,expectedEntry);
+		
+		deleteTestFile(testFile);
+		assertEquals(true,found);
+	}
+	
 	
 	
 	public boolean createTestFile(String fileName) throws IOException {
