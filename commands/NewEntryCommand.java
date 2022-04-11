@@ -121,6 +121,7 @@ public class NewEntryCommand extends AbstractCommand{
 
 		for (String csvLine : lines) { csvBufferedWriter.write(csvLine + "\n"); }
 		csvBufferedWriter.flush();
+		csvWriter.close();
 		csvBufferedWriter.close();
 	}
 
