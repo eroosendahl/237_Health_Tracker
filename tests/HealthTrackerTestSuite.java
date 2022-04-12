@@ -19,10 +19,5 @@ import org.junit.runners.Suite;
 
 public class HealthTrackerTestSuite {
 	
-	// think about this all more carefully and thoughtfully alter main/command code to be easier and cleaner for
-	// implementing tests. (rather than just hacky debugging your way to working tests but scuffed code)
-	
-	
-	
 
 }
