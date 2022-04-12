@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -42,6 +43,7 @@ public class CommandPromptTests {
 	@BeforeEach
 	public void setup() {
 		commandPrompt = new CommandPrompt();
+		new File(testFileName).delete();
 	}
 
 	@Test
