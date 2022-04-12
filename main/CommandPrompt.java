@@ -397,6 +397,10 @@ public class CommandPrompt {
 		this.numUsers = numUsers;
 	}
 	
+	public HashMap<String, String> getSupportedStats() {
+		return supportedStats;
+	}
+	
 	public HashMap<String, AbstractCommand> getCommands() {
 		return commands;
 	}
