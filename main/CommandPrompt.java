@@ -29,12 +29,14 @@ public class CommandPrompt {
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
 	HashMap<String, String> supportedStats;
+	private File mainFile;
 	
 	public CommandPrompt() {
 		inputReader = null;	
 		currentUser = new User("0", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		userList = new ArrayList<User>();
+		mainFile = new File("");
 	}
 	
 	public CommandPrompt(File inputFile, List<AbstractCommand> inputCommands) {
@@ -94,6 +96,7 @@ public class CommandPrompt {
 		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
 		filename = fileName;
+		mainFile = new File(filename);
 		findFile();
 		loadExistantUsers();
 		loadInitialUser();
@@ -109,9 +112,14 @@ public class CommandPrompt {
 		startUpMessage();
 
 		while (true) {
-			loadExistantUsers();
+			if (mainFile.exists()) {
+				loadExistantUsers();
+			}
 			promptUser();
-			gatherUserInput();
+			
+			if (!Objects.isNull(scanner)) {
+				gatherUserInput();
+			}
 
 			if (Objects.equals(userInput, "quit")) {
 				quit();
@@ -144,7 +152,7 @@ public class CommandPrompt {
 				System.out.println("File still doesn't exist!");
 				return endState.GENERAL_FAILURE.value();
 			}
-
+			mainFile = file;
 			return endState.SUCCESS.value();
 		} catch (IOException e) {
 			System.out.println("createNewFile() failed");
@@ -154,7 +162,9 @@ public class CommandPrompt {
 	}
 
 	public int gatherInitialUser() {
+		
 		scanner = new Scanner(System.in);
+		
 		String newUsername = null;
 		System.out.println("Please input a username:");
 
@@ -433,5 +443,10 @@ public class CommandPrompt {
 		supportedStats.forEach((key, value) -> {
 			System.out.println(key+ " : " + value);
 		});
+	}
+
+	public void setScanner(Scanner inputScanner) {
+		scanner = inputScanner;
+		
 	}
 }
