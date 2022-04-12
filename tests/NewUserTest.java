@@ -45,17 +45,18 @@ class NewUserTest {
 
 	@Test
 	public void validNewUser() {
-		String originalUsername = "originalUser";
 		newUserCommand.execute("newUser");
-		String newUser = commandPrompt.getCurrentUser().getName();
-		assertNotEquals(originalUsername, newUser);
-		assertEquals("newUsername", newUser);
+//		String newUser = commandPrompt.getCurrentUser().getName();
+		commandPrompt.loadExistantUsers();
+		assertTrue(commandPrompt.containsUser("newUser"));
+		deleteTestFile(testFile);
 	}
 	
 	@Test
 	public void invalidNewUser() {
 		newUserCommand.execute("newUsername!");
 		String newUser = commandPrompt.getCurrentUser().getName();
+		deleteTestFile(testFile);
 		assertEquals("originalUser", newUser);
 	}
 	
@@ -65,7 +66,9 @@ class NewUserTest {
 		commandPrompt.addUser(firstUser);
 		newUserCommand.execute("firstUser");
 		String newUser = commandPrompt.getCurrentUser().getName();
+		deleteTestFile(testFile);
 		assertEquals("originalUser", newUser);
+		
 	}
 	
 public boolean createTestFile(String fileName) throws IOException {
