@@ -1,4 +1,4 @@
 #!/bin/bash
 
-javac -d bin main/HealthTracker.java
-java -cp bin/ main.HealthTracker
+javac -d 237_Health_Tracker/bin main/HealthTracker.java
+java -cp 237_Health_Tracker/bin main.HealthTracker
