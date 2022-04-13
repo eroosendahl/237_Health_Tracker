@@ -78,10 +78,16 @@ java main.HealthTracker
 - CommandPrompt.loadExistantUsers should read in any user entries from the supplied csv to initialize the commandprompt's list of users.
  
 ### What user stories do you intend to complete next iteration?
-- An AppendEntryCommand should be able to accept user input and append it to a user's entry
+- An AppendEntryCommand should be able to accept user input and append it to a user's entry.
+- The SetGoalCommand should set a goal entry for the provided health stat of the provided value.
+- The CheckGoalCommand should compare an average of a stat's values with the corresponding goal entry, if it exists, and return a progress check corresponding to that health stat.
+- ShowStatProgress command should parse all entries for current user, and print the values for the input stat identifier from all dated entries.
+- HealthTrackerGeneralVariables.generateTestFile should fill a dummy file with possible healthtracker data not using our commands/code to use for tests.
  
 ### Is there anything that you implemented but doesn't currently work?
 - All of the currently implemented commands are functional.
+- Not all tests are included in the currest Test , but they can be run individually.  Unincluded tests are:
+	ListStatsCommandTests, NewEntryCommandTests, NewUserTest
  
 ### What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
 - To run the code, use the HealthTracker.sh bash script.

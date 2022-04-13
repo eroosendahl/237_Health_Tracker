@@ -10,11 +10,11 @@ import org.junit.runners.Suite;
 	ChangeUsernameTests.class,
 	CommandPromptTests.class,
 	DisplayEntryCommandTests.class,
+	EchoCommandTest.class,
 	ListCommandsCommandTests.class,
 	ListEntriesCommandTests.class,
 	ListUsersCommandTests.class,
 	SwitchUserCommandTests.class,
-	EchoCommandTest.class,
 	UserTest.class
 })
 
