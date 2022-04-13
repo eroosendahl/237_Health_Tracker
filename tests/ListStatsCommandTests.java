@@ -13,7 +13,7 @@ import commands.ListStatsCommand;
 import main.CommandPrompt;
 import main.User;
 
-class ListStatsCommandTests {
+public class ListStatsCommandTests {
 	CommandPrompt commandPrompt;
 	ListStatsCommand listStatsCommand;
 	
@@ -27,7 +27,7 @@ class ListStatsCommandTests {
 	}
 
 	@Test
-	public void listStatsCommandTest() {
+	public void testStatsCommand() {
 		listStatsCommand.execute();
 		assertNotEquals(null, commandPrompt.getSupportedStats());
 	}

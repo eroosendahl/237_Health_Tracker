@@ -66,18 +66,13 @@ public class ChangeUsernameTests {
 		assertEquals("originalUser", newUsername);
 	}
 	
-public boolean createTestFile(String fileName) throws IOException {
-		
+	public boolean createTestFile(String fileName) throws IOException {
 		File testFile = new File(fileName);
-		
 		return testFile.createNewFile();
 	}
 	
 	public boolean deleteTestFile(String fileName) {
-		
 		File testFile = new File(fileName);
-		
 		return testFile.delete();
 	}
-
 }
