@@ -22,7 +22,7 @@ import commands.NewUserCommand;
 import main.CommandPrompt;
 import main.User;
 
-class NewUserTest {
+public class NewUserTest {
 	String testFile = "testFile";
 	CommandPrompt commandPrompt;
 	NewUserCommand newUserCommand;
@@ -43,7 +43,7 @@ class NewUserTest {
 	}
 
 	@Test
-	public void validNewUser() {
+	public void testValidNewUser() {
 		newUserCommand.execute("newUser");
 		commandPrompt.loadExistantUsers();
 		assertTrue(commandPrompt.containsUser("newUser"));
@@ -51,7 +51,7 @@ class NewUserTest {
 	}
 	
 	@Test
-	public void invalidNewUser() {
+	public void testInvalidNewUser() {
 		newUserCommand.execute("newUsername!");
 		String newUser = commandPrompt.getCurrentUser().getName();
 		deleteTestFile(testFile);
@@ -59,7 +59,7 @@ class NewUserTest {
 	}
 	
 	@Test
-	public void duplicateChangeUsername() {
+	public void testDuplicateChangeUsername() {
 		User firstUser = new User("firstUser");
 		commandPrompt.addUser(firstUser);
 		newUserCommand.execute("firstUser");
@@ -69,19 +69,13 @@ class NewUserTest {
 		
 	}
 	
-public boolean createTestFile(String fileName) throws IOException {
-		
+	public boolean createTestFile(String fileName) throws IOException {
 		File testFile = new File(fileName);
-		
 		return testFile.createNewFile();
 	}
 	
 	public boolean deleteTestFile(String fileName) {
-		
 		File testFile = new File(fileName);
-		
 		return testFile.delete();
 	}
-	
-
 }

@@ -3,7 +3,6 @@ package tests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-
 //https://www.tutorialspoint.com/junit/junit_suite_test.htm
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -14,11 +13,13 @@ import org.junit.runners.Suite;
 	ListCommandsCommandTests.class,
 	ListEntriesCommandTests.class,
 	ListUsersCommandTests.class,
+	ListStatsCommandTests.class,
 	SwitchUserCommandTests.class,
-	UserTest.class
+	EchoCommandTest.class,
+	UserTest.class,
+	NewUserTest.class,
+	DeleteUserTests.class
 })
 
 public class HealthTrackerTestSuite {
-	
-
 }
