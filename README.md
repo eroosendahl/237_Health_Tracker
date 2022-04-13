@@ -82,7 +82,7 @@ java main.HealthTracker
 - The SetGoalCommand should set a goal entry for the provided health stat of the provided value.
 - The CheckGoalCommand should compare an average of a stat's values with the corresponding goal entry, if it exists, and return a progress check corresponding to that health stat.
 - ShowStatProgress command should parse all entries for current user, and print the values for the input stat identifier from all dated entries.
-- HealthTrackerGeneralVariables.generateTestFile should fill a dummy file with possible healthtracker data not using our commands/code to use for tests.
+- HealthTrackerGeneralVariables.generateTestFile should fill a dummy file with possible healthtracker data for testing.
  
 ### Is there anything that you implemented but doesn't currently work?
 - All of the currently implemented commands are functional.
