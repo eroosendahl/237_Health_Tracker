@@ -232,6 +232,23 @@ public class CommandPromptTests {
 		
 		System.setOut(oldOut);
 	}
+	
+	@Test
+	public void testFindFile() {
+		
+		commandPrompt = new CommandPrompt();
+		commandPrompt.setFile(testFileName);
+		
+		int result = commandPrompt.findFile();
+		assertEquals(0,result);
+		
+		//file now exists already
+		int resultSecondTry = commandPrompt.findFile();
+		assertEquals(0,resultSecondTry);
+		
+	}
+	
+	
 
 	@After
 	public void cleanUp() {
