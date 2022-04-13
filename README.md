@@ -1,6 +1,5 @@
  237_Health_Tracker
-# Project:
-# Health Tracker
+# Project: Health Tracker
 
 Team:
 Erik Roosendahl
