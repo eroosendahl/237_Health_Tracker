@@ -14,26 +14,27 @@ import main.CommandPrompt;
 import main.User;
 
 public class DeleteUserTests {
-	String testFile = "testFile";
+	String testFileName = "testFile";
 	CommandPrompt commandPrompt;
 	NewUserCommand newUserCommand;
 	DeleteUserCommand deleteUserCommand;
 	
 	@BeforeEach
 	void setup() {
-		User alex = new User("Alexander");
+		User arthur = new User("Arthur");
 		this.commandPrompt = new CommandPrompt();
 		
-		try { createTestFile(testFile); }
+		try { createTestFile(testFileName); }
 		catch (IOException e) { e.printStackTrace(); }
 		
-		commandPrompt.setFile(testFile);
-		commandPrompt.setCurrentUser(alex);
+		commandPrompt.setFile(testFileName);
 		newUserCommand = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUserCommand);
 		deleteUserCommand = new DeleteUserCommand(commandPrompt);
 		commandPrompt.addCommand(deleteUserCommand);
 		
+		newUserCommand.execute("Arthur");
+		commandPrompt.setCurrentUser(arthur);
 		newUserCommand.execute("Bertha");
 		newUserCommand.execute("Clara");
 		commandPrompt.loadExistantUsers();
@@ -41,13 +42,13 @@ public class DeleteUserTests {
 	
 	@Test
 	public void testValidDeleteUser() {
-		int numUsers = commandPrompt.getNumUsers();
+		int numUsers = commandPrompt.getUsers().size();
 		
 		deleteUserCommand.execute("Clara");
 		commandPrompt.loadExistantUsers();
-		int newNumUsers = commandPrompt.getNumUsers();
+		int newNumUsers = commandPrompt.getUsers().size();
 		boolean found = commandPrompt.containsUser("Clara");
-		deleteTestFile(testFile);
+		deleteTestFile(testFileName);
 		
 		assertFalse(found);
 		assertEquals(newNumUsers, numUsers-1);
@@ -55,32 +56,30 @@ public class DeleteUserTests {
 	
 	@Test
 	public void testInvalidDeleteUser() {
-		int numUsers = commandPrompt.getNumUsers();
+		int numUsers = commandPrompt.getUsers().size();
 		
 		deleteUserCommand.execute("Daniel");
 		commandPrompt.loadExistantUsers();
-		int newNumUsers = commandPrompt.getNumUsers();
+		int newNumUsers = commandPrompt.getUsers().size();
 		boolean found = commandPrompt.containsUser("Daniel");
-		deleteTestFile(testFile);
+		deleteTestFile(testFileName);
 		
 		assertFalse(found);
 		assertEquals(newNumUsers, numUsers);
 	}
 	
 	@Test
-	public void testNoDoubleDelete() {
-		int numUsers = commandPrompt.getNumUsers();
+	public void testNoSelfDelete() {
+		int numUsers = commandPrompt.getUsers().size();
 		
-		deleteUserCommand.execute("Clara");
+		deleteUserCommand.execute("Arthur");
 		commandPrompt.loadExistantUsers();
-		deleteUserCommand.execute("Clara");
-		commandPrompt.loadExistantUsers();
-		int newNumUsers = commandPrompt.getNumUsers();
-		boolean found = commandPrompt.containsUser("Clara");
-		deleteTestFile(testFile);
+		int newNumUsers = commandPrompt.getUsers().size();
+		boolean found = commandPrompt.containsUser("Arthur");
+		deleteTestFile(testFileName);
 		
-		assertFalse(found);
-		assertEquals(newNumUsers, numUsers-1);
+		assertTrue(found);
+		assertEquals(newNumUsers, numUsers);
 	}
 	
 	public boolean createTestFile(String fileName) throws IOException {

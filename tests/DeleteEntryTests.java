@@ -21,14 +21,13 @@ public class DeleteEntryTests {
 	NewEntryCommand newEntry;
 	NewUserCommand newUser;
 	DeleteEntryCommand deleteEntryCommand;
-	String testFile = "testFile";
-	User user;
+	String testFileName = "testFile";
 
 	@BeforeEach
 	void setup() throws IOException {
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFile);
-		commandPrompt.setFile(testFile);
+		createTestFile(testFileName);
+		commandPrompt.setFile(testFileName);
 		newEntry = new NewEntryCommand(commandPrompt);
 		commandPrompt.addCommand(newEntry);
 		newUser = new NewUserCommand(commandPrompt);
@@ -38,7 +37,6 @@ public class DeleteEntryTests {
 		
 		String exampleUserName = "testUser";
 		User originalUser = new User(exampleUserName, 0);
-		this.user = originalUser;
 		String entry1 = "09/01/2001 run 500";
 		String entry2 = "09/01/2001 eat 2000";
 		String entry3 = "10/01/2001 run 500";
@@ -56,10 +54,10 @@ public class DeleteEntryTests {
 		deleteEntryCommand.execute(exampleEntry);
 		
 		String oldEntry1 = "09/01/2001 run(500) eat(2000)";
-		boolean foundOldEntry1 = searchForEntry(testFile, this.user, oldEntry1);
+		boolean foundOldEntry1 = searchForEntry(testFileName, commandPrompt.getCurrentUser(), oldEntry1);
 		String oldEntry2 = "10/01/2001 run(500)";
-		boolean foundOldEntry2 = searchForEntry(testFile, this.user, oldEntry2);
-		deleteTestFile(testFile);
+		boolean foundOldEntry2 = searchForEntry(testFileName, commandPrompt.getCurrentUser(), oldEntry2);
+		deleteTestFile(testFileName);
 		
 		assertFalse(foundOldEntry1);
 		assertTrue(foundOldEntry2);
@@ -71,12 +69,12 @@ public class DeleteEntryTests {
 		deleteEntryCommand.execute(exampleEntry);
 		
 		String oldEntry1 = "09/01/2001 run(500) eat(2000)";
-		boolean foundOldEntry1 = searchForEntry(testFile, this.user, oldEntry1);
+		boolean foundOldEntry1 = searchForEntry(testFileName, commandPrompt.getCurrentUser(), oldEntry1);
 		String oldEntry2 = "09/01/2001 eat(2000)";
-		boolean foundOldEntry2 = searchForEntry(testFile, this.user, oldEntry2);
+		boolean foundOldEntry2 = searchForEntry(testFileName, commandPrompt.getCurrentUser(), oldEntry2);
 		String oldEntry3 = "10/01/2001 run(500)";
-		boolean foundOldEntry3 = searchForEntry(testFile, this.user, oldEntry3);
-		deleteTestFile(testFile);
+		boolean foundOldEntry3 = searchForEntry(testFileName, commandPrompt.getCurrentUser(), oldEntry3);
+		deleteTestFile(testFileName);
 		
 		assertFalse(foundOldEntry1);
 		assertTrue(foundOldEntry2);
