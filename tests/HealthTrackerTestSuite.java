@@ -14,6 +14,7 @@ import org.junit.runners.Suite;
 	ListEntriesCommandTests.class,
 	ListUsersCommandTests.class,
 	SwitchUserCommandTests.class,
+	EchoCommandTest.class,
 	UserTest.class
 })
 
