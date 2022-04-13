@@ -242,7 +242,6 @@ public class CommandPromptTests {
 		int result = commandPrompt.findFile();
 		assertEquals(0,result);
 		
-		//file now exists already
 		int resultSecondTry = commandPrompt.findFile();
 		assertEquals(0,resultSecondTry);
 		

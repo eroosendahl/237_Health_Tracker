@@ -26,7 +26,6 @@ public class ChangeUsernameTests {
 		try {
 			createTestFile(testFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		commandPrompt.setFile(testFile);

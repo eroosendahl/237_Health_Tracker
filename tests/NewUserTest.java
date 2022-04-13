@@ -34,7 +34,6 @@ class NewUserTest {
 		try {
 			createTestFile(testFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		commandPrompt.setFile(testFile);
@@ -46,7 +45,6 @@ class NewUserTest {
 	@Test
 	public void validNewUser() {
 		newUserCommand.execute("newUser");
-//		String newUser = commandPrompt.getCurrentUser().getName();
 		commandPrompt.loadExistantUsers();
 		assertTrue(commandPrompt.containsUser("newUser"));
 		deleteTestFile(testFile);
