@@ -180,7 +180,7 @@ public class CommandPrompt {
 
 			try {
 				BufferedWriter csvWriter = new BufferedWriter(new FileWriter(filename));
-				csvWriter.write(newUsername);
+				csvWriter.write(newUsername + "\n");
 				csvWriter.close();
 			} catch (IOException e) {
 				System.out.println("Failed to write initial user to empty file.");
