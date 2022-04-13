@@ -15,7 +15,6 @@ import org.junit.runners.Suite;
 	ListUsersCommandTests.class,
 	ListStatsCommandTests.class,
 	SwitchUserCommandTests.class,
-	EchoCommandTest.class,
 	UserTest.class,
 	NewUserTest.class,
 	DeleteUserTests.class
