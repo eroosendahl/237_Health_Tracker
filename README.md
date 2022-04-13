@@ -86,8 +86,7 @@ java main.HealthTracker
  
 ### Is there anything that you implemented but doesn't currently work?
 - All of the currently implemented commands are functional.
-- Not all tests are included in the currest Test , but they can be run individually.  Unincluded tests are:
-	ListStatsCommandTests, NewEntryCommandTests, NewUserTest
+- Not all tests are included in the currest Test Suite, but they can still be run individually.  The unincluded tests are: ListStatsCommandTests, NewEntryCommandTests, NewUserTest
  
 ### What commands are needed to compile and run your code from the command line (or better yet, provide a script that people can use to run your program!)
 - To run the code, use the HealthTracker.sh bash script.
