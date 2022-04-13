@@ -29,12 +29,6 @@ public class NewEntryCommand extends AbstractCommand{
 		commandPrompt = cp;
 	}
 
-	//	public NewEntryCommand(User user, String path) {
-	//		this.currentUser = user;
-	//		name = "newEntry";
-	//		this.filePath = path;
-	//	}
-
 	@Override
 	public int execute() {
 		System.out.println("Value required for insertion.");
@@ -44,14 +38,11 @@ public class NewEntryCommand extends AbstractCommand{
 	// can add values but not subtract them
 	@Override
 	public int execute(String executionMod) {
-		//Ex of command: "newEntry run 500 20/09/2020"
-		//Ex of fileEntry: "10/03/2022 WALK(2) RUN(3) ATE(2200)"
 		System.out.println("Executing NewEntryCommand");
 
 		currentUser = commandPrompt.getCurrentUser();
 		filePath = commandPrompt.getFile();
 
-		// commandSections comes after 'newEntry'
 		String[] commandSections = executionMod.split(" ");
 
 		if (commandSections.length != 3) {
@@ -80,7 +71,7 @@ public class NewEntryCommand extends AbstractCommand{
 		// https://stackoverflow.com/questions/13741751/modify-the-content-of-a-file-using-java
 		List<String> lines = new ArrayList<String>();
 
-		boolean found = readFromCSV(lines); // in Java, lists are passed by reference
+		boolean found = readFromCSV(lines); 
 		if (!found) { System.out.println("Error finding User position"); }
 		else {
 			writeToCSV(lines);
@@ -93,12 +84,11 @@ public class NewEntryCommand extends AbstractCommand{
 		BufferedReader csvBufferedReader = new BufferedReader(csvReader);
 		String line = null;
 		boolean found = false;
-		//		int count = 0;
 
 		while ((line = csvBufferedReader.readLine()) != null) {
 			String[] userEntries = line.split(",");
 
-			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) { // if user is found
+			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) { 
 				found = true;
 				boolean foundDate = false;
 				foundDate = editExistingDate(userEntries, foundDate);
@@ -108,7 +98,6 @@ public class NewEntryCommand extends AbstractCommand{
 			}
 
 			lines.add(line);
-			//			++count;
 		}
 		csvReader.close();
 		csvBufferedReader.close();
@@ -137,9 +126,9 @@ public class NewEntryCommand extends AbstractCommand{
 
 				foundActivity = checkForExistingActivity(entrySections);
 
-				if (foundActivity) { // convert activity array (entrySection) to single string
+				if (foundActivity) { 
 					userEntries[i] = String.join(" ", entrySections);
-				} else { // append a new activity
+				} else { 
 					userEntries[i] = individualEntry + this.entryIdentifier + "(" + this.entryValue + ")" + " ";
 				}
 
@@ -151,14 +140,11 @@ public class NewEntryCommand extends AbstractCommand{
 
 	private boolean checkForExistingActivity(String[] entrySections) {
 		for (int j = 1; j < entrySections.length; ++j) {
-			//String activityID = entrySections[j].substring(0, 3); // identifier
-			//int activityAmount = Integer.parseInt(entrySections[j].substring(3));
 
 			String[] activityParts = parseActivityEntry(entrySections[j]);
 			String activityID = activityParts[0];
 			int activityAmount = Integer.parseInt(activityParts[1]);
 
-			// collect same event amount
 			if (activityID.equals(this.entryIdentifier)) {
 				int newEntryValue = Integer.parseInt(this.entryValue);
 				entrySections[j] = activityID + "(" + Integer.toString(activityAmount + newEntryValue) + ")";
@@ -180,7 +166,6 @@ public class NewEntryCommand extends AbstractCommand{
 				newUserEntries[i] = userEntries[i];
 			}
 
-			// append new date & activity
 			newUserEntries[newUserEntries.length-1] = this.entryDate + " "
 					+ this.entryIdentifier +  "(" + this.entryValue + ")" + " ";
 
@@ -190,7 +175,6 @@ public class NewEntryCommand extends AbstractCommand{
 	}
 
 	private String[] parseActivityEntry(String activityEntry) {
-		//everything between () is the value, everything before ( is the ID.
 		int openParenIndex = activityEntry.indexOf("(");
 		int closeParenIndex = activityEntry.indexOf(")");
 

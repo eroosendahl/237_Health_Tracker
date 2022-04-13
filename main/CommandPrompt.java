@@ -214,7 +214,6 @@ public class CommandPrompt {
 			while (line != null) {
 				String[] entries = line.split(",");
 
-				// user indices temporarily set to 0
 				if (entries[0] != "") { userList.add(new User(entries[0], row)); }
 
 				row++;
@@ -237,7 +236,6 @@ public class CommandPrompt {
 	private void startUpMessage() {
 		System.out.println("CommandPrompt Running");
 		System.out.println("Type 'quit' to quit or 'help' for help.\n");
-		//listCommands(true);
 	}
 
 	public void attemptCommandExecution() {
@@ -340,7 +338,6 @@ public class CommandPrompt {
 		if (!commands.containsKey("newUser")) {
 			addCommand(new NewUserCommand(this));
 		}
-		// assumes User list matches users in the file (other code is responsible for that)
 		int startingRow = this.userList.size();
 		
 		for (User user: newUsers) {

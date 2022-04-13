@@ -1,5 +1,11 @@
 package main;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class HealthTrackerGeneralVariables {
@@ -57,6 +63,53 @@ public class HealthTrackerGeneralVariables {
 		}
 	
 		return false;
+	}
+	
+	public static File generateTestFile() {
+		File file = new File("");
+		FileWriter fileWriter;
+		BufferedWriter writer;
+		
+		try {
+			file = new File("testUserInfo.csv");
+			file.delete();
+			file.createNewFile();
+			fileWriter = new FileWriter(file);
+			writer = new BufferedWriter(fileWriter);
+			List<String> content = defaultTestContent();
+
+			for (String input : content) { writer.write(input + "\n"); }
+			writer.flush();
+			fileWriter.close();
+			writer.close();
+		} catch (IOException e) {
+			System.out.println("generateTestFile failed");
+			e.printStackTrace();
+		}	
+		return file;
+	}
+
+	@SuppressWarnings("serial")
+	private static ArrayList<String> defaultTestContent() {
+		return new ArrayList<String>() {
+			{
+				add("One,01/01/2000 run(1) walk(1) ,02/01/2000 run(2) walk(2) ,03/01/2000 run(3) walk(3) ,");
+				add("Two,01/02/2000 run(1) walk(1) ,02/02/2000 run(2) walk(2) ,03/02/2000 run(3) walk(3) ,");
+				add("Three,01/03/2000 run(1) walk(1) ,02/03/2000 run(2) walk(2) ,03/03/2000 run(3) walk(3) ,");
+				add("Four,01/04/2000 run(1) walk(1) ,02/04/2000 run(2) walk(2) ,03/04/2000 run(3) walk(3) ,");
+				add("Five,01/05/2000 run(1) walk(1) ,02/05/2000 run(2) walk(2) ,03/05/2000 run(3) walk(3) ,");
+				
+			}
+		};
+	}
+	
+	public static void main(String[] args) {
+		try {
+			File file = generateTestFile();
+		} catch (Exception e) {
+			System.out.println("oof");
+			e.printStackTrace();
+		}
 	}
 
 }

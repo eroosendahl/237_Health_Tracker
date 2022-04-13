@@ -15,16 +15,6 @@ public class SwitchUserCommand extends AbstractCommand {
 		System.out.println("Value required for switching users.");
 		return 0;
 	}
-
-//	@Override
-//	public int execute(String executionMod) {
-//		System.out.println("Executing SwitchUserCommand");
-//
-//		if (commandPrompt.containsUser(executionMod)) {
-//			commandPrompt.setCurrentUser(commandPrompt.getUser(executionMod));
-//		} else { System.out.println("Sorry, user '" + executionMod + "' doesn't exist."); }
-//		return 0;
-//	}  
 	
 	@Override
 	public int execute(String executionMod) {
