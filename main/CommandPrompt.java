@@ -142,10 +142,10 @@ public class CommandPrompt {
 		try {
 			boolean createdNewFile = file.createNewFile();
 			if (createdNewFile) {
-				System.out.println("Created new file.");
+				System.out.println("Initialized from newly created file.");
 			}
 			else {
-				System.out.println("Found already existing file.");
+				System.out.println("Initialized from already existing file.");
 			}
 
 			if (!file.exists()) {

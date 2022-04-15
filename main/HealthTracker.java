@@ -21,6 +21,7 @@ import commands.SwitchUserCommand;
 
 public class HealthTracker {
 	public static void main(String args[]) {
+		System.out.println(healthTrackerStartupMessage());
 		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv", new InputStreamReader(System.in));
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
@@ -51,6 +52,10 @@ public class HealthTracker {
 		commandPrompt.run();
 	}
 	
+	private static String healthTrackerStartupMessage() {
+		return "Health Tracker";
+	}
+
 	public static CommandPrompt getCommandFilledCommandPrompt() {
 		
 		CommandPrompt commandPrompt = new CommandPrompt();
