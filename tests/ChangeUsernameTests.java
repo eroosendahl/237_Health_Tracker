@@ -26,7 +26,6 @@ public class ChangeUsernameTests {
 		try {
 			createTestFile(testFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		commandPrompt.setFile(testFile);
@@ -66,18 +65,13 @@ public class ChangeUsernameTests {
 		assertEquals("originalUser", newUsername);
 	}
 	
-public boolean createTestFile(String fileName) throws IOException {
-		
+	public boolean createTestFile(String fileName) throws IOException {
 		File testFile = new File(fileName);
-		
 		return testFile.createNewFile();
 	}
 	
 	public boolean deleteTestFile(String fileName) {
-		
 		File testFile = new File(fileName);
-		
 		return testFile.delete();
 	}
-
 }

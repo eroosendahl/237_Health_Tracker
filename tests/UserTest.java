@@ -7,46 +7,47 @@ import org.junit.jupiter.api.Test;
 
 import main.User;
 
-class UserTest {
+public class UserTest {
 	User user;
+	
 	@BeforeEach
 	public void setup() {
 		user = new User("user",1);
 	}
+	
 	@Test
-	public void getUserRow() {
+	public void testGetUserRow() {
 		int actualRow = user.getRow();
 		assertEquals(1, actualRow);
 	}
 	
 	@Test
-	public void setUserRow() {
+	public void testSetUserRow() {
 		user.setRow(4);
 		assertEquals(4, user.getRow());
 	}
 	
 	@Test
-	public void getUserColumn() {
+	public void testGetUserColumn() {
 		int actualColumn = user.getCurrentColumn();
 		assertEquals(0, actualColumn);
 	}
 	
 	@Test
-	public void setUserColumn() {
+	public void testSetUserColumn() {
 		user.setCurrentColumn(6);
 		assertEquals(6, user.getCurrentColumn());
 	}
 	
 	@Test
-	public void getUserName() {
+	public void testGetUserName() {
 		String actualName = user.getName();
 		assertEquals("user", actualName);
 	}
 	
 	@Test
-	public void setUserName() {
+	public void testSetUserName() {
 		user.setName("newName");
 		assertEquals("newName", user.getName());
 	}
-
 }

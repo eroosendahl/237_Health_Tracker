@@ -34,6 +34,8 @@ public class DeleteUserCommand extends AbstractCommand {
 			if (!entries[0].equals(username)) { remainingLines.add(line); }
 			line = csvBufferedReader.readLine();
 		}
+		
+		csvBufferedReader.close();
 	}
 	
 	private void writeToCSV() throws IOException {

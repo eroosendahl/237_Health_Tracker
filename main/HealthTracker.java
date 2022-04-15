@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import commands.SwitchUserCommand;
 
 public class HealthTracker {
 	public static void main(String args[]) {
+		System.out.println(healthTrackerStartupMessage());
 		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv", new InputStreamReader(System.in));
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
@@ -50,8 +52,14 @@ public class HealthTracker {
 		commandPrompt.run();
 	}
 	
-	public static CommandPrompt createFullyFunctioningCommandPrompt(String filename, Reader reader) {
-		CommandPrompt commandPrompt = new CommandPrompt(filename, reader);
+	private static String healthTrackerStartupMessage() {
+		return "Health Tracker";
+	}
+
+	public static CommandPrompt getCommandFilledCommandPrompt() {
+		
+		CommandPrompt commandPrompt = new CommandPrompt();
+		
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
@@ -78,7 +86,6 @@ public class HealthTracker {
 		commandPrompt.addCommand(listStatsCommand);
 		commandPrompt.addCommand(changeUsernameCommand);
 
-		
 		return commandPrompt;
 	}
 	
