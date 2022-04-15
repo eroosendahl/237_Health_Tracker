@@ -93,7 +93,11 @@ public class SummarizeCommand extends AbstractCommand{
 			return new int[] {endState.GENERAL_FAILURE.value()};
 		}
 		
-		verifyChronologicalOrder(startDate, endDate);
+		//apparently Date class is primitive
+		Date[] newDates = verifyChronologicalOrder(startDate, endDate);
+		
+		startDate = newDates[0];
+		endDate = newDates[1];
 		
 		User currentUser = commandPrompt.getCurrentUser();
 		String userRow;
@@ -190,7 +194,7 @@ public class SummarizeCommand extends AbstractCommand{
 		return new int[] {endState.SUCCESS.value(), total, average};
 	}
 
-	private void verifyChronologicalOrder(Date startDate, Date endDate) {
+	private Date[] verifyChronologicalOrder(Date startDate, Date endDate) {
 		
 		if(startDate.after(endDate)){
 			
@@ -202,8 +206,11 @@ public class SummarizeCommand extends AbstractCommand{
 			startDate = endDate;
 			endDate = temp;
 			
+			return new Date[] {startDate, endDate};
+			
 			
 		}
+		else return new Date[] {startDate, endDate};
 	}
 	
 	private String[] parseActivityEntry(String activityEntry) {
@@ -257,7 +264,7 @@ public class SummarizeCommand extends AbstractCommand{
 			String endDateRaw = inputParts[2];
 			
 			System.out.println("Operation Successful");
-			System.out.print("Statistics for activity " + activityIdentifier + "for entered date range: ");
+			System.out.print("Statistics for activity {" + activityIdentifier + "} for entered date range: ");
 			System.out.println(startDateRaw + " - " + endDateRaw);
 			System.out.println("==========================");
 			System.out.println("Total: "+ values[1]);
