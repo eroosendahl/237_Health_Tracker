@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import main.CommandPrompt;
 import main.HealthTrackerGeneralVariables;
+import main.HealthTrackerGeneralVariables.endState;
 import main.User;
 
 public class NewEntryCommand extends AbstractCommand{
@@ -31,8 +32,10 @@ public class NewEntryCommand extends AbstractCommand{
 
 	@Override
 	public int execute() {
-		System.out.println("Value required for insertion.");
-		return 0;
+		System.out.println("newEntry requires arguments.");
+		System.out.println(descriptionMessage());
+		System.out.println(formatMessage());
+		return endState.SUCCESS.value();
 	}
 
 	// can add values but not subtract them
@@ -47,6 +50,7 @@ public class NewEntryCommand extends AbstractCommand{
 
 		if (commandSections.length != 3) {
 			System.out.println("There should be exactly 3 arguments.");
+			System.out.println(formatMessage());
 		} else {
 
 			this.entryDate = commandSections[0];
@@ -61,7 +65,10 @@ public class NewEntryCommand extends AbstractCommand{
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}
-			} else { System.out.println("Error: at least one argument is invalid."); }
+			} else { 
+				System.out.println("Error: at least one argument is invalid."); 
+				System.out.println(formatMessage());
+				}
 		}
 
 		return 0;

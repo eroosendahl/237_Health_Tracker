@@ -272,7 +272,7 @@ public class CommandPrompt {
 
 	private void promptUser() {
 		if (!userPrompted) {
-			System.out.println(currentUser.getName() +  " enter command.");
+			System.out.println("\n" + currentUser.getName() +  " enter command.");
 			userPrompted = true;
 		}
 	}
