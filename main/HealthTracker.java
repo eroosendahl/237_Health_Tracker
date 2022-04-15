@@ -18,6 +18,7 @@ import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
+import commands.SetGoalCommand;
 import commands.SwitchUserCommand;
 
 public class HealthTracker {
@@ -37,7 +38,7 @@ public class HealthTracker {
 		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
 		AbstractCommand changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
 		AbstractCommand appendEntryCommand = new AppendEntryCommand(commandPrompt);
-
+		AbstractCommand setGoalCommand = new SetGoalCommand(commandPrompt);
 		
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
@@ -52,6 +53,7 @@ public class HealthTracker {
 		commandPrompt.addCommand(listStatsCommand);
 		commandPrompt.addCommand(changeUsernameCommand);
 		commandPrompt.addCommand(appendEntryCommand);
+		commandPrompt.addCommand(setGoalCommand);
 
 		commandPrompt.run();
 	}
