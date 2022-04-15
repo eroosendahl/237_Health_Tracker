@@ -147,7 +147,6 @@ public class SummarizeCommand extends AbstractCommand{
 		ArrayList<String> relaventActivityValues = new ArrayList<String>();
 		
 		
-		
 		for(int i = 1; i< userRowParts.length; i++) {
 			
 			String entry = userRowParts[i];
@@ -174,7 +173,8 @@ public class SummarizeCommand extends AbstractCommand{
 				String activityId = activityParts[0];
 				String activityValue = activityParts[1];
 				
-				if(entryDate.after(startDate) && entryDate.before(endDate)) {
+				if((entryDate.after(startDate) && entryDate.before(endDate))|| entryDate.equals(startDate) || entryDate.equals(endDate)) {
+					
 					
 					if(activityId.equals(activityIdentifier)) {
 						
@@ -189,7 +189,7 @@ public class SummarizeCommand extends AbstractCommand{
 		}
 		
 		int total = calculateTotal(relaventActivityValues);
-		int average = calculateMean(relaventActivityValues);
+		int average = calculateMean(relaventActivityValues,calculateNumberOfDaysInPeriod(startDate,endDate));
 		
 		return new int[] {endState.SUCCESS.value(), total, average};
 	}
@@ -213,6 +213,13 @@ public class SummarizeCommand extends AbstractCommand{
 		else return new Date[] {startDate, endDate};
 	}
 	
+	
+	//https://stackoverflow.com/questions/7103064/java-calculate-the-number-of-days-between-two-dates
+	private int calculateNumberOfDaysInPeriod(Date start, Date end) {
+		
+		return (int)( (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+	}
+	
 	private String[] parseActivityEntry(String activityEntry) {
 		int openParenIndex = activityEntry.indexOf("(");
 		int closeParenIndex = activityEntry.indexOf(")");
@@ -225,7 +232,7 @@ public class SummarizeCommand extends AbstractCommand{
 		return activityParts;
 	}
 	
-	private int calculateMean(ArrayList<String> activityValues) {
+	private int calculateMean(ArrayList<String> activityValues, int numDaysInPeriod) {
 		
 		if(activityValues.size() ==0) {
 			return 0;
@@ -236,7 +243,7 @@ public class SummarizeCommand extends AbstractCommand{
 			sum += Integer.parseInt(activityValues.get(i));
 		}
 		
-		return sum / activityValues.size();
+		return sum / numDaysInPeriod;
 		
 		
 	}
