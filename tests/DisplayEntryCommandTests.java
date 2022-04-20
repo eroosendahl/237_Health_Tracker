@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import commands.AbstractCommand;
 import commands.DisplayEntryCommand;

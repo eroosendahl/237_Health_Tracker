@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.assertTrue;
 
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import commands.AbstractCommand;
 import commands.DisplayEntryCommand;

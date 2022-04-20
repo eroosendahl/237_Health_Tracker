@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import commands.EchoCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
