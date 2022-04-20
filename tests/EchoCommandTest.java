@@ -5,13 +5,17 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import commands.EchoCommand;
 
+
 public class EchoCommandTest {
 	
+	
 	@Test
+	@Tag("suiteReady")
 	public void testEcho() {
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		PrintStream oldOut = System.out;

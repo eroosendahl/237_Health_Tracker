@@ -1,24 +1,29 @@
 package tests;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-//https://www.tutorialspoint.com/junit/junit_suite_test.htm
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	ChangeUsernameTests.class,
-	CommandPromptTests.class,
-	DisplayEntryCommandTests.class,
-	EchoCommandTest.class,
-	ListCommandsCommandTests.class,
-	ListEntriesCommandTests.class,
-	ListUsersCommandTests.class,
-	ListStatsCommandTests.class,
-	SwitchUserCommandTests.class,
-	UserTest.class,
-	NewUserTest.class,
-	DeleteUserTests.class
+
+@Suite
+@SelectClasses({
+		AppendEntryCommandTests.class,
+		ChangeUsernameTests.class,
+		CommandPromptTests.class,// vintage junit
+		DeleteEntryTests.class,
+		DisplayEntryCommandTests.class,//
+		EchoCommandTest.class,
+		ListCommandsCommandTests.class,//
+		ListEntriesCommandTests.class,//
+		ListStatsCommandTests.class,
+		ListUsersCommandTests.class,//
+		NewEntryCommandTests.class,
+		NewUserTest.class,
+		SetGoalCommandTests.class,
+		SummarizeCommandTests.class,
+		SwitchUserCommandTests.class,//
+		UserTest.class
 })
 
 public class HealthTrackerTestSuite {
 }
+
