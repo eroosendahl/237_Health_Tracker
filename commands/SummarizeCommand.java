@@ -18,12 +18,13 @@ import main.User;
 
 public class SummarizeCommand extends AbstractCommand{
 	
-	
+	SimpleDateFormat formatter;
 	
 	public SummarizeCommand(CommandPrompt cp ) {
 		
 		name = "summarize";
 		commandPrompt = cp;
+		formatter = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class SummarizeCommand extends AbstractCommand{
 	//second is total
 	//third is average
 	public int[] calculateStatistics(String executionMod) {
+		
 		String[] inputParts = executionMod.split(" ");
 		
 		if(inputParts.length <3 || inputParts.length >3) {
@@ -61,6 +63,154 @@ public class SummarizeCommand extends AbstractCommand{
 		String activityIdentifier = inputParts[0];
 		String startDateRaw = inputParts[1];
 		String endDateRaw = inputParts[2];
+		
+		int[] dateCheckResults = verifyCorrectDates(startDateRaw,endDateRaw);
+		if(dateCheckResults[0] == endState.GENERAL_FAILURE.value()) {
+			return new int[] {endState.GENERAL_FAILURE.value()};
+		}
+		
+		Date[] convertedDates = convertStringToDates(startDateRaw,endDateRaw);
+		Date startDate;
+		Date endDate;
+		if(convertedDates ==null) {
+			return new int[] {endState.GENERAL_FAILURE.value()}; 
+		}
+		else {
+			startDate = convertedDates[0];
+			endDate = convertedDates[1];
+		}
+		
+		String[] userRowParts =null;
+		try {
+			User currentUser = commandPrompt.getCurrentUser();
+			userRowParts = searchForUserRow(currentUser);
+			
+			if(userRowParts == null) {
+				return new int[] {endState.GENERAL_FAILURE.value()}; 
+			}
+		} 
+		catch (IOException e) {
+			
+			e.printStackTrace();
+			return new int[] {endState.GENERAL_FAILURE.value()};
+		}
+		
+		ArrayList<String> relaventActivityValues = new ArrayList<String>();
+		
+		relaventActivityValues = loadRelevantActivityValues(userRowParts, new Date[] {startDate,endDate},activityIdentifier);
+		
+		if(relaventActivityValues == null) {
+			return new int[] {endState.GENERAL_FAILURE.value()};
+		}
+		
+		int total = calculateTotal(relaventActivityValues);
+		int average = calculateMean(relaventActivityValues,calculateNumberOfDaysInPeriod(startDate,endDate));
+		
+		return new int[] {endState.SUCCESS.value(), total, average};
+	}
+	
+	private ArrayList<String> loadRelevantActivityValues(String[] userRowParts,Date[] dates, String activityIdentifier){
+		
+			ArrayList<String> relaventActivityValues = new ArrayList<String>();
+		
+			for(int i = 1; i< userRowParts.length; i++) {
+			
+			String entry = userRowParts[i];
+			String[] entryParts = entry.split(" ");
+			String entryDateRaw = entryParts[0];
+			
+			Date entryDate;
+			
+			try {
+				entryDate = formatter.parse(entryDateRaw);
+			} 
+			catch (ParseException e) {
+				
+				e.printStackTrace();
+				return null;
+				
+			}
+			
+			for(int j = 1; j < entryParts.length; j++) {
+				
+				String activity = entryParts[j];
+				String[] activityParts = parseActivityEntry(activity);
+				String activityId = activityParts[0];
+				String activityValue = activityParts[1];
+				
+				if(entryDate.after(dates[0]) && entryDate.before(dates[1])) {
+					
+					
+					if(activityId.equals(activityIdentifier)) {
+						
+						relaventActivityValues.add(activityValue);
+					}
+				}
+				
+				
+			}
+			
+			
+		}
+		return relaventActivityValues;
+	}
+	
+	private String[] searchForUserRow(User currentUser) throws IOException {
+		int count = 0;
+		String userRow;
+		String[] userRowParts = null;
+		
+		File csvFile = new File(commandPrompt.getFile());
+		FileReader csvReader = new FileReader(csvFile);
+		BufferedReader csvBufferedReader = new BufferedReader(csvReader);
+		String line = null;
+		boolean found = false;
+		
+		while ((line = csvBufferedReader.readLine()) != null) {
+
+			if(currentUser.getRow()==count) {
+				
+				userRow = line;
+				userRowParts = userRow.split(",");
+				if(userRowParts[0].equals(currentUser.getName())) found = true;
+				
+			}
+			
+			count++;
+			
+		}
+		csvReader.close();
+		csvBufferedReader.close();
+		
+		if(!found) {
+			
+			return null;
+		}
+		else return userRowParts;
+		
+	}
+	
+	private Date[] convertStringToDates(String startDateRaw, String endDateRaw) {
+		
+		Date startDate;
+		Date endDate;
+		
+		try {
+			
+			startDate = formatter.parse(startDateRaw);
+			endDate = formatter.parse(endDateRaw);
+		}
+		catch (ParseException e) {
+			
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		Date[] newDates = verifyChronologicalOrder(startDate, endDate);
+		return newDates;
+	}
+	private int[] verifyCorrectDates(String startDateRaw, String endDateRaw) {
 		
 		if(!(HealthTrackerGeneralVariables.isDateFormat(startDateRaw)) || !(HealthTrackerGeneralVariables.isDateFormat(endDateRaw))) {
 			
@@ -75,123 +225,9 @@ public class SummarizeCommand extends AbstractCommand{
 			System.out.println(formatMessage());
 			return new int[] {endState.GENERAL_FAILURE.value()};
 		}
-		
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/mm/yyyy", Locale.ENGLISH);
-		
-		Date startDate;
-		Date endDate;
-		
-		try {
-			
-			startDate = formatter.parse(startDateRaw);
-			endDate = formatter.parse(endDateRaw);
+		else {
+			return new int[] {endState.SUCCESS.value()};
 		}
-		catch (ParseException e) {
-			
-			e.printStackTrace();
-			return new int[] {endState.GENERAL_FAILURE.value()};
-		}
-		
-		//apparently Date class is primitive
-		Date[] newDates = verifyChronologicalOrder(startDate, endDate);
-		
-		startDate = newDates[0];
-		endDate = newDates[1];
-		
-		User currentUser = commandPrompt.getCurrentUser();
-		String userRow;
-		String[] userRowParts = null;
-		
-		
-		int count = 0;
-		try {
-			
-			File csvFile = new File(commandPrompt.getFile());
-			FileReader csvReader = new FileReader(csvFile);
-			BufferedReader csvBufferedReader = new BufferedReader(csvReader);
-			String line = null;
-			boolean found = false;
-			
-			while ((line = csvBufferedReader.readLine()) != null) {
-
-				if(currentUser.getRow()==count) {
-					
-					userRow = line;
-					userRowParts = userRow.split(",");
-					if(userRowParts[0].equals(currentUser.getName())) found = true;
-					
-				}
-				
-				count++;
-				
-			}
-			csvReader.close();
-			csvBufferedReader.close();
-			
-			if(!found) {
-			
-				System.out.println("User row not found");
-				return new int[] {endState.GENERAL_FAILURE.value()};
-				
-			}
-			
-			
-		} 
-		catch (IOException e) {
-			
-			e.printStackTrace();
-			return new int[] {endState.GENERAL_FAILURE.value()};
-		}
-		
-		ArrayList<String> relaventActivityValues = new ArrayList<String>();
-		
-		
-		for(int i = 1; i< userRowParts.length; i++) {
-			
-			String entry = userRowParts[i];
-			String[] entryParts = entry.split(" ");
-			String entryDateRaw = entryParts[0];
-			
-			Date entryDate;
-			
-			try {
-				entryDate = formatter.parse(entryDateRaw);
-			} 
-			catch (ParseException e) {
-				
-				e.printStackTrace();
-				return new int[] {endState.GENERAL_FAILURE.value()};
-				
-			}
-			
-			
-			for(int j = 1; j < entryParts.length; j++) {
-				
-				String activity = entryParts[j];
-				String[] activityParts = parseActivityEntry(activity);
-				String activityId = activityParts[0];
-				String activityValue = activityParts[1];
-				
-				if((entryDate.after(startDate) && entryDate.before(endDate))|| entryDate.equals(startDate) || entryDate.equals(endDate)) {
-					
-					
-					if(activityId.equals(activityIdentifier)) {
-						
-						relaventActivityValues.add(activityValue);
-					}
-				}
-				
-				
-			}
-			
-			
-		}
-		
-		int total = calculateTotal(relaventActivityValues);
-		int average = calculateMean(relaventActivityValues,calculateNumberOfDaysInPeriod(startDate,endDate));
-		
-		return new int[] {endState.SUCCESS.value(), total, average};
 	}
 
 	private Date[] verifyChronologicalOrder(Date startDate, Date endDate) {
