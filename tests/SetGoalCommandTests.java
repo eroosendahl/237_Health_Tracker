@@ -12,29 +12,33 @@ import org.junit.jupiter.api.Test;
 
 import commands.NewUserCommand;
 import commands.SetGoalCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 class SetGoalCommandTests {
 	CommandPrompt commandPrompt;
 	SetGoalCommand newGoal;
 	NewUserCommand newUser;
-	String testFileName = "testFile";
+	SwitchUserCommand switchUser;
+	String testFileName = "testUserInfo.csv";
 	
 	@BeforeEach
 	void setup() throws IOException {
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFileName);
-		commandPrompt.setFile(testFileName);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		newGoal = new SetGoalCommand(commandPrompt);
 		commandPrompt.addCommand(newGoal);
 		newUser = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUser);
+		switchUser = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUser);
 		
 		String exampleUserName = "testUser";
 		User originalUser = new User(exampleUserName, 0);
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 	}
 	
 	@Test
@@ -42,9 +46,9 @@ class SetGoalCommandTests {
 		String exampleGoal = "run 500";
 		newGoal.execute(exampleGoal);
 		String expectedNewGoal = "goal run(500)";
-		boolean foundnewGoal = searchForEntry(testFileName, commandPrompt.getCurrentUser(), expectedNewGoal);
+		boolean foundNewGoal = searchForEntry(testFileName, commandPrompt.getCurrentUser(), expectedNewGoal);
 		deleteTestFile(testFileName);
-		assertTrue(foundnewGoal);
+		assertTrue(foundNewGoal);
 	}
 	
 	@Test

@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
 import commands.SummarizeCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class SummarizeCommandTests {
@@ -20,20 +22,22 @@ public class SummarizeCommandTests {
 	NewEntryCommand newEntry;
 	NewUserCommand newUser;
 	SummarizeCommand summarize;
-	String testFile = "testFile";
+	SwitchUserCommand switchUser;
+	String testFile = "testUserInfo.csv";
 	
 	@BeforeEach
 	void setup() throws IOException {
 		
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFile);
-		commandPrompt.setFile(testFile);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		newEntry = new NewEntryCommand(commandPrompt);
 		commandPrompt.addCommand(newEntry);
 		newUser = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUser);
 		summarize = new SummarizeCommand(commandPrompt);
 		commandPrompt.addCommand(summarize);
+		switchUser = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUser);
 		
 		
 	}
@@ -42,12 +46,11 @@ public class SummarizeCommandTests {
 	void testSummarizeSingleEntry() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		
@@ -79,7 +82,7 @@ public class SummarizeCommandTests {
 		String exampleEntry = "09/01/2001 run 500";
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		
@@ -101,7 +104,6 @@ public class SummarizeCommandTests {
 	void testSummarizeMultipleEntries() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		String exampleEntry2 = "10/01/2001 run 1000";
@@ -110,7 +112,7 @@ public class SummarizeCommandTests {
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry2);
@@ -135,7 +137,6 @@ public class SummarizeCommandTests {
 	void testSummarizeInclusiveDatedEntries() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		String exampleEntry2 = "10/01/2001 run 1000";
@@ -144,7 +145,7 @@ public class SummarizeCommandTests {
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry2);

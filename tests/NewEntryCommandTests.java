@@ -14,8 +14,10 @@ import org.junit.jupiter.api.Test;
 import commands.ChangeUsernameCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
 import main.HealthTracker;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class NewEntryCommandTests {
@@ -23,18 +25,20 @@ public class NewEntryCommandTests {
 	CommandPrompt commandPrompt;
 	NewEntryCommand newEntry;
 	NewUserCommand newUser;
-	String testFile = "testFile";
+	SwitchUserCommand switchUser;
+	String testFile = "testUserInfo.csv";
 	
 	@BeforeEach
 	void setup() throws IOException {
 		
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFile);
-		commandPrompt.setFile(testFile);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		newEntry = new NewEntryCommand(commandPrompt);
 		commandPrompt.addCommand(newEntry);
 		newUser = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUser);
+		switchUser = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUser);
 		
 	}
 	
@@ -42,21 +46,18 @@ public class NewEntryCommandTests {
 	void testNewEntryInitial() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
-		
 		String exampleEntry = "09/01/2001 run 500";
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		
 		String expectedEntry = "09/01/2001 run(500)";
 		
 		
-		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
-		
-		deleteTestFile(testFile);
+		//boolean found = searchForEntry(testFile,originalUser,expectedEntry);
+		boolean found = searchForEntry(testFile, expectedEntry);
 		
 		assertEquals(true,found);
 	}
@@ -65,12 +66,11 @@ public class NewEntryCommandTests {
 	void testNewEntrySameDateAndActivity() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry);
@@ -78,7 +78,8 @@ public class NewEntryCommandTests {
 		String expectedEntry = "09/01/2001 run(1000)";
 		
 		
-		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
+		//boolean found = searchForEntry(testFile,originalUser,expectedEntry);
+		boolean found = searchForEntry(testFile,expectedEntry);
 		
 		deleteTestFile(testFile);
 		assertEquals(true,found);
@@ -89,20 +90,20 @@ public class NewEntryCommandTests {
 	void testNewEntrySameDateDifferentActivity() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		String exampleEntrySecond = "09/01/2001 eat 500";
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntrySecond);
 		
 		String expectedEntry = "09/01/2001 run(500) eat(500)";
-		boolean found = searchForEntry(testFile,originalUser,expectedEntry);
+		//boolean found = searchForEntry(testFile,originalUser,expectedEntry);
+		boolean found = searchForEntry(testFile,expectedEntry);
 		
 		deleteTestFile(testFile);
 		
@@ -128,11 +129,12 @@ public class NewEntryCommandTests {
 		newUser.execute(exampleUserName);
 		newUser.execute(exampleUserNameSecond);
 		newUser.execute(exampleUserNameThird);
-		commandPrompt.setCurrentUser(originalUserSecond);
+		switchUser.execute(exampleUserNameSecond);
 		
 		newEntry.execute(exampleEntry);
 		String expectedEntry = "09/01/2001 run(500)";
-		boolean found = searchForEntry(testFile,originalUserSecond,expectedEntry);
+		//boolean found = searchForEntry(testFile,originalUserSecond,expectedEntry);
+		boolean found = searchForEntry(testFile, expectedEntry);
 		
 		deleteTestFile(testFile);
 		assertEquals(true,found);
@@ -154,8 +156,8 @@ public class NewEntryCommandTests {
 		return testFile.delete();
 	}
 	
-	public boolean searchForEntry(String fileName, User user ,String entry) throws IOException {
-		
+	public boolean searchForEntry(String fileName, String entry) throws IOException {
+		User user = commandPrompt.getCurrentUser();
 		File csvFile = new File(fileName);
 		FileReader csvReader = new FileReader(csvFile);
 		BufferedReader csvBufferedReader = new BufferedReader(csvReader);

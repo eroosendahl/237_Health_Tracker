@@ -20,10 +20,11 @@ import commands.AbstractCommand;
 import commands.ChangeUsernameCommand;
 import commands.NewUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class NewUserTest {
-	String testFile = "testFile";
+	String testFile = "testUserInfo.csv";
 	CommandPrompt commandPrompt;
 	NewUserCommand newUserCommand;
 	
@@ -31,12 +32,7 @@ public class NewUserTest {
 	void setup() {
 		User originalUser = new User("originalUser");
 		commandPrompt = new CommandPrompt();
-		try {
-			createTestFile(testFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		commandPrompt.setFile(testFile);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		commandPrompt.setCurrentUser(originalUser);
 		newUserCommand = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUserCommand);
