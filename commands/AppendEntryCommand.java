@@ -96,31 +96,17 @@ public class AppendEntryCommand extends AbstractCommand {
 
 				if (dateFound == endState.GENERAL_FAILURE.value()) { 
 					modifiedLines.add(line); 
-					}
+				}
 				else {
 					String[] dayEntries = userEntries[dateFound].split(" ");
 					activityFound = foundActivity(activity, dayEntries);
 					List<String> modifiedDayEntries = new ArrayList<String>(Arrays.asList(dayEntries));
 
 					if (activityFound == endState.GENERAL_FAILURE.value()) {
-						System.out.println("Activity not found, appended as new.");
-						modifiedDayEntries.add(activity + "(" + value + ")");
-						userEntries[dateFound] = String.join(" ", modifiedDayEntries) + " ";
-						modifiedLines.add(String.join(",", userEntries));
+						appendAsNewActivity(activity, value, dateFound, userEntries, modifiedDayEntries);
 					}
 					else {
-						String activityEntry = modifiedDayEntries.get(activityFound);
-						int openParenIndex = activityEntry.indexOf("(");
-						int closedParenIndex = activityEntry.indexOf(")");
-						int previousActivityVal = Integer.parseInt((String) activityEntry.substring(openParenIndex+1, closedParenIndex));
-						int newActivityVal = previousActivityVal + Integer.parseInt(value);
-						String newActivityEntry = modifiedDayEntries.get(activityFound).substring(0, openParenIndex+1)
-								+ newActivityVal + modifiedDayEntries.get(activityFound).substring(closedParenIndex);
-
-						modifiedDayEntries.set(activityFound, newActivityEntry);
-
-						userEntries[dateFound] = String.join(" ", modifiedDayEntries) + " ";
-						modifiedLines.add(String.join(",", userEntries));
+						appendExistingActivity(value, dateFound, activityFound, userEntries, modifiedDayEntries);
 					}
 				}
 			} else { modifiedLines.add(line); }
@@ -134,6 +120,30 @@ public class AppendEntryCommand extends AbstractCommand {
 			}
 		csvBufferedReader.close();
 		return endState.GENERAL_FAILURE.value();
+	}
+
+	private void appendExistingActivity(String value, int dateFound, int activityFound, String[] userEntries,
+			List<String> modifiedDayEntries) {
+		String activityEntry = modifiedDayEntries.get(activityFound);
+		int openParenIndex = activityEntry.indexOf("(");
+		int closedParenIndex = activityEntry.indexOf(")");
+		int previousActivityVal = Integer.parseInt((String) activityEntry.substring(openParenIndex+1, closedParenIndex));
+		int newActivityVal = previousActivityVal + Integer.parseInt(value);
+		String newActivityEntry = modifiedDayEntries.get(activityFound).substring(0, openParenIndex+1)
+				+ newActivityVal + modifiedDayEntries.get(activityFound).substring(closedParenIndex);
+
+		modifiedDayEntries.set(activityFound, newActivityEntry);
+
+		userEntries[dateFound] = String.join(" ", modifiedDayEntries) + " ";
+		modifiedLines.add(String.join(",", userEntries));
+	}
+
+	private void appendAsNewActivity(String activity, String value, int dateFound, String[] userEntries,
+			List<String> modifiedDayEntries) {
+		System.out.println("Activity not found, appended as new.");
+		modifiedDayEntries.add(activity + "(" + value + ")");
+		userEntries[dateFound] = String.join(" ", modifiedDayEntries) + " ";
+		modifiedLines.add(String.join(",", userEntries));
 	}
 
 	private void writeToCSV() throws IOException {
