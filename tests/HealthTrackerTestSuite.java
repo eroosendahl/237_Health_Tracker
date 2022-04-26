@@ -10,6 +10,7 @@ import org.junit.platform.suite.api.Suite;
 		ChangeUsernameTests.class,
 		CommandPromptTests.class,
 		DeleteEntryTests.class,
+		DeleteUserTests.class,
 		DisplayEntryCommandTests.class,
 		EchoCommandTest.class,
 		ListCommandsCommandTests.class,
@@ -20,7 +21,7 @@ import org.junit.platform.suite.api.Suite;
 		NewUserTest.class,
 		SetGoalCommandTests.class,
 		SummarizeCommandTests.class,
-		SwitchUserCommandTests.class,//
+		SwitchUserCommandTests.class,
 		UserTest.class
 })
 
