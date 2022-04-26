@@ -27,9 +27,7 @@ public class ChangeUsernameTests {
 	@BeforeEach
 	void setup() {
 		commandPrompt = new CommandPrompt();
-		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
-		
-		
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());	
 		newUserCommand = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUserCommand);
 		changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
@@ -71,18 +69,13 @@ public class ChangeUsernameTests {
 		assertEquals(preswitchUsername, postswitchUsername);
 	}
 	
-public boolean createTestFile(String fileName) throws IOException {
-		
+	public boolean createTestFile(String fileName) throws IOException {
 		File testFile = new File(fileName);
-		
 		return testFile.createNewFile();
 	}
 	
 	public boolean deleteTestFile(String fileName) {
-		
 		File testFile = new File(fileName);
-		
 		return testFile.delete();
 	}
-
 }

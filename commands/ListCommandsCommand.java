@@ -22,7 +22,7 @@ public class ListCommandsCommand extends AbstractCommand {
 
 	@Override
 	public int execute(String executionMod) {
-		if (executionMod.equals("-help")) {
+		if (executionMod.equals("-h")) {
 			System.out.println("Listing commands WITH help info");
 			commandPrompt.listCommands(true);
 			return endState.SUCCESS.value();

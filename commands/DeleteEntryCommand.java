@@ -96,6 +96,7 @@ public class DeleteEntryCommand extends AbstractCommand {
 		}
 		
 		if (dateFound == 0) { System.out.println("Cannot delete entry: date '" + dateString + "' not found."); }
+		csvBufferedReader.close();
 	}
 	
 	private void filterActivity(String dateString, String activity) throws IOException {
@@ -127,6 +128,7 @@ public class DeleteEntryCommand extends AbstractCommand {
 		
 		if (dateFound == 0) { System.out.println("Cannot delete entry: date '" + dateString + "' not found."); }
 		else if (activityFound == 0) { System.out.println("Cannot delete entry: activity '" + activity + "' not found."); }
+		csvBufferedReader.close();
 	}
 
 	private void writeToCSV() throws IOException {

@@ -2,11 +2,11 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 import commands.AbstractCommand;
 import commands.NewUserCommand;
-import commands.SwitchUserCommand;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
@@ -29,12 +28,14 @@ public class CommandPrompt {
 	private ArrayList<User> userList;
 	private final BufferedReader inputReader;
 	HashMap<String, String> supportedStats;
+	private File mainFile;
 	
 	public CommandPrompt() {
 		inputReader = null;	
 		currentUser = new User("0", 0);
 		commands = new HashMap<String, AbstractCommand>();
 		userList = new ArrayList<User>();
+		mainFile = new File("");
 	}
 	
 	public CommandPrompt(File inputFile, List<AbstractCommand> inputCommands) {
@@ -94,6 +95,7 @@ public class CommandPrompt {
 		scanner = new Scanner(inputReader);
 		commands = new HashMap<String, AbstractCommand>();
 		filename = fileName;
+		mainFile = new File(filename);
 		findFile();
 		loadExistantUsers();
 		loadInitialUser();
@@ -109,9 +111,20 @@ public class CommandPrompt {
 		startUpMessage();
 
 		while (true) {
-			loadExistantUsers();
+			if (mainFile.exists()) {
+				loadExistantUsers();
+			}
 			promptUser();
-			gatherUserInput();
+			
+			if (!Objects.isNull(scanner)) {
+				gatherUserInput();
+			}
+			
+			if (Objects.equals(userInput, "generateTestFile")) {
+				File testFile = HealthTrackerGeneralVariables.generateTestFile();
+				setFile(testFile.getName());
+				userInput = "";
+			}
 
 			if (Objects.equals(userInput, "quit")) {
 				quit();
@@ -134,17 +147,17 @@ public class CommandPrompt {
 		try {
 			boolean createdNewFile = file.createNewFile();
 			if (createdNewFile) {
-				System.out.println("Created new file.");
+				System.out.println("Initialized from newly created file.");
 			}
 			else {
-				System.out.println("Found already existing file.");
+				System.out.println("Initialized from already existing file.");
 			}
 
 			if (!file.exists()) {
 				System.out.println("File still doesn't exist!");
 				return endState.GENERAL_FAILURE.value();
 			}
-
+			mainFile = file;
 			return endState.SUCCESS.value();
 		} catch (IOException e) {
 			System.out.println("createNewFile() failed");
@@ -152,9 +165,27 @@ public class CommandPrompt {
 			return endState.GENERAL_FAILURE.value();
 		}
 	}
+	
+	public int retargetUser() {
+		loadExistantUsers();
+		boolean found = false;
+		
+		for (User user: userList) {
+			if (currentUser == user)
+				found = true;
+		}
+		
+		if (!found) {
+			currentUser = userList.get(0);
+			return endState.SUCCESS.value();
+		}
+		return endState.ALTERNATIVE_SUCCESS.value();
+	}
 
 	public int gatherInitialUser() {
+		
 		scanner = new Scanner(System.in);
+		
 		String newUsername = null;
 		System.out.println("Please input a username:");
 
@@ -170,7 +201,7 @@ public class CommandPrompt {
 
 			try {
 				BufferedWriter csvWriter = new BufferedWriter(new FileWriter(filename));
-				csvWriter.write(newUsername);
+				csvWriter.write(newUsername + "\n");
 				csvWriter.close();
 			} catch (IOException e) {
 				System.out.println("Failed to write initial user to empty file.");
@@ -204,7 +235,6 @@ public class CommandPrompt {
 			while (line != null) {
 				String[] entries = line.split(",");
 
-				// user indices temporarily set to 0
 				if (entries[0] != "") { userList.add(new User(entries[0], row)); }
 
 				row++;
@@ -227,7 +257,6 @@ public class CommandPrompt {
 	private void startUpMessage() {
 		System.out.println("CommandPrompt Running");
 		System.out.println("Type 'quit' to quit or 'help' for help.\n");
-		//listCommands(true);
 	}
 
 	public void attemptCommandExecution() {
@@ -264,7 +293,7 @@ public class CommandPrompt {
 
 	private void promptUser() {
 		if (!userPrompted) {
-			System.out.println(currentUser.getName() +  " enter command.");
+			System.out.println("\n" + currentUser.getName() +  " enter command.");
 			userPrompted = true;
 		}
 	}
@@ -330,7 +359,6 @@ public class CommandPrompt {
 		if (!commands.containsKey("newUser")) {
 			addCommand(new NewUserCommand(this));
 		}
-		// assumes User list matches users in the file (other code is responsible for that)
 		int startingRow = this.userList.size();
 		
 		for (User user: newUsers) {
@@ -373,6 +401,7 @@ public class CommandPrompt {
 
 	public void setFile(String file) {
 		this.filename = file;
+		retargetUser();
 	}
 
 	public ArrayList<User> getUsers() {
@@ -385,6 +414,10 @@ public class CommandPrompt {
 
 	public void setNumUsers(int numUsers) {
 		this.numUsers = numUsers;
+	}
+	
+	public HashMap<String, String> getSupportedStats() {
+		return supportedStats;
 	}
 	
 	public HashMap<String, AbstractCommand> getCommands() {
@@ -433,5 +466,10 @@ public class CommandPrompt {
 		supportedStats.forEach((key, value) -> {
 			System.out.println(key+ " : " + value);
 		});
+	}
+
+	public void setScanner(Scanner inputScanner) {
+		scanner = inputScanner;
+		
 	}
 }

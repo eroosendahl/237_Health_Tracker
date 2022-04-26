@@ -54,7 +54,6 @@ public class ListEntriesCommand extends AbstractCommand {
 
 	@Override
 	public int execute(String executionMod) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

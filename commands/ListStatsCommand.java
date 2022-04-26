@@ -16,6 +16,7 @@ package commands;
 		@Override
 		public int execute() {
 			System.out.println("Listing stats without help info:");
+			commandPrompt.initializeHealthStats();
 			commandPrompt.printSupportedHealthStats();
 			return endState.SUCCESS.value();
 		}

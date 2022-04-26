@@ -22,11 +22,6 @@ public class NewUserCommand extends AbstractCommand {
 		commandPrompt = cp;
 	}
 	
-//	public NewUserCommand(String csvFile) {
-//		name = "newUser";
-//		csvFileName = csvFile;
-//	}
-	
 	@Override
 	public int execute() {
 		System.out.println("Value required for creating a new user.");
@@ -62,7 +57,6 @@ public class NewUserCommand extends AbstractCommand {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.println(name);
 		return 0;
 	}
 	
