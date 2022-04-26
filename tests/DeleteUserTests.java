@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import commands.DeleteUserCommand;
 import commands.NewUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class DeleteUserTests {
@@ -21,18 +22,19 @@ public class DeleteUserTests {
 	
 	@BeforeEach
 	void setup() {
-		User arthur = new User("Arthur");
-		this.commandPrompt = new CommandPrompt();
+		
+		commandPrompt = new CommandPrompt();
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		
 		try { createTestFile(testFileName); }
 		catch (IOException e) { e.printStackTrace(); }
-		
-		commandPrompt.setFile(testFileName);
+
 		newUserCommand = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUserCommand);
 		deleteUserCommand = new DeleteUserCommand(commandPrompt);
 		commandPrompt.addCommand(deleteUserCommand);
 		
+		User arthur = new User("Arthur");
 		newUserCommand.execute("Arthur");
 		commandPrompt.setCurrentUser(arthur);
 		newUserCommand.execute("Bertha");

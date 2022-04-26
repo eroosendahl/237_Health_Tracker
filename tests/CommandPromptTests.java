@@ -30,6 +30,7 @@ import commands.NewUserCommand;
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
 import main.HealthTracker;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class CommandPromptTests {
@@ -43,7 +44,7 @@ public class CommandPromptTests {
 	@BeforeEach
 	public void setup() {
 		commandPrompt = new CommandPrompt();
-		new File(testFileName).delete();
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 	}
 
 	@Test
@@ -75,9 +76,9 @@ public class CommandPromptTests {
 	private String expectedOutputFromEcho(String expressionToEcho) {
 		return "CommandPrompt Running\r\n"
 				+ "Type 'quit' to quit or 'help' for help.\n\r\n\n"
-				+ "0 enter command.\r\n"
+				+ "One enter command.\r\n"
 				+ expressionToEcho + "\r\n\n"
-				+ "0 enter command.\r\n"
+				+ "One enter command.\r\n"
 				+ "Shutting down...\r\n";
 	}
 

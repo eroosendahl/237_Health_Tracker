@@ -13,36 +13,40 @@ import org.junit.jupiter.api.Test;
 import commands.DeleteEntryCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class DeleteEntryTests {
 	CommandPrompt commandPrompt;
 	NewEntryCommand newEntry;
 	NewUserCommand newUser;
+	SwitchUserCommand switchUser;
 	DeleteEntryCommand deleteEntryCommand;
-	String testFileName = "testFile";
+	String testFileName = "testUserInfo.csv";
 
 	@BeforeEach
 	void setup() throws IOException {
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFileName);
-		commandPrompt.setFile(testFileName);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		newEntry = new NewEntryCommand(commandPrompt);
 		commandPrompt.addCommand(newEntry);
+		switchUser = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUser);
 		newUser = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUser);
 		deleteEntryCommand = new DeleteEntryCommand(commandPrompt);
 		commandPrompt.addCommand(deleteEntryCommand);
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
+
 		String entry1 = "09/01/2001 run 500";
 		String entry2 = "09/01/2001 eat 2000";
 		String entry3 = "10/01/2001 run 500";
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		newEntry.execute(entry1);
 		newEntry.execute(entry2);
 		newEntry.execute(entry3);
