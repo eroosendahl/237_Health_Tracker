@@ -14,6 +14,7 @@ public class HealthTrackerGeneralVariables {
 		UNIMPLEMENTED(-2),
 		GENERAL_FAILURE(-1),
 		SUCCESS(0),
+		ALTERNATIVE_SUCCESS(2)
 		;
 		
 		private final int value;	
