@@ -38,44 +38,13 @@ public class ChangeUsernameTests {
 
 	@Test
 	public void validChangeUsername() {
-		String originalUsername = "originalUser";
-		String newUsername = "newUser";
-		newUserCommand.execute(originalUsername);
-		newUserCommand.execute(newUsername);
-		switchUserCommand.execute(originalUsername);
-		
-		String preswitchUsername =commandPrompt.getCurrentUser().getName();
+		String originalUsername = commandPrompt.getCurrentUser().getName();
+		String newUsername = "newUsername";
 		changeUsernameCommand.execute(newUsername);
 		
-		String postswitchUsername =commandPrompt.getCurrentUser().getName();
+		String changedUsername = commandPrompt.getCurrentUser().getName();
 		
-		assertNotEquals(preswitchUsername, postswitchUsername);
-		assertEquals(newUsername, postswitchUsername);
-	}
-	
-	@Test
-	public void invalidChangeUsername() {
-		String originalUsername = "originalUser";
-		String nonexistantUsername = "nonexistantUser";
-		newUserCommand.execute(originalUsername);
-		switchUserCommand.execute(originalUsername);
-		
-		String preswitchUsername =commandPrompt.getCurrentUser().getName();
-		changeUsernameCommand.execute(nonexistantUsername);
-		
-		String postswitchUsername =commandPrompt.getCurrentUser().getName();
-		
-		assertNotEquals(nonexistantUsername, postswitchUsername);
-		assertEquals(preswitchUsername, postswitchUsername);
-	}
-	
-	public boolean createTestFile(String fileName) throws IOException {
-		File testFile = new File(fileName);
-		return testFile.createNewFile();
-	}
-	
-	public boolean deleteTestFile(String fileName) {
-		File testFile = new File(fileName);
-		return testFile.delete();
+		assertNotEquals(originalUsername, changedUsername);
+		assertEquals(newUsername, changedUsername);
 	}
 }
