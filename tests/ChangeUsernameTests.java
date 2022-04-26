@@ -11,67 +11,40 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import commands.ChangeUsernameCommand;
+import commands.NewUserCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class ChangeUsernameTests {
 	String testFile = "testFile";
 	CommandPrompt commandPrompt;
 	ChangeUsernameCommand changeUsernameCommand;
+	NewUserCommand newUserCommand;
+	SwitchUserCommand switchUserCommand;
 	
 	@BeforeEach
 	void setup() {
-		User originalUser = new User("originalUser");
 		commandPrompt = new CommandPrompt();
-		try {
-			createTestFile(testFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		commandPrompt.setFile(testFile);
-		commandPrompt.setCurrentUser(originalUser);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());	
+		newUserCommand = new NewUserCommand(commandPrompt);
+		commandPrompt.addCommand(newUserCommand);
 		changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
 		commandPrompt.addCommand(changeUsernameCommand);
+		switchUserCommand = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUserCommand);
 	}
 
 	@Test
 	public void validChangeUsername() {
-		String originalUsername = "originalUser";
-		changeUsernameCommand.execute("newUsername");
-		String newUsername = commandPrompt.getCurrentUser().getName();
-		assertNotEquals(originalUsername, newUsername);
-		assertEquals("newUsername", newUsername);
-	}
-	
-	@Test
-	public void invalidChangeUsername() {
-		String originalUsername = "originalUser";
-		changeUsernameCommand.execute("newUsername!");
+		String originalUsername = commandPrompt.getCurrentUser().getName();
+		String newUsername = "newUsername";
+		changeUsernameCommand.execute(newUsername);
 		
-		String newUsername = commandPrompt.getCurrentUser().getName();
+		String changedUsername = commandPrompt.getCurrentUser().getName();
 		
-		assertEquals("originalUser", newUsername);
-	}
-	
-	@Test
-	public void duplicateChangeUsername() {
-		User firstUser = new User("firstUser");
-		commandPrompt.addUser(firstUser);
-		System.out.println(commandPrompt.getCurrentUser().getName());
-		changeUsernameCommand.execute("firstUser!");
-		
-		String newUsername = commandPrompt.getCurrentUser().getName();
-		System.out.println(newUsername);
-		assertEquals("originalUser", newUsername);
-	}
-	
-	public boolean createTestFile(String fileName) throws IOException {
-		File testFile = new File(fileName);
-		return testFile.createNewFile();
-	}
-	
-	public boolean deleteTestFile(String fileName) {
-		File testFile = new File(fileName);
-		return testFile.delete();
+		assertNotEquals(originalUsername, changedUsername);
+		assertEquals(newUsername, changedUsername);
 	}
 }
