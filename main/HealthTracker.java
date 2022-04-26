@@ -17,12 +17,19 @@ import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
+import commands.SummarizeCommand;
 import commands.SwitchUserCommand;
 
 public class HealthTracker {
 	public static void main(String args[]) {
 		System.out.println(healthTrackerStartupMessage());
 		CommandPrompt commandPrompt = new CommandPrompt("userinfo.csv", new InputStreamReader(System.in));
+
+
+//		//  Uncomment to generate and use a simple test file with some dummy data.
+//		HealthTrackerGeneralVariables.generateTestFile();
+//		commandPrompt.setFile("testUserInfo.csv");
+
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
@@ -35,7 +42,8 @@ public class HealthTracker {
 		AbstractCommand listEntriesCommand = new ListEntriesCommand(commandPrompt);
 		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
 		AbstractCommand changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
-		
+		AbstractCommand summarizeCommand = new SummarizeCommand(commandPrompt);
+
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
 		commandPrompt.addCommand(newUserCommand);
@@ -48,18 +56,19 @@ public class HealthTracker {
 		commandPrompt.addCommand(listEntriesCommand);
 		commandPrompt.addCommand(listStatsCommand);
 		commandPrompt.addCommand(changeUsernameCommand);
-		
+		commandPrompt.addCommand(summarizeCommand);
+
 		commandPrompt.run();
 	}
-	
+
 	private static String healthTrackerStartupMessage() {
 		return "Health Tracker";
 	}
 
 	public static CommandPrompt getCommandFilledCommandPrompt() {
-		
+
 		CommandPrompt commandPrompt = new CommandPrompt();
-		
+
 		AbstractCommand echoCommand = new EchoCommand();
 		AbstractCommand newEntryCommand = new NewEntryCommand(commandPrompt);
 		AbstractCommand newUserCommand = new NewUserCommand(commandPrompt);
@@ -88,7 +97,7 @@ public class HealthTracker {
 
 		return commandPrompt;
 	}
-	
+
 	@SuppressWarnings("serial")
 	public static ArrayList<AbstractCommand> getCurrentCommands(CommandPrompt cp) {
 		return new ArrayList<AbstractCommand>() {
@@ -104,9 +113,9 @@ public class HealthTracker {
 				add(new ListEntriesCommand(cp));
 				add(new ListStatsCommand(cp));
 				add(new ChangeUsernameCommand(cp));
-				
+
 			}
 		};
 	}
-	
+
 }
