@@ -138,7 +138,7 @@ public class SummarizeCommand extends AbstractCommand{
 				String activityId = activityParts[0];
 				String activityValue = activityParts[1];
 				
-				if(entryDate.after(dates[0]) && entryDate.before(dates[1])) {
+				if((entryDate.after(dates[0]) && entryDate.before(dates[1])) || entryDate.equals(dates[0]) || entryDate.equals(dates[1])) {
 					
 					
 					if(activityId.equals(activityIdentifier)) {

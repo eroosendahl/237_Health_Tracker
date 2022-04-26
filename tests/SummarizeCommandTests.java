@@ -131,6 +131,40 @@ public class SummarizeCommandTests {
 		
 	}
 	
+	@Test
+	void testSummarizeInclusiveDatedEntries() throws IOException {
+		
+		String exampleUserName = "testUser";
+		User originalUser = new User(exampleUserName, 0);
+		
+		String exampleEntry = "09/01/2001 run 500";
+		String exampleEntry2 = "10/01/2001 run 1000";
+		String exampleEntry3 = "09/01/2001 walk 500";
+		String exampleEntry4 = "11/01/2001 run 500";
+		
+		
+		newUser.execute(exampleUserName);
+		commandPrompt.setCurrentUser(originalUser);
+		
+		newEntry.execute(exampleEntry);
+		newEntry.execute(exampleEntry2);
+		newEntry.execute(exampleEntry3);
+		newEntry.execute(exampleEntry4);
+		
+		//ten day period
+		String exampleSummaryEntry = "run 09/01/2001 11/01/2001";
+		
+		int[] results = summarize.calculateStatistics(exampleSummaryEntry);
+		
+        //summarize.execute(exampleSummaryEntry);
+		deleteTestFile(testFile);
+		
+		assertEquals(0, results[0]);
+		assertEquals(2000, results[1]);
+		assertEquals(2000/3, results[2]);
+		
+	}
+	
 	
 	
 	public boolean createTestFile(String fileName) throws IOException {
