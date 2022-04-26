@@ -46,6 +46,8 @@ public class NewUserCommand extends AbstractCommand {
 			
 			if (!commandPrompt.containsUser(collect.trim()) && HealthTrackerGeneralVariables.isAlphaNumeric(collect.trim())) {
 				data.append(collect);
+				int row = commandPrompt.getUsers().size();
+				commandPrompt.addUser(new User(userName, row));
 			} else if (!HealthTrackerGeneralVariables.isAlphaNumeric(collect.trim())) {
 				System.out.println("Invalid username: only pure alphanumeric usernames are accepted.");
 			} else if (commandPrompt.containsUser(collect.trim())) {

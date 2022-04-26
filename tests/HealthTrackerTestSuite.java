@@ -19,6 +19,7 @@ import org.junit.platform.suite.api.Suite;
 		ListUsersCommandTests.class,
 		NewEntryCommandTests.class,
 		NewUserTest.class,
+		PrintProgressTests.class,
 		SetGoalCommandTests.class,
 		SummarizeCommandTests.class,
 		SwitchUserCommandTests.class,
