@@ -11,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
 import commands.PrintProgressCommand;
+import commands.SwitchUserCommand;
 import main.CommandPrompt;
+import main.HealthTrackerGeneralVariables;
 import main.User;
 
 public class PrintProgressTests {
@@ -19,6 +21,7 @@ public class PrintProgressTests {
 	CommandPrompt commandPrompt;
 	NewEntryCommand newEntry;
 	NewUserCommand newUser;
+	SwitchUserCommand switchUser;
 	PrintProgressCommand printProgress;
 	String testFile = "testFile";
 	
@@ -26,14 +29,15 @@ public class PrintProgressTests {
 	void setup() throws IOException {
 		
 		commandPrompt = new CommandPrompt();
-		createTestFile(testFile);
-		commandPrompt.setFile(testFile);
+		commandPrompt.setFile(HealthTrackerGeneralVariables.generateTestFile().getName());
 		newEntry = new NewEntryCommand(commandPrompt);
 		commandPrompt.addCommand(newEntry);
 		newUser = new NewUserCommand(commandPrompt);
 		commandPrompt.addCommand(newUser);
 		printProgress = new PrintProgressCommand(commandPrompt);
 		commandPrompt.addCommand(printProgress);
+		switchUser = new SwitchUserCommand(commandPrompt);
+		commandPrompt.addCommand(switchUser);
 		
 	}
 	
@@ -41,7 +45,6 @@ public class PrintProgressTests {
 	void testPrintProgressMultipleEntries() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		String exampleEntry2 = "10/01/2001 ate 1000";
@@ -50,7 +53,7 @@ public class PrintProgressTests {
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry2);
@@ -70,7 +73,6 @@ public class PrintProgressTests {
 	void testPrintProgressSingleFoundEntry() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
 		
 		String exampleEntry = "09/01/2001 run 500";
 		String exampleEntry2 = "10/01/2001 ate 1000";
@@ -79,7 +81,7 @@ public class PrintProgressTests {
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry2);
@@ -98,8 +100,6 @@ public class PrintProgressTests {
 	void testPrintProgressNoFoundEntries() throws IOException {
 		
 		String exampleUserName = "testUser";
-		User originalUser = new User(exampleUserName, 0);
-		
 		String exampleEntry = "09/01/2001 bike 500";
 		String exampleEntry2 = "10/01/2001 ate 1000";
 		String exampleEntry3 = "09/02/2001 walk 500";
@@ -107,7 +107,7 @@ public class PrintProgressTests {
 		
 		
 		newUser.execute(exampleUserName);
-		commandPrompt.setCurrentUser(originalUser);
+		switchUser.execute(exampleUserName);
 		
 		newEntry.execute(exampleEntry);
 		newEntry.execute(exampleEntry2);
