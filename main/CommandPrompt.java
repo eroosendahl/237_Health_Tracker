@@ -119,6 +119,12 @@ public class CommandPrompt {
 			if (!Objects.isNull(scanner)) {
 				gatherUserInput();
 			}
+			
+			if (Objects.equals(userInput, "generateTestFile")) {
+				File testFile = HealthTrackerGeneralVariables.generateTestFile();
+				setFile(testFile.getName());
+				userInput = "";
+			}
 
 			if (Objects.equals(userInput, "quit")) {
 				quit();
