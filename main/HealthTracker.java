@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 
 import commands.AbstractCommand;
+import commands.AppendEntryCommand;
 import commands.ChangeUsernameCommand;
 import commands.DeleteEntryCommand;
 import commands.DeleteUserCommand;
@@ -17,6 +18,8 @@ import commands.ListStatsCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
 import commands.NewUserCommand;
+import commands.PrintProgressCommand;
+import commands.SetGoalCommand;
 import commands.SummarizeCommand;
 import commands.SwitchUserCommand;
 
@@ -43,6 +46,10 @@ public class HealthTracker {
 		AbstractCommand listStatsCommand = new ListStatsCommand(commandPrompt);
 		AbstractCommand changeUsernameCommand = new ChangeUsernameCommand(commandPrompt);
 		AbstractCommand summarizeCommand = new SummarizeCommand(commandPrompt);
+		AbstractCommand appendEntryCommand = new AppendEntryCommand(commandPrompt);
+		AbstractCommand setGoalCommand = new SetGoalCommand(commandPrompt);
+		AbstractCommand printProgressCommand = new PrintProgressCommand(commandPrompt);
+		
 
 		commandPrompt.addCommand(echoCommand);
 		commandPrompt.addCommand(newEntryCommand);
@@ -57,6 +64,9 @@ public class HealthTracker {
 		commandPrompt.addCommand(listStatsCommand);
 		commandPrompt.addCommand(changeUsernameCommand);
 		commandPrompt.addCommand(summarizeCommand);
+		commandPrompt.addCommand(printProgressCommand);
+		commandPrompt.addCommand(setGoalCommand);
+		commandPrompt.addCommand(appendEntryCommand);
 
 		commandPrompt.run();
 	}
