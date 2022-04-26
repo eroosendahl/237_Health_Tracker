@@ -1,8 +1,7 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;	
+import org.junit.jupiter.api.Test;
 import commands.SwitchUserCommand;
 import main.CommandPrompt;
 import main.User;

@@ -8,19 +8,20 @@ import org.junit.platform.suite.api.Suite;
 @SelectClasses({
 		AppendEntryCommandTests.class,
 		ChangeUsernameTests.class,
-		CommandPromptTests.class,// vintage junit
+		CommandPromptTests.class,
 		DeleteEntryTests.class,
-		DisplayEntryCommandTests.class,//
+		DeleteUserTests.class,
+		DisplayEntryCommandTests.class,
 		EchoCommandTest.class,
-		ListCommandsCommandTests.class,//
-		ListEntriesCommandTests.class,//
+		ListCommandsCommandTests.class,
+		ListEntriesCommandTests.class,
 		ListStatsCommandTests.class,
-		ListUsersCommandTests.class,//
+		ListUsersCommandTests.class,
 		NewEntryCommandTests.class,
 		NewUserTest.class,
 		SetGoalCommandTests.class,
 		SummarizeCommandTests.class,
-		SwitchUserCommandTests.class,//
+		SwitchUserCommandTests.class,
 		UserTest.class
 })
 

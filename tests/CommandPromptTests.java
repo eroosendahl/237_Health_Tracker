@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import commands.EchoCommand;
 import commands.ListUsersCommand;
 import commands.NewEntryCommand;
@@ -74,9 +74,9 @@ public class CommandPromptTests {
 
 	private String expectedOutputFromEcho(String expressionToEcho) {
 		return "CommandPrompt Running\r\n"
-				+ "Type 'quit' to quit or 'help' for help.\n\r\n"
+				+ "Type 'quit' to quit or 'help' for help.\n\r\n\n"
 				+ "0 enter command.\r\n"
-				+ expressionToEcho + "\r\n"
+				+ expressionToEcho + "\r\n\n"
 				+ "0 enter command.\r\n"
 				+ "Shutting down...\r\n";
 	}
@@ -85,7 +85,7 @@ public class CommandPromptTests {
 	public void testListCommands() {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
 		int linesInOneCommandHelpMessage = 4;
-		int linesPrintedWithZeroCommands = 12;
+		int linesPrintedWithZeroCommands = 14;
 
 		for (List<AbstractCommand> commandList : variedCommandLists) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();
