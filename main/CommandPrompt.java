@@ -2,11 +2,11 @@ package main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 import commands.AbstractCommand;
 import commands.NewUserCommand;
-import commands.SwitchUserCommand;
 import main.HealthTrackerGeneralVariables.endState;
 
 public class CommandPrompt {
@@ -159,6 +158,22 @@ public class CommandPrompt {
 			e.printStackTrace();
 			return endState.GENERAL_FAILURE.value();
 		}
+	}
+	
+	public int retargetUser() {
+		loadExistantUsers();
+		boolean found = false;
+		
+		for (User user: userList) {
+			if (currentUser == user)
+				found = true;
+		}
+		
+		if (!found) {
+			currentUser = userList.get(0);
+			return endState.SUCCESS.value();
+		}
+		return endState.ALTERNATIVE_SUCCESS.value();
 	}
 
 	public int gatherInitialUser() {
@@ -380,6 +395,7 @@ public class CommandPrompt {
 
 	public void setFile(String file) {
 		this.filename = file;
+		retargetUser();
 	}
 
 	public ArrayList<User> getUsers() {
