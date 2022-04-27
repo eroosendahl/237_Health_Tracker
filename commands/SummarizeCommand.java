@@ -119,6 +119,8 @@ public class SummarizeCommand extends AbstractCommand{
 			String[] entryParts = entry.split(" ");
 			String entryDateRaw = entryParts[0];
 			
+			if (!HealthTrackerGeneralVariables.isValidDate(entryDateRaw)) { continue; }
+			
 			Date entryDate;
 			
 			try {
