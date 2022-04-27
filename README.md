@@ -88,6 +88,7 @@ java main.HealthTracker
 - HealthTrackerGeneralVariables.generateTestFile should directly fill a dummy file with possible healthtracker data.
 - HealthTrackerTestSuite should integrate existing tests into a single test suite.
 - CommandPrompt.retargetUser should check if the current user exists in the current file, and if not it should set current uset as the first user in the current file.
+- The CheckGoalCommand should compare an average of a stat's values with the corresponding goal entry, if it exists, and return a progress check corresponding to that health stat.
 
 ### What user stories do you intend to complete next iteration?
 Final iteration so no further stories are planned.
