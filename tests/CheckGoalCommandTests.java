@@ -8,7 +8,9 @@ import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
+import commands.CheckGoalCommand;
 import commands.SetGoalCommand;
+import commands.SummarizeCommand;
 import main.CommandPrompt;
 import main.HealthTrackerGeneralVariables;
 
@@ -22,18 +24,31 @@ public class CheckGoalCommandTests {
 		
 		SetGoalCommand setGoalCommand = new SetGoalCommand(cp);
 		cp.addCommand(setGoalCommand);
+		SummarizeCommand summary = new SummarizeCommand(cp);
+		cp.addCommand(summary);
 		
-		// Uncomment these after implementing the command.
-		//CheckGoalCommand checkGoalCommand = new CheckGoalCommand(cp);
-		//cp.addCommand(setGoalCommand);
+		CheckGoalCommand checkGoalCommand = new CheckGoalCommand(cp);
+		cp.addCommand(setGoalCommand);
 		
-		setGoalCommand.execute("run 5");
+		String activityName = "run";
+		String goalValue = "5";
+		String startDate = "01/01/2000";
+		String endDate = "03/01/2000";
+		String executionMod = activityName + " " + startDate + " " + endDate;
+		
+		setGoalCommand.execute(activityName + " " + goalValue);
+		
+		int[] summaryStats = summary.calculateStatistics(executionMod);
+		String total = String.valueOf(summaryStats[1]);
+		String mean = String.valueOf(summaryStats[2]);
 		
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		PrintStream oldOut = System.out;
 		System.setOut(new PrintStream(newOut));
-		//checkGoalCommand.execute("run");
-		assertTrue(newOut.toString().contains("5"));
+		checkGoalCommand.execute("run");
+		assertTrue(newOut.toString().contains(goalValue));
+		assertTrue(newOut.toString().contains(total));
+		//assertTrue(newOut.toString().contains(mean));	// uncomment if we want to include the mean value in the printed statement from checkGoalCommand
 	}
 
 }
