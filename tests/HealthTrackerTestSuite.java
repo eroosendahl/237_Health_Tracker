@@ -9,6 +9,7 @@ import org.junit.platform.suite.api.Suite;
 		AppendEntryCommandTests.class,
 		ChangeUsernameTests.class,
 		CommandPromptTests.class,
+		CheckGoalCommandTests.class,
 		DeleteEntryTests.class,
 		DeleteUserTests.class,
 		DisplayEntryCommandTests.class,

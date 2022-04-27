@@ -96,7 +96,7 @@ public class SetGoalCommand extends AbstractCommand{
 				
 				int goalPos = -1;
 				for (int i = 0; i < modifiedLineList.size(); ++i) {
-					if (modifiedLineList.get(i).substring(0, 4).equals("goal")) {
+					if (modifiedLineList.get(i).length() == 4 && modifiedLineList.get(i).substring(0, 4).equals("goal")) {
 						int openParenIndex = modifiedLineList.get(i).indexOf("(");
 						if (modifiedLineList.get(i).substring(5, openParenIndex).equals(entryIdentifier)) { goalPos = i; }
 					}

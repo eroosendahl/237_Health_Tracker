@@ -45,10 +45,10 @@ public class CheckGoalCommandTests {
 		ByteArrayOutputStream newOut = new ByteArrayOutputStream();
 		PrintStream oldOut = System.out;
 		System.setOut(new PrintStream(newOut));
-		checkGoalCommand.execute("run");
+		checkGoalCommand.execute("run 01/01/2000 03/01/2000");
 		assertTrue(newOut.toString().contains(goalValue));
-		assertTrue(newOut.toString().contains(total));
-		//assertTrue(newOut.toString().contains(mean));	// uncomment if we want to include the mean value in the printed statement from checkGoalCommand
+		//assertTrue(newOut.toString().contains(total));
+		assertTrue(newOut.toString().contains(mean));	// uncomment if we want to include the mean value in the printed statement from checkGoalCommand
 	}
 
 }
