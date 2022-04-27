@@ -93,8 +93,18 @@ public class SetGoalCommand extends AbstractCommand{
 			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) { 
 				found = true;
 				List<String> modifiedLineList = new ArrayList<String>(Arrays.asList(userEntries));
+				
+				int goalPos = -1;
+				for (int i = 0; i < modifiedLineList.size(); ++i) {
+					if (modifiedLineList.get(i).substring(0, 4).equals("goal")) {
+						int openParenIndex = modifiedLineList.get(i).indexOf("(");
+						if (modifiedLineList.get(i).substring(5, openParenIndex).equals(entryIdentifier)) { goalPos = i; }
+					}
+				}
+				if (goalPos == -1) { modifiedLineList.add("goal " + entryIdentifier + "(" + entryValue + ")"); }
+				else { modifiedLineList.set(goalPos, "goal " + entryIdentifier + "(" + entryValue + ")"); }
+				
 				// https://stackoverflow.com/questions/1978933/a-quick-and-easy-way-to-join-array-elements-with-a-separator-the-opposite-of-sp
-				modifiedLineList.add("goal " + entryIdentifier + "(" + entryValue + ")");
 				line = String.join(",", modifiedLineList);
 			}
 
