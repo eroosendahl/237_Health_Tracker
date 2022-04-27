@@ -68,18 +68,16 @@ public class CheckGoalCommand extends AbstractCommand {
 				for (int i = 1; i < userEntries.length; ++i) {
 					String[] userEntry = userEntries[i].split(" ");
 					if (userEntry[0].equals("goal")) {
-						for (int j = 1; j < userEntry.length; ++j) {
-							String record = userEntry[j];
-							int openParenIndex = record.indexOf("(");
-							int closeParenIndex = record.indexOf(")");
-							if (record.substring(0, openParenIndex).equals(goalName)) {
-								this.goalValue = Integer.parseInt(record.substring(openParenIndex+1, closeParenIndex));
-								foundGoal = true;
-								break;
-							}
+						String record = userEntry[1];
+						int openParenIndex = record.indexOf("(");
+						int closeParenIndex = record.indexOf(")");
+						String activityName = record.substring(0, openParenIndex);
+						if (activityName.equals(goalName)) {
+							foundGoal = true;
+							int activityAmount = Integer.parseInt(record.substring(openParenIndex+1, closeParenIndex));
+							this.goalValue += activityAmount;
 						}
 					}
-					if (foundGoal) { break; }
 				}
 			}
 		}
