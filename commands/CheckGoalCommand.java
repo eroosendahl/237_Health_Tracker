@@ -21,7 +21,7 @@ public class CheckGoalCommand extends AbstractCommand {
 	String filePath;
 	
 	public CheckGoalCommand(CommandPrompt cp) {
-		name = "setGoal";
+		name = "checkGoal";
 		commandPrompt = cp;
 	}
 	
@@ -35,17 +35,22 @@ public class CheckGoalCommand extends AbstractCommand {
 
 	@Override
 	public int execute(String executionMod) {
+		System.out.println("Executing CheckGoalCommand");
+		this.filePath = commandPrompt.getFile();
+		this.currentUser = commandPrompt.getCurrentUser();
 		this.goalValue = 0;
 		
-		try {
-			if(findGoal(executionMod)) {
-				if (goalAchieved(executionMod)) {
-					System.out.println("The goal for " + executionMod + " is achieved.");
-				} else {
-					System.out.println("The goal for " + executionMod + " isn't achieved.");
-				}
-			} else { System.out.println("There's no goal for " + executionMod + "."); }
-		} catch (IOException e) { e.printStackTrace(); }
+		if (executionMod.split(" ").length == 1) {
+			try {
+				if(findGoal(executionMod)) {
+					if (goalAchieved(executionMod)) {
+						System.out.println("The goal for " + executionMod + " is achieved.");
+					} else {
+						System.out.println("The goal for " + executionMod + " isn't achieved.");
+					}
+				} else { System.out.println("There's no goal for " + executionMod + "."); }
+			} catch (IOException e) { e.printStackTrace(); }
+		} else { System.out.println("There should be exactly one argument."); }
 		
 		return 0;
 	}
@@ -62,19 +67,19 @@ public class CheckGoalCommand extends AbstractCommand {
 			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) {
 				for (int i = 1; i < userEntries.length; ++i) {
 					String[] userEntry = userEntries[i].split(" ");
-					if (userEntry[0] == "goal") {
-						for (int j = 1; j < userEntry.length; ++i) {
+					if (userEntry[0].equals("goal")) {
+						for (int j = 1; j < userEntry.length; ++j) {
 							String record = userEntry[j];
 							int openParenIndex = record.indexOf("(");
 							int closeParenIndex = record.indexOf(")");
 							if (record.substring(0, openParenIndex).equals(goalName)) {
-								this.goalValue = Integer.parseInt(record.substring(openParenIndex, closeParenIndex));
+								this.goalValue = Integer.parseInt(record.substring(openParenIndex+1, closeParenIndex));
 								foundGoal = true;
 								break;
 							}
 						}
-						break;
 					}
+					if (foundGoal) { break; }
 				}
 			}
 		}
@@ -95,14 +100,14 @@ public class CheckGoalCommand extends AbstractCommand {
 			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) {
 				for (int i = 1; i < userEntries.length; ++i) {
 					String[] userEntry = userEntries[i].split(" ");
-					if (userEntry[0] != "goal") {
-						for (int j = 1; j < userEntry.length; ++i) {
+					if (!userEntry[0].equals("goal")) {
+						for (int j = 1; j < userEntry.length; ++j) {
 							String record = userEntry[j];
 							int openParenIndex = record.indexOf("(");
 							int closeParenIndex = record.indexOf(")");
 							String activityName = record.substring(0, openParenIndex);
 							if (activityName.equals(goalName)) {
-								int activityAmount = Integer.parseInt(record.substring(openParenIndex, closeParenIndex));
+								int activityAmount = Integer.parseInt(record.substring(openParenIndex+1, closeParenIndex));
 								activityTotal += activityAmount;
 							}
 						}
@@ -117,7 +122,7 @@ public class CheckGoalCommand extends AbstractCommand {
 	
 	@Override
 	public String formatMessage() {
-		return "setGoal [activity-name]";
+		return "checkGoal [activity-name]";
 	}
 
 	@Override
