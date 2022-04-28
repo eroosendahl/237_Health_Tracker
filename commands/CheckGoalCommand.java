@@ -110,38 +110,6 @@ public class CheckGoalCommand extends AbstractCommand {
 		csvBufferedReader.close();
 		return foundGoal;
 	}
-
-//	private boolean goalAchieved(String goalName) throws IOException {
-//		int activityTotal = 0;
-//		File csvFile = new File(this.filePath);
-//		FileReader csvReader = new FileReader(csvFile);
-//		BufferedReader csvBufferedReader = new BufferedReader(csvReader);
-//		String line = null;
-//
-//		while ((line = csvBufferedReader.readLine()) != null) {
-//			String[] userEntries = line.split(",");
-//			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) {
-//				for (int i = 1; i < userEntries.length; ++i) {
-//					String[] userEntry = userEntries[i].split(" ");
-//					if (!userEntry[0].equals("goal")) {
-//						for (int j = 1; j < userEntry.length; ++j) {
-//							String record = userEntry[j];
-//							int openParenIndex = record.indexOf("(");
-//							int closeParenIndex = record.indexOf(")");
-//							String activityName = record.substring(0, openParenIndex);
-//							if (activityName.equals(goalName)) {
-//								int activityAmount = Integer.parseInt(record.substring(openParenIndex+1, closeParenIndex));
-//								activityTotal += activityAmount;
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		csvReader.close();
-//		csvBufferedReader.close();
-//		return (activityTotal >= this.goalValue);
-//	}
 	
 	public int[] calculateStatistics(String executionMod) {
 		
@@ -397,6 +365,6 @@ public class CheckGoalCommand extends AbstractCommand {
 
 	@Override
 	public String descriptionMessage() {
-		return "Check whether the goal of an activity is attained.";
+		return "Check whether the goal of an activity is attained. (Goal represents target average daily value for the given activity.)";
 	}
 }
