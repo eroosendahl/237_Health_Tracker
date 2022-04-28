@@ -86,7 +86,7 @@ public class CommandPromptTests {
 	public void testListCommands() {
 		List<List<AbstractCommand>> variedCommandLists = getVariedCommandLists();
 		int linesInOneCommandHelpMessage = 4;
-		int linesPrintedWithZeroCommands = 14;
+		int linesPrintedWithZeroCommands = 15;
 
 		for (List<AbstractCommand> commandList : variedCommandLists) {
 			ByteArrayOutputStream newOut = new ByteArrayOutputStream();

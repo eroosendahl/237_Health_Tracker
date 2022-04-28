@@ -134,6 +134,6 @@ public class SetGoalCommand extends AbstractCommand{
 	@Override
 	public String descriptionMessage() {
 
-		return "Create a new goal amount for a given activity.  Goal represents target average daily value for the given activity.";
+		return "Create a new goal amount for a given activity.  (Goal represents target average daily value for the given activity.)";
 	}
 }
