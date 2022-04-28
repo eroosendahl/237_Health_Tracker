@@ -315,6 +315,7 @@ public class CommandPrompt {
 			});	
 			System.out.println("\nType 'quit' to quit.");
 			System.out.println("Type 'help' for help.\n");
+			System.out.println("(Type generateTestFile to create and use a simple dummy file.)");
 		}
 
 	}

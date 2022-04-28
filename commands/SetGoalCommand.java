@@ -124,26 +124,6 @@ public class SetGoalCommand extends AbstractCommand{
 		csvWriter.close();
 		csvBufferedWriter.close();
 	}
-	//started a method to display progress so far when you create a goal but 
-	//think we should split this elsewhere
-//	private int displayProgress() throws IOException {
-//		File csvFile = new File(this.filePath);
-//		FileReader csvReader = new FileReader(csvFile);
-//		BufferedReader csvBufferedReader = new BufferedReader(csvReader);
-//		String line = null;
-//		int progress = 0;
-//
-//		while ((line = csvBufferedReader.readLine()) != null) {
-//			String[] userEntries = line.split(",");
-//			if (userEntries[0] != "" && userEntries[0].equals(this.currentUser.getName())) { 
-//				List<String> activityList = new ArrayList<String>(Arrays.asList(userEntries));
-//				
-//			}
-//		}
-//		csvReader.close();
-//		csvBufferedReader.close();
-//		return progress;
-//	}
 
 	@Override
 	public String formatMessage() {
@@ -154,6 +134,6 @@ public class SetGoalCommand extends AbstractCommand{
 	@Override
 	public String descriptionMessage() {
 
-		return "Create a new goal amount for a given entry.";
+		return "Create a new goal amount for a given activity.  (Goal represents target average daily value for the given activity.)";
 	}
 }
